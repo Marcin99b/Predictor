@@ -17,7 +17,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapGet("/example-data", () => 
-    new CalculationInput(20_000, 
+    new CalculationInput(false, 
+    20_000, 
     Incomes: [
         new ("Salary", 15_000, true, MonthDate.Now),
     ],
@@ -39,17 +40,50 @@ app.MapGet("/example-data", () =>
         new("Car", 120_000, false, MonthDate.Now.AddMonths(15)),
     ]));
 
-app.MapPost("/calc", (CalculationInput input) => 
+app.MapPost("/calc", (CalculationInput input) =>
 {
     var months = new List<MonthOutput>();
+
+    var currentMonth = MonthDate.Now;
+    var isFirstMonth = true;
+    var balance = 0m;
+    var budget = input.CurrentBudget;
+
+    while (currentMonth < MonthDate.Now.AddMonths(12))
+    {
+        var currentMonthIncome = input.Incomes
+            .Where(x => x.StartDate == currentMonth || x.IsRecurring && x.StartDate < currentMonth)
+            .Sum(x => x.Value);
+        var currentMonthOutcome = input.Outcomes
+            .Where(x => x.StartDate == currentMonth || x.IsRecurring && x.StartDate < currentMonth)
+            .Sum(x => x.Value);
+
+        balance = currentMonthIncome - currentMonthOutcome;
+
+        if (!isFirstMonth || isFirstMonth && input.CalculateCurrentMonth)
+        {
+            budget += balance;
+        }
+
+        if (isFirstMonth)
+        {
+            isFirstMonth = false;
+        }
+
+        var month = new MonthOutput(currentMonth, budget, balance, currentMonthIncome, currentMonthOutcome);
+        months.Add(month);
+
+        currentMonth.AddMonths(1);
+    }
+
     return new CalculationOutput([.. months]);
 });
 
 app.Run();
 
-public record CalculationInput(decimal CurrentBudget, IncomeItem[] Incomes, OutcomeItem[] Outcomes);
+public record CalculationInput(bool CalculateCurrentMonth, decimal CurrentBudget, IncomeItem[] Incomes, OutcomeItem[] Outcomes);
 public record CalculationOutput(MonthOutput[] Months);
-public record MonthOutput();
+public record MonthOutput(MonthDate MonthDate, decimal Budget, decimal Balance, decimal Income, decimal Outcome);
 
 public record IncomeItem(string Name, decimal Value, bool IsRecurring, MonthDate StartDate);
 public record OutcomeItem(string Name, decimal Value, bool IsRecurring, MonthDate StartDate);
@@ -71,5 +105,45 @@ public readonly struct MonthDate(int month, int year)
         }
 
         return new MonthDate(month, year);
+    }
+
+    public static bool operator ==(MonthDate a, MonthDate b)
+    {
+        return a.Month == b.Month && b.Year == b.Year;
+    }
+
+    public static bool operator !=(MonthDate a, MonthDate b)
+    {
+        return !(a == b);
+    }
+
+    public static bool operator <(MonthDate a, MonthDate b)
+    {
+        if (a.Year < b.Year)
+        {
+            return true;
+        }
+
+        if (a.Year > b.Year) 
+        {
+            return false;
+        }
+
+        return a.Month < b.Month;
+    }
+
+    public static bool operator >(MonthDate a, MonthDate b)
+    {
+        if (a.Year > b.Year)
+        {
+            return true;
+        }
+
+        if (a.Year < b.Year)
+        {
+            return false;
+        }
+
+        return a.Month > b.Month;
     }
 }
