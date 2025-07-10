@@ -1,5 +1,16 @@
 ﻿
-public record CalculateInput(bool CalculateCurrentMonth, decimal CurrentBudget, IncomeItem[] Incomes, OutcomeItem[] Outcomes);
+public record CalculateInput(bool CalculateCurrentMonth, decimal CurrentBudget, IncomeItem[] Incomes, OutcomeItem[] Outcomes)
+{
+    public IEnumerable<IncomeItem> GetMonthIncomes(MonthDate month)
+    {
+        return this.Incomes.Where(x => x.StartDate == month || x.IsRecurring && x.StartDate < month);
+    }
+
+    public IEnumerable<OutcomeItem> GetMonthOutcomes(MonthDate month)
+    {
+        return this.Outcomes.Where(x => x.StartDate == month || x.IsRecurring && x.StartDate < month);
+    }
+}
 
 public record CalculationOutput(MonthOutput[] Months);
 public record MonthOutput(MonthDate MonthDate, decimal Budget, decimal Balance, decimal Income, decimal Outcome);

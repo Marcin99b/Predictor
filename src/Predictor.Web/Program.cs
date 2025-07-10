@@ -46,19 +46,14 @@ app.MapPost("/calc", (CalculateInput input) =>
 
     var currentMonth = MonthDate.Now;
     var isFirstMonth = true;
-    var balance = 0m;
     var budget = input.CurrentBudget;
 
     while (currentMonth < MonthDate.Now.AddMonths(24))
     {
-        var currentMonthIncome = input.Incomes
-            .Where(x => x.StartDate == currentMonth || x.IsRecurring && x.StartDate < currentMonth)
-            .Sum(x => x.Value);
-        var currentMonthOutcome = input.Outcomes
-            .Where(x => x.StartDate == currentMonth || x.IsRecurring && x.StartDate < currentMonth)
-            .Sum(x => x.Value);
+        var currentMonthIncome = input.GetMonthIncomes(currentMonth).Sum(x => x.Value);
+        var currentMonthOutcome = input.GetMonthOutcomes(currentMonth).Sum(x => x.Value);
 
-        balance = currentMonthIncome - currentMonthOutcome;
+        var balance = currentMonthIncome - currentMonthOutcome;
 
         if (!isFirstMonth || isFirstMonth && input.CalculateCurrentMonth)
         {
