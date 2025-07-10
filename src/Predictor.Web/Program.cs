@@ -49,7 +49,7 @@ app.MapPost("/calc", (CalculationInput input) =>
     var balance = 0m;
     var budget = input.CurrentBudget;
 
-    while (currentMonth < MonthDate.Now.AddMonths(12))
+    while (currentMonth < MonthDate.Now.AddMonths(24))
     {
         var currentMonthIncome = input.Incomes
             .Where(x => x.StartDate == currentMonth || x.IsRecurring && x.StartDate < currentMonth)
@@ -73,7 +73,7 @@ app.MapPost("/calc", (CalculationInput input) =>
         var month = new MonthOutput(currentMonth, budget, balance, currentMonthIncome, currentMonthOutcome);
         months.Add(month);
 
-        currentMonth.AddMonths(1);
+        currentMonth = currentMonth.AddMonths(1);
     }
 
     return new CalculationOutput([.. months]);
@@ -88,11 +88,8 @@ public record MonthOutput(MonthDate MonthDate, decimal Budget, decimal Balance, 
 public record IncomeItem(string Name, decimal Value, bool IsRecurring, MonthDate StartDate);
 public record OutcomeItem(string Name, decimal Value, bool IsRecurring, MonthDate StartDate);
 
-public readonly struct MonthDate(int month, int year)
+public record MonthDate(int Month, int Year)
 {
-    public int Month { get; } = month;
-    public int Year { get; } = year;
-
     public static MonthDate Now => new (DateTime.Now.Month, DateTime.Now.Year);
     public MonthDate AddMonths(int months)
     {
@@ -105,16 +102,6 @@ public readonly struct MonthDate(int month, int year)
         }
 
         return new MonthDate(month, year);
-    }
-
-    public static bool operator ==(MonthDate a, MonthDate b)
-    {
-        return a.Month == b.Month && b.Year == b.Year;
-    }
-
-    public static bool operator !=(MonthDate a, MonthDate b)
-    {
-        return !(a == b);
     }
 
     public static bool operator <(MonthDate a, MonthDate b)
