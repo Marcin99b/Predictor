@@ -17,7 +17,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapGet("/example-data", () => 
-    new CalculationInput(false, 
+    new CalculateInput(false, 
     20_000, 
     Incomes: [
         new ("Salary", 15_000, true, MonthDate.Now),
@@ -40,7 +40,7 @@ app.MapGet("/example-data", () =>
         new("Car", 120_000, false, MonthDate.Now.AddMonths(15)),
     ]));
 
-app.MapPost("/calc", (CalculationInput input) =>
+app.MapPost("/calc", (CalculateInput input) =>
 {
     var months = new List<MonthOutput>();
 
@@ -80,57 +80,3 @@ app.MapPost("/calc", (CalculationInput input) =>
 });
 
 app.Run();
-
-public record CalculationInput(bool CalculateCurrentMonth, decimal CurrentBudget, IncomeItem[] Incomes, OutcomeItem[] Outcomes);
-public record CalculationOutput(MonthOutput[] Months);
-public record MonthOutput(MonthDate MonthDate, decimal Budget, decimal Balance, decimal Income, decimal Outcome);
-
-public record IncomeItem(string Name, decimal Value, bool IsRecurring, MonthDate StartDate);
-public record OutcomeItem(string Name, decimal Value, bool IsRecurring, MonthDate StartDate);
-
-public record MonthDate(int Month, int Year)
-{
-    public static MonthDate Now => new (DateTime.Now.Month, DateTime.Now.Year);
-    public MonthDate AddMonths(int months)
-    {
-        var month = this.Month + months;
-        var year = this.Year;
-        while (month > 12)
-        {
-            month -= 12;
-            year++;
-        }
-
-        return new MonthDate(month, year);
-    }
-
-    public static bool operator <(MonthDate a, MonthDate b)
-    {
-        if (a.Year < b.Year)
-        {
-            return true;
-        }
-
-        if (a.Year > b.Year) 
-        {
-            return false;
-        }
-
-        return a.Month < b.Month;
-    }
-
-    public static bool operator >(MonthDate a, MonthDate b)
-    {
-        if (a.Year > b.Year)
-        {
-            return true;
-        }
-
-        if (a.Year < b.Year)
-        {
-            return false;
-        }
-
-        return a.Month > b.Month;
-    }
-}
