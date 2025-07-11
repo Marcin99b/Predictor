@@ -3,7 +3,6 @@
 public static class ExampleData
 {
     private static readonly CalculateInput calculateInputExample = new(
-        false,
         35_000,
         Incomes: [
             new("Primary Salary", 4_200, true, MonthDate.Now),

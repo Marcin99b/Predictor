@@ -1,5 +1,5 @@
 ﻿
-public record CalculateInput(bool CalculateCurrentMonth, decimal CurrentBudget, IncomeItem[] Incomes, OutcomeItem[] Outcomes)
+public record CalculateInput(decimal InitialBudget, IncomeItem[] Incomes, OutcomeItem[] Outcomes)
 {
     public IEnumerable<IncomeItem> GetMonthIncomes(MonthDate month)
     {
@@ -13,7 +13,7 @@ public record CalculateInput(bool CalculateCurrentMonth, decimal CurrentBudget, 
 }
 
 public record CalculationOutput(MonthOutput[] Months);
-public record MonthOutput(MonthDate MonthDate, decimal Budget, decimal Balance, decimal Income, decimal Outcome);
+public record MonthOutput(MonthDate MonthDate, decimal BudgetAfter, decimal Balance, decimal Income, decimal Outcome);
 
 public record IncomeItem(string Name, decimal Value, bool IsRecurring, MonthDate StartDate);
 public record OutcomeItem(string Name, decimal Value, bool IsRecurring, MonthDate StartDate);
@@ -62,5 +62,23 @@ public record MonthDate(int Month, int Year)
         }
 
         return a.Month > b.Month;
+    }
+
+    /// <summary>
+    /// Return passed month and {monthsAhead} next months. 
+    /// For example ("January", 2) returns ["January", "February", "March"]
+    /// </summary>
+    /// <param name="from"></param>
+    /// <param name="monthsAhead"></param>
+    /// <returns></returns>
+    public static IEnumerable<MonthDate> Range(MonthDate from, int monthsAhead)
+    {
+        var current = from;
+        yield return current;
+        for (int i = 0; i < monthsAhead; i++) 
+        {
+            current = current.AddMonths(i);
+            yield return current;
+        }
     }
 }

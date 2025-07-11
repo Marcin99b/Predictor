@@ -23,32 +23,12 @@ app.MapGet("/example-data", () => ExampleData.CalculateInputExample);
 app.MapPost("/calc", (CalculateInput input) =>
 {
     var months = new List<MonthOutput>();
-
-    var currentMonth = MonthDate.Now;
-    var isFirstMonth = true;
-    var budget = input.CurrentBudget;
-
-    while (currentMonth < MonthDate.Now.AddMonths(12 * 3))
+    var budget = input.InitialBudget;
+    foreach (var currentMonth in MonthDate.Range(MonthDate.Now, 12 * 3 - 1))
     {
-        var currentMonthIncome = input.GetMonthIncomes(currentMonth).Sum(x => x.Value);
-        var currentMonthOutcome = input.GetMonthOutcomes(currentMonth).Sum(x => x.Value);
-
-        var balance = currentMonthIncome - currentMonthOutcome;
-
-        if (!isFirstMonth || isFirstMonth && input.CalculateCurrentMonth)
-        {
-            budget += balance;
-        }
-
-        if (isFirstMonth)
-        {
-            isFirstMonth = false;
-        }
-
-        var month = new MonthOutput(currentMonth, budget, balance, currentMonthIncome, currentMonthOutcome);
+        var month = Calculator.CalculateMonth(input, currentMonth, budget);
         months.Add(month);
-
-        currentMonth = currentMonth.AddMonths(1);
+        budget = month.BudgetAfter;
     }
 
     return new CalculationOutput([.. months]);
