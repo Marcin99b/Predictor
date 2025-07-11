@@ -1,22 +1,68 @@
 ﻿
-public record CalculateInput(decimal InitialBudget, IncomeItem[] Incomes, OutcomeItem[] Outcomes)
+public record CalculateInput(decimal InitialBudget, MonthDate StartCalculationMonth, IncomeItem[] Incomes, OutcomeItem[] Outcomes)
 {
+    private bool CheckRecurring(MonthDate month, MonthDate StartDate, RecurringConfig? recurringConfig)
+    {
+        if (recurringConfig == null || StartDate > month)
+        {
+            return false;
+        }
+
+        if (recurringConfig.EndDate != null && recurringConfig.EndDate < month)
+        {
+            return false;
+        }
+
+        var calculatedMonth = this.StartCalculationMonth;
+        while (calculatedMonth < month)
+        {
+            calculatedMonth.AddMonths(recurringConfig.MonthInterval);
+        }
+
+        return calculatedMonth == month;
+    }
+
     public IEnumerable<IncomeItem> GetMonthIncomes(MonthDate month)
     {
-        return this.Incomes.Where(x => x.StartDate == month || x.IsRecurring && x.StartDate < month);
+        return this.Incomes.Where(x => x.StartDate == month || this.CheckRecurring(month, x.StartDate, x.RecurringConfig));
     }
 
     public IEnumerable<OutcomeItem> GetMonthOutcomes(MonthDate month)
     {
-        return this.Outcomes.Where(x => x.StartDate == month || x.IsRecurring && x.StartDate < month);
+        return this.Outcomes.Where(x => x.StartDate == month || this.CheckRecurring(month, x.StartDate, x.RecurringConfig));
     }
 }
 
 public record CalculationOutput(MonthOutput[] Months);
 public record MonthOutput(MonthDate MonthDate, decimal BudgetAfter, decimal Balance, decimal Income, decimal Outcome);
 
-public record IncomeItem(string Name, decimal Value, bool IsRecurring, MonthDate StartDate);
-public record OutcomeItem(string Name, decimal Value, bool IsRecurring, MonthDate StartDate);
+/// <summary>
+/// </summary>
+/// <param name="Name"></param>
+/// <param name="Value"></param>
+/// <param name="StartDate"></param>
+/// <param name="RecurringConfig">Null mean one time payment</param>
+public record IncomeItem(string Name, decimal Value, MonthDate StartDate, RecurringConfig? RecurringConfig = null)
+{
+    public bool IsRecurring { get; } = RecurringConfig != null;
+}
+
+/// <summary>
+/// </summary>
+/// <param name="Name"></param>
+/// <param name="Value"></param>
+/// <param name="StartDate"></param>
+/// <param name="RecurringConfig">Null mean one time payment</param>
+public record OutcomeItem(string Name, decimal Value, MonthDate StartDate, RecurringConfig? RecurringConfig = null)
+{
+    public bool IsRecurring { get; } = RecurringConfig != null;
+}
+
+/// <summary>
+/// </summary>
+/// <param name="MonthInterval"></param>
+/// <param name="EndDate">Null mean infinite interval</param>
+public record RecurringConfig(int MonthInterval, MonthDate? EndDate = null);
 
 public record MonthDate(int Month, int Year)
 {
