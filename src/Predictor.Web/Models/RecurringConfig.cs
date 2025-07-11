@@ -1,3 +1,3 @@
-﻿using Predictor.Web.Models;
+﻿namespace Predictor.Web.Models;
 
 public record RecurringConfig(int MonthInterval, MonthDate? EndDate = null);

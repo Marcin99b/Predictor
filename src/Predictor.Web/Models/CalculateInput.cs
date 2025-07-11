@@ -1,6 +1,6 @@
 ﻿namespace Predictor.Web.Models;
 
-public record CalculateInput(decimal InitialBudget, MonthDate StartCalculationMonth, IncomeItem[] Incomes, OutcomeItem[] Outcomes)
+public record CalculateInput(decimal InitialBudget, MonthDate StartCalculationMonth, PaymentItem[] Incomes, PaymentItem[] Outcomes)
 {
     private bool CheckRecurring(MonthDate month, MonthDate StartDate, RecurringConfig? recurringConfig)
     {
@@ -23,12 +23,12 @@ public record CalculateInput(decimal InitialBudget, MonthDate StartCalculationMo
         return calculatedMonth == month;
     }
 
-    public IEnumerable<IncomeItem> GetMonthIncomes(MonthDate month)
+    public IEnumerable<PaymentItem> GetMonthIncomes(MonthDate month)
     {
         return this.Incomes.Where(x => x.StartDate == month || this.CheckRecurring(month, x.StartDate, x.RecurringConfig));
     }
 
-    public IEnumerable<OutcomeItem> GetMonthOutcomes(MonthDate month)
+    public IEnumerable<PaymentItem> GetMonthOutcomes(MonthDate month)
     {
         return this.Outcomes.Where(x => x.StartDate == month || this.CheckRecurring(month, x.StartDate, x.RecurringConfig));
     }

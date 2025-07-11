@@ -4,7 +4,7 @@ namespace Predictor.Web;
 
 public static class ExampleData
 {
-    private static readonly CalculateInput calculateInputExample = new (
+    public static CalculateInput CalculateInputExample { get; } = new(
     InitialBudget: 48_750,
     StartCalculationMonth: MonthDate.Now,
     Incomes: [
@@ -123,6 +123,4 @@ public static class ExampleData
         new("Luxury Purchase", 18_000, MonthDate.Now.AddMonths(42)),
         new("Investment Property Down Payment", 25_000, MonthDate.Now.AddMonths(45)),
         new("Retirement Catch-up", 30_000, MonthDate.Now.AddMonths(48))]);
-
-    public static CalculateInput CalculateInputExample => calculateInputExample;
 }
