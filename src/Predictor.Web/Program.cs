@@ -1,4 +1,5 @@
 using Predictor.Web;
+using Predictor.Web.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

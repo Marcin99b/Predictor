@@ -1,4 +1,6 @@
-﻿namespace Predictor.Web;
+﻿using Predictor.Web.Models;
+
+namespace Predictor.Web;
 
 public static class ExampleData
 {
