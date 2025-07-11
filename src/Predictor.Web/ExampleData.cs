@@ -7,7 +7,7 @@ public static class ExampleData
     StartCalculationMonth: MonthDate.Now,
     Incomes: [
         // Infinite recurring income (no EndDate)
-        new("Primary Salary", 5_400, MonthDate.Now),
+        new("Primary Salary", 5_400, MonthDate.Now, new RecurringConfig(1)),
         new("Spouse Salary", 4_100, MonthDate.Now, new RecurringConfig(1)),
         new("Rental Property A", 1_500, MonthDate.Now, new RecurringConfig(1)),
         new("Rental Property B", 1_100, MonthDate.Now.AddMonths(3), new RecurringConfig(1)),
