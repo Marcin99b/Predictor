@@ -27,8 +27,8 @@ app.MapPost("/calc", (CalculateInput input) =>
     foreach (var currentMonth in MonthDate.Range(MonthDate.Now, 12 * 3 - 1))
     {
         var month = Calculator.CalculateMonth(input, currentMonth, budget);
-        months.Add(month);
         budget = month.BudgetAfter;
+        months.Add(month);
     }
 
     return new CalculationOutput([.. months]);
