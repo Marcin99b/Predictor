@@ -16,7 +16,7 @@ public record CalculateInput(decimal InitialBudget, MonthDate StartCalculationMo
         var calculatedMonth = this.StartCalculationMonth;
         while (calculatedMonth < month)
         {
-            calculatedMonth.AddMonths(recurringConfig.MonthInterval);
+            calculatedMonth = calculatedMonth.AddMonths(recurringConfig.MonthInterval);
         }
 
         return calculatedMonth == month;
