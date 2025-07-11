@@ -120,7 +120,8 @@ public record MonthDate(int Month, int Year)
     public static IEnumerable<MonthDate> Range(MonthDate from, int monthsAhead)
     {
         var current = from;
-        for (int i = 0; i <= monthsAhead; i++) 
+        yield return current;
+        for (int i = 0; i < monthsAhead; i++) 
         {
             current = current.AddMonths(1);
             yield return current;
