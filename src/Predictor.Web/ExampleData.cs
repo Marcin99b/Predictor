@@ -4,17 +4,22 @@ namespace Predictor.Web;
 
 public static class ExampleData
 {
-    public static CalculateInput CalculateInputExample { get; } = new(
-    InitialBudget: 48_750,
-    StartCalculationMonth: MonthDate.Now,
-    Incomes: [
-        // Infinite recurring income (no EndDate)
-        new("Primary Salary", 5_400, MonthDate.Now, new RecurringConfig(1)),
-        new("Spouse Salary", 4_100, MonthDate.Now, new RecurringConfig(1)),
-        new("Rental Property A", 1_500, MonthDate.Now, new RecurringConfig(1)),
-        new("Rental Property B", 1_100, MonthDate.Now.AddMonths(3), new RecurringConfig(1)),
-        new("Investment Dividends", 320, MonthDate.Now.AddMonths(1), new RecurringConfig(3)),
-        new("Side Business", 850, MonthDate.Now.AddMonths(2), new RecurringConfig(1)),
+    [Obsolete("Use GetCalculateInputExample(PredictorSettings settings) instead")]
+    public static CalculateInput CalculateInputExample => GetCalculateInputExample(new PredictorSettings());
+
+    public static CalculateInput GetCalculateInputExample(PredictorSettings settings)
+    {
+        return new CalculateInput(
+            InitialBudget: settings.DefaultInitialBudget,
+            StartCalculationMonth: MonthDate.Now,
+            Incomes: [
+                // Infinite recurring income (no EndDate)
+                new("Primary Salary", 5_400, MonthDate.Now, new RecurringConfig(1)),
+                new("Spouse Salary", 4_100, MonthDate.Now, new RecurringConfig(1)),
+                new("Rental Property A", 1_500, MonthDate.Now, new RecurringConfig(1)),
+                new("Rental Property B", 1_100, MonthDate.Now.AddMonths(3), new RecurringConfig(1)),
+                new("Investment Dividends", 320, MonthDate.Now.AddMonths(1), new RecurringConfig(3)),
+                new("Side Business", 850, MonthDate.Now.AddMonths(2), new RecurringConfig(1)),
 
         // Finite recurring income (with EndDate)
         new("Contract Work", 2_200, MonthDate.Now, new RecurringConfig(1, MonthDate.Now.AddMonths(18))),
@@ -123,4 +128,5 @@ public static class ExampleData
         new("Luxury Purchase", 18_000, MonthDate.Now.AddMonths(42)),
         new("Investment Property Down Payment", 25_000, MonthDate.Now.AddMonths(45)),
         new("Retirement Catch-up", 30_000, MonthDate.Now.AddMonths(48))]);
+    }
 }

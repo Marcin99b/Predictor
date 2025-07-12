@@ -3,6 +3,10 @@ using Predictor.Web.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure PredictorSettings
+builder.Services.Configure<PredictorSettings>(
+    builder.Configuration.GetSection(PredictorSettings.SectionName));
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -19,20 +23,31 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MapGet("/example-data", () => ExampleData.CalculateInputExample);
+// Get settings
+var settings = app.Services.GetRequiredService<IConfiguration>()
+    .GetSection(PredictorSettings.SectionName)
+    .Get<PredictorSettings>() ?? new PredictorSettings();
+
+// Conditionally register example data endpoint
+if (settings.EnableExampleData)
+{
+    app.MapGet("/example-data", () => ExampleData.GetCalculateInputExample(settings));
+}
 
 app.MapPost("/calc", (CalculateInput input) =>
 {
     var months = new List<MonthOutput>();
     var budget = input.InitialBudget;
-    foreach (var currentMonth in MonthDate.Range(input.StartCalculationMonth, 12 * 3 - 1))
+    var calculationPeriod = Math.Min(settings.MaxCalculationPeriodMonths, settings.MaxAllowedCalculationPeriod);
+    
+    foreach (var currentMonth in MonthDate.Range(input.StartCalculationMonth, calculationPeriod - 1))
     {
         var month = Calculator.CalculateMonth(input, currentMonth, budget);
         budget = month.BudgetAfter;
         months.Add(month);
     }
 
-    return new CalculationOutput([.. months]);
+    return Results.Ok(new CalculationOutput([.. months]));
 });
 
 app.Run();
