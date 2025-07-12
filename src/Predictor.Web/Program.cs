@@ -40,4 +40,9 @@ app.MapPost("/calc", (CalculateInput input, IValidator<CalculateInput> validator
     return new CalculationOutput([.. months]);
 });
 
+// live - Service is running.
+app.MapGet("/hc/live", () => Results.Ok());
+// ready - Service can process requests correctly. Required dependencies are available etc.
+app.MapGet("/hc/ready", () => Results.Ok());
+
 app.Run();
