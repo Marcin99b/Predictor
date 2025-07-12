@@ -192,9 +192,84 @@ We welcome contributions! Predictor is designed as a learning project for .NET p
 
 ### Getting Started
 
-1. Check our [Issues](https://github.com/Marcin99b/Predictor/issues) for tasks labeled `good-first-issue`
-2. Read our [Contributing Guide](CONTRIBUTING.md)
-3. Join discussions in [GitHub Discussions](https://github.com/Marcin99b/Predictor/discussions)
+#### 🚀 Quick Start for Contributors
+
+**Step 1: Pick a task**
+
+1. Go to [Issues](https://github.com/Marcin99b/Predictor/issues)
+2. Look for tasks with `good-first-issue` label if you're new
+3. Read the issue description and comment "I'd like to work on this" to claim it
+
+**Step 2: Set up your workspace**
+
+1. **Fork the repository**: Click the "Fork" button at the top of this page
+2. **Clone YOUR fork** (not the original repo):
+
+   ```bash
+   git clone https://github.com/YOUR-USERNAME/Predictor.git
+   cd Predictor
+   ```
+
+3. **Create a new branch** with this naming pattern:
+
+   ```bash
+   # Format: ISSUE-NUMBER-short-description
+   # Examples:
+   git checkout -b 1-add-mit-license
+   git checkout -b 5-health-check-endpoint
+   git checkout -b 12-performance-tests
+   ```
+
+**Step 3: Make your changes**
+
+1. Work on your task in your branch
+2. Test your changes locally:
+
+   ```bash
+   cd src
+   dotnet run --project Predictor.Web
+   ```
+
+3. Commit with clear messages:
+
+   ```bash
+   git add .
+   git commit -m "Add MIT license file"
+   ```
+
+**Step 4: Submit your work**
+
+1. **Push to YOUR fork**:
+
+   ```bash
+   git push origin YOUR-BRANCH-NAME
+   ```
+
+2. **Create Pull Request**:
+   - Go to your fork on GitHub
+   - Click "Pull Request" button
+   - Make sure it's going from your branch to `main` branch of original repo
+   - In the PR description, add: `Closes #ISSUE-NUMBER` (this auto-closes the issue)
+   - Example: `Closes #1` or `Fixes #5`
+
+**Step 5: Wait for review**
+
+- We'll review your code and might ask for changes
+- Make requested changes in the same branch
+- Push again - the PR updates automatically
+
+#### 📚 Need Help?
+
+- 🆘 **Stuck?** Comment on the issue you're working on
+- 💬 **Questions?** Use [GitHub Discussions](https://github.com/Marcin99b/Predictor/discussions)
+- 📖 **Git help?** Check [GitHub's Git Handbook](https://guides.github.com/introduction/git-handbook/)
+
+#### 🎯 Contribution Tips
+
+- **One issue = one PR** - don't mix multiple features
+- **Small commits** - easier to review and understand
+- **Test your changes** - make sure everything still works
+- **Be patient** - code review takes time but makes the project better
 
 ### Areas We Need Help
 
