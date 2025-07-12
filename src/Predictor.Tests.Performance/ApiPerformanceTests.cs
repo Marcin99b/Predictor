@@ -19,12 +19,15 @@ public class ApiPerformanceTests
 
     [Test]
     [Ignore("performance test")]
-    public async Task ApiShouldHandle_100_ExampleCalculations_PerSecond_With100Users()
+    public async Task ApiShouldHandle_1000_ExampleCalculations_PerSecond_With100Users()
     {
         using var httpClient = new HttpClient();
         var url = "https://localhost:7176";
         var durationSeconds = 5;
-        var minimumPerSecond = 100;
+        var minimumPerSecond = 1000;
+        var maxLatency99 = 120;
+        var maxLatency95 = 110;
+        var maxLatency50 = 70;
 
         var exampleData = await (await httpClient.GetAsync(url + "/example-data"))
             .Content
@@ -52,27 +55,15 @@ public class ApiPerformanceTests
 
         Trace.WriteLine($"AllRequestCount: {stats.AllRequestCount} AllFailCount: {stats.AllFailCount}");
 
-        stats.AllFailCount.Should().Be(0);
-        stats.AllRequestCount.Should().BeGreaterThan(durationSeconds * minimumPerSecond);
-        /* 
-        MinMs = 1.22
-        MeanMs = 73.0
-        MaxMs = 3576.19
-        Percent50 = 68.35
-        Percent75 = 84.29
-        Percent95 = 105.02
-        Percent99 = 119.68
-        StdDev = 186.94
-        LatencyCount = {
-            LessOrEq800 = 5963
-            More800Less1200 = 6
-            MoreOrEq1200 = 37 
-        }
-        */
-        var latencyStats = stats.ScenarioStats[0].Ok.Latency;
-        latencyStats.Percent99.Should().BeLessThanOrEqualTo(120);
-        latencyStats.Percent95.Should().BeLessThanOrEqualTo(110);
-        latencyStats.Percent50.Should().BeLessThanOrEqualTo(70);
+        stats.AllOkCount.Should().BeGreaterThan(durationSeconds * minimumPerSecond);
 
+        var latencyStats = stats.ScenarioStats[0].Ok.Latency;
+
+        latencyStats.LatencyCount.LessOrEq800.Should().BeGreaterThanOrEqualTo(durationSeconds * minimumPerSecond);
+        latencyStats.Percent99.Should().BeLessThanOrEqualTo(maxLatency99);
+        latencyStats.Percent95.Should().BeLessThanOrEqualTo(maxLatency95);
+        latencyStats.Percent50.Should().BeLessThanOrEqualTo(maxLatency50);
+
+        stats.AllFailCount.Should().Be(0);
     }
 }
