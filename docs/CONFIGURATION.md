@@ -6,16 +6,17 @@ The Predictor application is fully configurable through the `PredictorSettings` 
 
 ### Available Settings
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| `MaxCalculationPeriodMonths` | 36 | Maximum number of months to calculate predictions for |
-| `DefaultInitialBudget` | 48750 | Default initial budget used in example data |
-| `EnableExampleData` | true | Enable/disable the `/example-data` endpoint |
-| `MaxAllowedCalculationPeriod` | 120 | Maximum allowed calculation period to prevent abuse (10 years) |
+| Setting                       | Default | Description                                                    |
+| ----------------------------- | ------- | -------------------------------------------------------------- |
+| `MaxCalculationPeriodMonths`  | 36      | Maximum number of months to calculate predictions for          |
+| `DefaultInitialBudget`        | 48750   | Default initial budget used in example data                    |
+| `EnableExampleData`           | true    | Enable/disable the `/example-data` endpoint                    |
+| `MaxAllowedCalculationPeriod` | 120     | Maximum allowed calculation period to prevent abuse (10 years) |
 
 ### Configuration Examples
 
 #### appsettings.json
+
 ```json
 {
   "PredictorSettings": {
@@ -28,6 +29,7 @@ The Predictor application is fully configurable through the `PredictorSettings` 
 ```
 
 #### Environment Variables
+
 ```bash
 # Docker/Container deployment
 PREDICTOR__MAXCALCULATIONPERIODMONTHS=24
@@ -40,8 +42,9 @@ ASPNETCORE_PREDICTORSETTINGS__MAXCALCULATIONPERIODMONTHS=24
 ```
 
 #### Docker Compose
+
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   predictor:
     image: predictor:latest
@@ -78,4 +81,4 @@ The application validates configuration at startup and uses sensible defaults if
 ✅ **Environment-Specific**: Different settings for dev/staging/production  
 ✅ **Docker Ready**: Full support for container deployment  
 ✅ **Twelve-Factor**: Follows twelve-factor app configuration principles  
-✅ **Security**: Sensitive settings can be injected via environment variables  
+✅ **Security**: Sensitive settings can be injected via environment variables

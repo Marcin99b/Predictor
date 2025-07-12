@@ -39,7 +39,7 @@ app.MapPost("/calc", (CalculateInput input) =>
     var months = new List<MonthOutput>();
     var budget = input.InitialBudget;
     var calculationPeriod = Math.Min(settings.MaxCalculationPeriodMonths, settings.MaxAllowedCalculationPeriod);
-    
+
     foreach (var currentMonth in MonthDate.Range(input.StartCalculationMonth, calculationPeriod - 1))
     {
         var month = Calculator.CalculateMonth(input, currentMonth, budget);
