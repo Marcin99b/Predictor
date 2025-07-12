@@ -13,7 +13,6 @@ Predictor is a powerful financial forecasting API that simulates your budget mon
 ## 🚀 Quick Start
 
 ### Prerequisites
-
 - .NET 8.0 SDK
 - Docker (optional, for containerized development)
 
@@ -28,7 +27,6 @@ dotnet run --project Predictor.Web
 Navigate to `https://localhost:7176/swagger` to explore the API.
 
 ### Try it immediately
-
 The API comes with rich example data pre-loaded. Make your first prediction:
 
 ```bash
@@ -41,19 +39,16 @@ curl -X POST "https://localhost:7176/calc" \
 ## 💡 Core Features
 
 ### 🎯 **Smart Budget Forecasting**
-
 - Simulate your finances up to 3 years into the future
 - Account for salary changes, loan payments, and irregular expenses
 - See exactly when you'll reach financial milestones
 
 ### 📊 **Flexible Income & Expense Modeling**
-
 - **Recurring payments**: Salary, rent, subscriptions (monthly, quarterly, annually)
 - **One-time events**: Tax refunds, bonuses, emergency repairs
 - **Time-limited items**: Loan payments that end, temporary contract work
 
 ### 🔄 **Real-time Calculations**
-
 - Lightning-fast API responses
 - RESTful design for easy integration
 - JSON-based data exchange
@@ -68,7 +63,6 @@ Predictor uses a simple but powerful model:
 4. **Get month-by-month predictions** - See your financial trajectory
 
 ### Example Scenario
-
 ```json
 {
   "initialBudget": 48750,
@@ -106,14 +100,12 @@ Predictor uses a simple but powerful model:
 ### Data Models
 
 **CalculateInput**
-
 - `initialBudget` (decimal) - Your starting amount
 - `startCalculationMonth` (MonthDate) - When to begin simulation
 - `incomes` (PaymentItem[]) - All income sources
 - `outcomes` (PaymentItem[]) - All expenses
 
 **PaymentItem**
-
 - `name` (string) - Description of the payment
 - `value` (decimal) - Amount per occurrence
 - `startDate` (MonthDate) - When it begins
@@ -124,67 +116,51 @@ Full API documentation available at `/swagger` when running locally.
 ## 🌟 Real-World Use Cases
 
 ### 🏠 **Home Buying Planning**
-
 *"I want to buy a $400k house. When will I have enough for a 20% down payment?"*
 
 Model your savings rate, planned bonuses, and see exactly when you'll reach $80k.
 
-### 🚗 **Vehicle Upgrade Timeline**
-
+### 🚗 **Vehicle Upgrade Timeline** 
 *"My car lease ends in 18 months. Can I afford to buy instead of lease?"*
 
 Factor in your lease end date, expected car prices, and available cash flow.
 
 ### 💰 **Emergency Fund Goals**
-
 *"I want 6 months of expenses saved. How long will it take?"*
 
 Input your monthly costs and savings rate to get a precise timeline.
 
 ### 🎓 **Education Investment**
-
 *"I want to do an MBA in 3 years. Will I have enough for tuition?"*
 
 Plan for program costs, lost income, and required savings.
 
 ## 🗺 Roadmap
 
-### 🎯 **Phase 1: Foundation** (Q3 2025)
-
+### 🎯 **Phase 1: Foundation**
 - [x] Basic budget calculation engine
 - [x] Recurring payment support  
 - [x] REST API with Swagger documentation
 - [ ] Inflation-adjusted calculations
 - [ ] Enhanced API documentation with examples
-- [ ] Docker Compose development environment
 
-### 🚀 **Phase 2: Core Features** (Q4 2025)
-
+### 🚀 **Phase 2: Core Features**
 - [ ] Financial goals tracking and achievement prediction
 - [ ] "What-if" scenario comparison engine
 - [ ] Goal-based recommendations
 - [ ] Multi-currency support
 
-### ⚡ **Phase 3: Performance & Scale** (Q1 2026)
-
+### ⚡ **Phase 3: Performance & Scale**
 - [ ] Redis-compatible caching layer
 - [ ] Background processing for complex calculations
 - [ ] Performance benchmarking suite
 - [ ] Rate limiting and API security
 
-### 📊 **Phase 4: Analytics & Intelligence** (Q2 2026)
-
+### 📊 **Phase 4: Analytics & Intelligence**
 - [ ] Historical data storage and trend analysis
 - [ ] External data integration (exchange rates, market data)
 - [ ] Smart spending optimization suggestions
 - [ ] Risk analysis and confidence intervals
-
-### 🤖 **Phase 5: Advanced Features** (Q3+ 2026)
-
-- [ ] Monte Carlo simulation engine for uncertainty modeling
-- [ ] Machine learning-based financial predictions
-- [ ] Advanced investment portfolio modeling
-- [ ] Integration marketplace for financial services
 
 ## 🤝 Contributing
 
@@ -195,23 +171,18 @@ We welcome contributions! Predictor is designed as a learning project for .NET p
 #### 🚀 Quick Start for Contributors
 
 **Step 1: Pick a task**
-
 1. Go to [Issues](https://github.com/Marcin99b/Predictor/issues)
 2. Look for tasks with `good-first-issue` label if you're new
 3. Read the issue description and comment "I'd like to work on this" to claim it
 
 **Step 2: Set up your workspace**
-
 1. **Fork the repository**: Click the "Fork" button at the top of this page
 2. **Clone YOUR fork** (not the original repo):
-
    ```bash
    git clone https://github.com/YOUR-USERNAME/Predictor.git
    cd Predictor
    ```
-
 3. **Create a new branch** with this naming pattern:
-
    ```bash
    # Format: ISSUE-NUMBER-short-description
    # Examples:
@@ -221,30 +192,23 @@ We welcome contributions! Predictor is designed as a learning project for .NET p
    ```
 
 **Step 3: Make your changes**
-
 1. Work on your task in your branch
 2. Test your changes locally:
-
    ```bash
    cd src
    dotnet run --project Predictor.Web
    ```
-
 3. Commit with clear messages:
-
    ```bash
    git add .
    git commit -m "Add MIT license file"
    ```
 
 **Step 4: Submit your work**
-
 1. **Push to YOUR fork**:
-
    ```bash
    git push origin YOUR-BRANCH-NAME
    ```
-
 2. **Create Pull Request**:
    - Go to your fork on GitHub
    - Click "Pull Request" button
@@ -253,26 +217,22 @@ We welcome contributions! Predictor is designed as a learning project for .NET p
    - Example: `Closes #1` or `Fixes #5`
 
 **Step 5: Wait for review**
-
 - We'll review your code and might ask for changes
 - Make requested changes in the same branch
 - Push again - the PR updates automatically
 
 #### 📚 Need Help?
-
 - 🆘 **Stuck?** Comment on the issue you're working on
 - 💬 **Questions?** Use [GitHub Discussions](https://github.com/Marcin99b/Predictor/discussions)
 - 📖 **Git help?** Check [GitHub's Git Handbook](https://guides.github.com/introduction/git-handbook/)
 
 #### 🎯 Contribution Tips
-
 - **One issue = one PR** - don't mix multiple features
 - **Small commits** - easier to review and understand
 - **Test your changes** - make sure everything still works
 - **Be patient** - code review takes time but makes the project better
 
 ### Areas We Need Help
-
 - 🔧 **Backend Development**: .NET 8, performance optimization
 - 📊 **Financial Modeling**: Advanced calculation algorithms  
 - 🦀 **Rust Components**: High-performance caching and data processing
@@ -289,7 +249,6 @@ We welcome contributions! Predictor is designed as a learning project for .NET p
 ## 📋 Development Setup
 
 ### Local Development
-
 ```bash
 # Clone the repository
 git clone https://github.com/Marcin99b/Predictor.git
@@ -304,15 +263,13 @@ docker build -t predictor .
 docker run -p 8080:8080 predictor
 ```
 
-### Development with Docker Compose (Coming Soon)
-
-```bash
-docker-compose up -d  # Includes Redis, PostgreSQL, and monitoring
-```
-
 ## 🔗 Integration
 
 *Building a finance app? We'd love to integrate! Open an issue to discuss.*
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙋‍♀️ Support & Community
 
@@ -327,6 +284,6 @@ docker-compose up -d  # Includes Redis, PostgreSQL, and monitoring
 
 [⭐ Star this repo](https://github.com/Marcin99b/Predictor) if you find it useful!
 
-*Predictor is a learning project focused on .NET performance, avaliability, and scalability.*
+*Predictor is a learning project focused on .NET performance, scalability, and real-world financial applications.*
 
 </div>
