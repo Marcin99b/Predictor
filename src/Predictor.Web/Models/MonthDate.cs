@@ -46,18 +46,11 @@ public record MonthDate(int Month, int Year)
         return a.Month > b.Month;
     }
 
-    /// <summary>
-    /// Return passed month and {monthsAhead} next months. 
-    /// For example ("January", 2) returns ["January", "February", "March"]
-    /// </summary>
-    /// <param name="from"></param>
-    /// <param name="monthsAhead"></param>
-    /// <returns></returns>
-    public static IEnumerable<MonthDate> Range(MonthDate from, int monthsAhead)
+    public static IEnumerable<MonthDate> Range(MonthDate from, int monthsCount)
     {
         var current = from;
         yield return current;
-        for (var i = 0; i < monthsAhead; i++)
+        for (var i = 0; i < monthsCount - 1; i++)
         {
             current = current.AddMonths(1);
             yield return current;

@@ -1,3 +1,5 @@
+using FluentValidation;
+using Microsoft.VisualBasic;
 using Predictor.Web;
 using Predictor.Web.Models;
 
@@ -6,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true);
 
 var app = builder.Build();
 
@@ -21,11 +24,13 @@ app.MapControllers();
 
 app.MapGet("/example-data", () => ExampleData.CalculateInputExample);
 
-app.MapPost("/calc", (CalculateInput input) =>
+app.MapPost("/calc", (CalculateInput input, IValidator<CalculateInput> validator) =>
 {
+    validator.ValidateAndThrow(input);
+
     var months = new List<MonthOutput>();
     var budget = input.InitialBudget;
-    foreach (var currentMonth in MonthDate.Range(input.StartCalculationMonth, 12 * 3 - 1))
+    foreach (var currentMonth in MonthDate.Range(input.StartCalculationMonth, 3))
     {
         var month = Calculator.CalculateMonth(input, currentMonth, budget);
         budget = month.BudgetAfter;
