@@ -27,9 +27,11 @@ You'll get a clear timeline instead of guesswork.
 
 ## Quick Start
 
+```bash
 git clone <https://github.com/Marcin99b/Predictor.git>
 cd predictor/src
 dotnet run --project Predictor.Web
+```
 
 Open `https://localhost:7176/swagger` and try it with the built-in example data.
 
@@ -39,6 +41,7 @@ Open `https://localhost:7176/swagger` and try it with the built-in example data.
 
 Start with a simple scenario:
 
+```json
 {
   "initialBudget": 10000,
   "startCalculationMonth": { "month": 7, "year": 2025 },
@@ -59,6 +62,7 @@ Start with a simple scenario:
     }
   ]
 }
+```
 
 This shows someone earning $5k/month, paying $2k rent, starting with $10k saved. The API returns month-by-month projections showing they'll save $3k each month.
 
@@ -66,11 +70,15 @@ This shows someone earning $5k/month, paying $2k rent, starting with $10k saved.
 
 # Get more complex example
 
+```bash
 curl -X GET "<https://localhost:7176/example-data>"
+```
 
 # Run prediction
 
+```bash
 curl -X POST "<https://localhost:7176/calc>" -H "Content-Type: application/json" -d @example-data.json
+```
 
 ## API
 
@@ -79,6 +87,7 @@ curl -X POST "<https://localhost:7176/calc>" -H "Content-Type: application/json"
 Send your financial data, get month-by-month predictions.
 
 **Input:**
+```json
 {
   "initialBudget": 48750,
   "startCalculationMonth": { "month": 7, "year": 2025 },
@@ -99,8 +108,10 @@ Send your financial data, get month-by-month predictions.
     }
   ]
 }
+```
 
 **Output:**
+```json
 {
   "months": [
     {
@@ -112,6 +123,7 @@ Send your financial data, get month-by-month predictions.
     }
   ]
 }
+```
 
 ### `GET /example-data`
 
