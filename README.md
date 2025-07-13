@@ -1,75 +1,90 @@
-# 🔮 Predictor
+# Predictor
 
-> **When will you be able to afford that dream purchase?** Predictor helps you answer this question with precision.
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-Predictor is a powerful financial forecasting API that simulates your budget months and years into the future. Whether you're planning to buy a house, a new car, or wondering about your financial stability, Predictor gives you the clarity you need to make informed decisions.
+**"When will I be able to afford that house?"**
 
-## ✨ Why Predictor?
+Instead of guessing, get a real answer. Predictor simulates your budget months into the future, accounting for your salary, expenses, and life events.
 
-**The Problem**: Traditional budgeting apps show you where your money went, but they don't help you plan for the future. You're left wondering: *"When will I have enough for a down payment? Can I afford that vacation next year? What if I lose my job?"*
+## The Problem
 
-**The Solution**: Predictor runs sophisticated simulations of your financial future, accounting for recurring income, planned expenses, and one-time events. Get answers to your "when will I be able to afford..." questions with confidence.
+You want to buy something expensive but don't know when you'll have enough money. Maybe it's a house down payment, a new car, or just building an emergency fund.
 
-## 🚀 Quick Start
+Budget apps show you where your money *went*, but won't tell you when you'll hit your savings goals. Spreadsheets work but become a mess when you have irregular income, loans that end, or seasonal expenses.
 
-### Prerequisites
-- .NET 8.0 SDK
-- Docker (optional, for containerized development)
+## What Predictor Does
 
-### Run in 30 seconds
+Stop guessing about your financial future. Predictor takes the uncertainty out of long-term planning by showing you exactly when you'll reach your goals.
 
-```bash
-git clone https://github.com/Marcin99b/Predictor.git
+Whether you're saving for something specific or just want to see where your money will be in a year, Predictor handles the complexity:
+
+- Income that changes over time (raises, contract work ending)
+- Expenses that disappear (when you finish paying off that car loan)
+- Irregular costs (annual insurance, quarterly taxes)
+- Unexpected events (tax refunds, emergency repairs)
+
+You'll get a clear timeline instead of guesswork.
+
+## Quick Start
+
+git clone <https://github.com/Marcin99b/Predictor.git>
 cd predictor/src
 dotnet run --project Predictor.Web
-```
 
-Navigate to `https://localhost:7176/swagger` to explore the API.
+Open `https://localhost:7176/swagger` and try it with the built-in example data.
 
-### Try it immediately
-The API comes with rich example data pre-loaded. Make your first prediction:
+*Docker support is available but optional - see Dockerfile in the project.*
 
-```bash
-curl -X GET "https://localhost:7176/example-data"
-curl -X POST "https://localhost:7176/calc" \
-  -H "Content-Type: application/json" \
-  -d @example-data.json
-```
+## Example
 
-## 💡 Core Features
+Start with a simple scenario:
 
-### 🎯 **Smart Budget Forecasting**
-- Simulate your finances up to 3 years into the future
-- Account for salary changes, loan payments, and irregular expenses
-- See exactly when you'll reach financial milestones
+{
+  "initialBudget": 10000,
+  "startCalculationMonth": { "month": 7, "year": 2025 },
+  "incomes": [
+    {
+      "name": "Salary",
+      "value": 5000,
+      "startDate": { "month": 7, "year": 2025 },
+      "recurringConfig": { "monthInterval": 1 }
+    }
+  ],
+  "outcomes": [
+    {
+      "name": "Rent",
+      "value": 2000,
+      "startDate": { "month": 7, "year": 2025 },
+      "recurringConfig": { "monthInterval": 1 }
+    }
+  ]
+}
 
-### 📊 **Flexible Income & Expense Modeling**
-- **Recurring payments**: Salary, rent, subscriptions (monthly, quarterly, annually)
-- **One-time events**: Tax refunds, bonuses, emergency repairs
-- **Time-limited items**: Loan payments that end, temporary contract work
+This shows someone earning $5k/month, paying $2k rent, starting with $10k saved. The API returns month-by-month projections showing they'll save $3k each month.
 
-### 🔄 **Real-time Calculations**
-- Lightning-fast API responses
-- RESTful design for easy integration
-- JSON-based data exchange
+**Try it yourself:**
 
-## 📖 How It Works
+# Get more complex example
 
-Predictor uses a simple but powerful model:
+curl -X GET "<https://localhost:7176/example-data>"
 
-1. **Start with your current budget** - How much money do you have today?
-2. **Define your income streams** - Salary, side hustles, investments
-3. **List your expenses** - Both fixed costs and planned purchases
-4. **Get month-by-month predictions** - See your financial trajectory
+# Run prediction
 
-### Example Scenario
-```json
+curl -X POST "<https://localhost:7176/calc>" -H "Content-Type: application/json" -d @example-data.json
+
+## API
+
+### `POST /calc`
+
+Send your financial data, get month-by-month predictions.
+
+**Input:**
 {
   "initialBudget": 48750,
   "startCalculationMonth": { "month": 7, "year": 2025 },
   "incomes": [
     {
-      "name": "Primary Salary",
+      "name": "Salary",
       "value": 5400,
       "startDate": { "month": 7, "year": 2025 },
       "recurringConfig": { "monthInterval": 1 }
@@ -84,206 +99,114 @@ Predictor uses a simple but powerful model:
     }
   ]
 }
-```
 
-**Result**: Month-by-month breakdown showing when you'll have enough for major purchases.
+**Output:**
+{
+  "months": [
+    {
+      "monthDate": { "month": 7, "year": 2025 },
+      "budgetAfter": 51850,
+      "balance": 3100,
+      "income": 5400,
+      "outcome": 2300
+    }
+  ]
+}
 
-## 🛠 API Reference
+### `GET /example-data`
 
-### Endpoints
+Returns sample data you can modify and use for testing.
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/example-data` | Get sample data to try the API |
-| `POST` | `/calc` | Run financial prediction simulation |
+## Use Cases
 
-### Data Models
+**House buying:** "I want a 400k house. When will I have 20% down?"
 
-**CalculateInput**
-- `initialBudget` (decimal) - Your starting amount
-- `startCalculationMonth` (MonthDate) - When to begin simulation
-- `incomes` (PaymentItem[]) - All income sources
-- `outcomes` (PaymentItem[]) - All expenses
+You are earning 8k per month, spending 6k, and have 25k saved. Enter your numbers and Predictor shows you will hit 80k (20% down) in exactly 27.5 months. Now you can plan accordingly instead of hoping it works out.
 
-**PaymentItem**
-- `name` (string) - Description of the payment
-- `value` (decimal) - Amount per occurrence
-- `startDate` (MonthDate) - When it begins
-- `recurringConfig` (optional) - How often it repeats
+**Emergency fund planning:** "How long until I have 6 months of expenses saved?"
 
-Full API documentation available at `/swagger` when running locally.
+Your monthly expenses are $4,500, so you need $27k total. Currently saving $800/month with $5k already set aside. Predictor calculates you'll reach your goal in 27.5 months, accounting for any irregular income or expense changes you've planned.
 
-## 🌟 Real-World Use Cases
+**Career transition:** "If I take this lower-paying job, how will it affect my car purchase timeline?"
 
-### 🏠 **Home Buying Planning**
-*"I want to buy a $400k house. When will I have enough for a 20% down payment?"*
+Compare scenarios: current job vs. new job with 1k less monthly income. See exactly how much longer you will need to save for that 25k car, helping you make an informed decision about the career move.
 
-Model your savings rate, planned bonuses, and see exactly when you'll reach $80k.
+**Debt freedom:** "When will I be completely debt-free?"
 
-### 🚗 **Vehicle Upgrade Timeline** 
-*"My car lease ends in 18 months. Can I afford to buy instead of lease?"*
+Enter all your loans with their payment schedules. See not just when each individual debt disappears, but how your cash flow improves month by month as payments end, and when you'll have true financial freedom.
 
-Factor in your lease end date, expected car prices, and available cash flow.
+## Development Roadmap
 
-### 💰 **Emergency Fund Goals**
-*"I want 6 months of expenses saved. How long will it take?"*
+Here's where I want to take this project:
 
-Input your monthly costs and savings rate to get a precise timeline.
+### Core Features
 
-### 🎓 **Education Investment**
-*"I want to do an MBA in 3 years. Will I have enough for tuition?"*
-
-Plan for program costs, lost income, and required savings.
-
-## 🗺 Roadmap
-
-### 🎯 **Phase 1: Foundation**
 - [x] Basic budget calculation engine
-- [x] Recurring payment support  
-- [x] REST API with Swagger documentation
-- [ ] Inflation-adjusted calculations
-- [ ] Enhanced API documentation with examples
-
-### 🚀 **Phase 2: Core Features**
-- [ ] Financial goals tracking and achievement prediction
-- [ ] "What-if" scenario comparison engine
-- [ ] Goal-based recommendations
+- [x] Flexible recurring payments (configurable intervals - every N months)
+- [x] Time-limited payments (loans that end, contracts)
+- [x] One-time income and expenses
+- [x] Input validation with FluentValidation
+- [ ] Inflation adjustments
+- [ ] Financial goal tracking ("alert me when I can afford X")
+- [ ] Scenario comparison ("what if I get a raise vs. what if I move?")
 - [ ] Multi-currency support
-
-### ⚡ **Phase 3: Performance & Scale**
-- [ ] Redis-compatible caching layer
-- [ ] Background processing for complex calculations
-- [ ] Performance benchmarking suite
-- [ ] Rate limiting and API security
-
-### 📊 **Phase 4: Analytics & Intelligence**
-- [ ] Historical data storage and trend analysis
-- [ ] External data integration (exchange rates, market data)
-- [ ] Smart spending optimization suggestions
 - [ ] Risk analysis and confidence intervals
 
-## 🤝 Contributing
+### Performance & Scale  
 
-We welcome contributions! Predictor is designed as a learning project for .NET performance, scalability, and financial modeling.
+- [x] Performance testing setup
+- [ ] Caching layer
+- [ ] Background processing for complex calculations
+- [ ] Performance benchmarking
+- [ ] Rate limiting
 
-### Getting Started
+### Data & Intelligence
 
-#### 🚀 Quick Start for Contributors
+- [ ] Historical trend analysis  
+- [ ] External data integration (exchange rates, inflation)
+- [ ] Smart spending optimization suggestions
+- [ ] Export to popular formats (CSV, PDF reports)
 
-**Step 1: Pick a task**
-1. Go to [Issues](https://github.com/Marcin99b/Predictor/issues)
-2. Look for tasks with `good-first-issue` label if you're new
-3. Read the issue description and comment "I'd like to work on this" to claim it
+### Developer Experience
 
-**Step 2: Set up your workspace**
-1. **Fork the repository**: Click the "Fork" button at the top of this page
-2. **Clone YOUR fork** (not the original repo):
-   ```bash
-   git clone https://github.com/YOUR-USERNAME/Predictor.git
-   cd Predictor
-   ```
-3. **Create a new branch** with this naming pattern:
-   ```bash
-   # Format: ISSUE-NUMBER-short-description
-   # Examples:
-   git checkout -b 1-add-mit-license
-   git checkout -b 5-health-check-endpoint
-   git checkout -b 12-performance-tests
-   ```
+- [x] REST API with Swagger documentation
+- [x] Health check endpoints
+- [ ] Enhanced API documentation with more examples
+- [ ] SDK/client libraries
+- [ ] Integration guides
 
-**Step 3: Make your changes**
-1. Work on your task in your branch
-2. Test your changes locally:
-   ```bash
-   cd src
-   dotnet run --project Predictor.Web
-   ```
-3. Commit with clear messages:
-   ```bash
-   git add .
-   git commit -m "Add MIT license file"
-   ```
+## Contributing
 
-**Step 4: Submit your work**
-1. **Push to YOUR fork**:
-   ```bash
-   git push origin YOUR-BRANCH-NAME
-   ```
-2. **Create Pull Request**:
-   - Go to your fork on GitHub
-   - Click "Pull Request" button
-   - Make sure it's going from your branch to `main` branch of original repo
-   - In the PR description, add: `Closes #ISSUE-NUMBER` (this auto-closes the issue)
-   - Example: `Closes #1` or `Fixes #5`
+Want to help make financial planning easier for everyone? Contributions are welcome whether you're new to programming or a seasoned developer.
 
-**Step 5: Wait for review**
-- We'll review your code and might ask for changes
-- Make requested changes in the same branch
-- Push again - the PR updates automatically
+**Getting started is easy:**
 
-#### 📚 Need Help?
-- 🆘 **Stuck?** Comment on the issue you're working on
-- 💬 **Questions?** Use [GitHub Discussions](https://github.com/Marcin99b/Predictor/discussions)
-- 📖 **Git help?** Check [GitHub's Git Handbook](https://guides.github.com/introduction/git-handbook/)
+1. Browse [Issues](https://github.com/Marcin99b/Predictor/issues) - look for `good-first-issue` if you're new to open source
+2. Fork the repo and create a branch: `git checkout -b feature/123-feature-name` (or `bug/123-bug-name` for bugs)
+3. Make your changes and test locally
+4. Submit a PR and link the issue by adding `Closes #123` in the description or using the GitHub UI
 
-#### 🎯 Contribution Tips
-- **One issue = one PR** - don't mix multiple features
-- **Small commits** - easier to review and understand
-- **Test your changes** - make sure everything still works
-- **Be patient** - code review takes time but makes the project better
+Every contribution helps, from fixing typos to optimizing algorithms. Jump in!
 
-### Areas We Need Help
-- 🔧 **Backend Development**: .NET 8, performance optimization
-- 📊 **Financial Modeling**: Advanced calculation algorithms  
-- 🦀 **Rust Components**: High-performance caching and data processing
-- 📚 **Documentation**: API guides, tutorials, examples
-- 🧪 **Testing**: Unit tests, integration tests, performance benchmarks
+## Tech Stack
 
-## 💻 Technology Stack
+- .NET 8 + ASP.NET Core
+- FluentValidation for input validation
+- Swagger/OpenAPI for documentation
+- NBomber for performance testing
+- NUnit for unit testing
+- Docker (optional)
+- Planned: Rust for performance-critical calculations
 
-- **Backend**: .NET 8, ASP.NET Core, Swagger/OpenAPI
-- **Future Components**: Rust (for high-performance modules)
-- **Deployment**: Docker, Linux containers
-- **Integration**: RESTful API, JSON data exchange
+## Running Tests
 
-## 📋 Development Setup
+# Performance tests  
 
-### Local Development
-```bash
-# Clone the repository
-git clone https://github.com/Marcin99b/Predictor.git
-cd predictor
+cd src/Predictor.Tests.Performance
+dotnet test
 
-# Run with .NET CLI
-cd src
-dotnet run --project Predictor.Web
+Performance tests validate that the API can handle high load scenarios. They're useful for ensuring calculations remain fast as complexity grows.
 
-# Or with Docker
-docker build -t predictor .
-docker run -p 8080:8080 predictor
-```
+## License
 
-## 🔗 Integration
-
-*Building a finance app? We'd love to integrate! Open an issue to discuss.*
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙋‍♀️ Support & Community
-
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/Marcin99b/Predictor/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/Marcin99b/Predictor/discussions)
-
----
-
-<div align="center">
-
-**Made with ❤️ for developers who care about financial planning**
-
-[⭐ Star this repo](https://github.com/Marcin99b/Predictor) if you find it useful!
-
-*Predictor is a learning project focused on .NET performance, scalability, and real-world financial applications.*
-
-</div>
+MIT - see [LICENSE](LICENSE) file.
