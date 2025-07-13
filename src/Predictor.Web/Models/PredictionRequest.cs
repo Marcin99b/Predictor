@@ -1,6 +1,9 @@
-﻿namespace Predictor.Web.Models;
+﻿using MediatR;
 
-public record PredictionRequest(int PredictionMonths, decimal InitialBudget, MonthDate StartPredictionMonth, PaymentItem[] Incomes, PaymentItem[] Expenses)
+namespace Predictor.Web.Models;
+
+public record PredictionRequest(int PredictionMonths, decimal InitialBudget, MonthDate StartPredictionMonth, PaymentItem[] Incomes, PaymentItem[] Expenses) 
+    : IRequest<PredictionResult>
 {
     public IEnumerable<PaymentItem> GetMonthIncomes(MonthDate month) 
         => this.Incomes.Where(x => this.Filter(month, x));

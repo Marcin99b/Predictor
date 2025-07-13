@@ -19,7 +19,7 @@ public class PredictionRequestValidator : AbstractValidator<PredictionRequest>
             .NotEmpty()
             .GreaterThanOrEqualTo(0);
 
-        this.RuleFor(x => x.StartCalculationMonth)
+        this.RuleFor(x => x.StartPredictionMonth)
             .NotNull()
             .SetValidator(new MonthDateValidator());
 
