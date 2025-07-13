@@ -7,7 +7,7 @@ public static class ExampleData
     public static PredictionRequest CalculateInputExample { get; } = new(
         PredictionMonths: 36,
         InitialBudget: 48_750,
-        StartCalculationMonth: MonthDate.Now,
+        StartPredictionMonth: MonthDate.Now,
         Incomes: [
             // Infinite recurring income (no EndDate)
             new("Primary Salary", 5_400, MonthDate.Now, Frequency.Monthly),

@@ -7,12 +7,12 @@ public static class Calculator
 {
     public static MonthOutput CalculateMonth(PredictionRequest input, MonthDate month, decimal budgetBefore)
     {
-        var currentMonthIncome = input.GetMonthIncomes(month).Sum(x => x.Value);
-        var currentMonthExpense = input.GetMonthExpenses(month).Sum(x => x.Value);
+        var income = input.GetMonthIncomes(month).Sum(x => x.Value);
+        var expense = input.GetMonthExpenses(month).Sum(x => x.Value);
 
-        var balance = currentMonthIncome - currentMonthExpense;
+        var balance = income - expense;
         var budgetAfter = budgetBefore + balance;
 
-        return new MonthOutput(month, budgetAfter, balance, currentMonthIncome, currentMonthExpense);
+        return new MonthOutput(month, budgetAfter, balance, income, expense);
     }
 }

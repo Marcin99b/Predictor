@@ -45,7 +45,7 @@ predictions.MapPost("/", (PredictionRequest request, IValidator<PredictionReques
 
     var months = new List<MonthOutput>();
     var budget = request.InitialBudget;
-    foreach (var currentMonth in MonthDate.Range(request.StartCalculationMonth, request.PredictionMonths))
+    foreach (var currentMonth in MonthDate.Range(request.StartPredictionMonth, request.PredictionMonths))
     {
         var month = Calculator.CalculateMonth(request, currentMonth, budget);
         budget = month.BudgetAfter;
