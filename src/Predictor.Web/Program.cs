@@ -21,9 +21,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MapGet("/example-data", () => ExampleData.CalculateInputExample);
+var apiV1 = app.MapGroup("/api/v1");
+var predictions = apiV1.MapGroup("/predictions");
 
-app.MapPost("/calc", (CalculateInput input, IValidator<CalculateInput> validator) =>
+predictions.MapPost("/", (CalculateInput input, IValidator<CalculateInput> validator) =>
 {
     validator.ValidateAndThrow(input);
 
@@ -39,9 +40,12 @@ app.MapPost("/calc", (CalculateInput input, IValidator<CalculateInput> validator
     return new CalculationOutput([.. months]);
 });
 
+predictions.MapGet("/example", () => ExampleData.CalculateInputExample);
+
+var healthChecks = apiV1.MapGroup("/hc");
 // live - Service is running.
-app.MapGet("/hc/live", () => Results.Ok());
+healthChecks.MapGet("/live", () => Results.Ok());
 // ready - Service can process requests correctly. Required dependencies are available etc.
-app.MapGet("/hc/ready", () => Results.Ok());
+healthChecks.MapGet("/ready", () => Results.Ok());
 
 app.Run();

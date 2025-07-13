@@ -71,18 +71,18 @@ This shows someone earning $5k/month, paying $2k rent, starting with $10k saved.
 # Get more complex example
 
 ```bash
-curl -X GET "<https://localhost:7176/example-data>"
+curl -X GET "<https://localhost:7176/predictions/example>"
 ```
 
 # Run prediction
 
 ```bash
-curl -X POST "<https://localhost:7176/calc>" -H "Content-Type: application/json" -d @example-data.json
+curl -X POST "<https://localhost:7176/predictions>" -H "Content-Type: application/json" -d @example-data.json
 ```
 
 ## API
 
-### `POST /calc`
+### `POST /predictions`
 
 Send your financial data, get month-by-month predictions.
 
@@ -125,7 +125,7 @@ Send your financial data, get month-by-month predictions.
 }
 ```
 
-### `GET /example-data`
+### `GET /predictions/example`
 
 Returns sample data you can modify and use for testing.
 

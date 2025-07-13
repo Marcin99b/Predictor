@@ -29,14 +29,14 @@ public class ApiPerformanceTests
         var maxLatency95 = 110;
         var maxLatency50 = 70;
 
-        var exampleData = await (await httpClient.GetAsync(url + "/example-data"))
+        var exampleData = await (await httpClient.GetAsync(url + "/predictions/example"))
             .Content
             .ReadAsStringAsync();
 
         var scenario = Scenario.Create("calc_requests", async context =>
         {
             var request =
-                Http.CreateRequest("POST", url + "/calc")
+                Http.CreateRequest("POST", url + "/predictions")
                     .WithHeader("Content-Type", "application/json")
                     .WithBody(new StringContent(exampleData, Encoding.UTF8, "application/json"));
 
