@@ -20,10 +20,11 @@ public class PaymentItemValidator : AbstractValidator<PaymentItem>
             .NotNull()
             .SetValidator(new MonthDateValidator());
 
-        this.When(x => x.RecurringConfig != null, () => 
+        this.When(x => x.EndDate != null, () =>
         {
-            this.RuleFor(x => x.RecurringConfig!)
-                .SetValidator(new RecurringConfigValidator());
+            this.RuleFor(x => x.EndDate!)
+                .NotNull()
+                .SetValidator(new MonthDateValidator());
         });
     }
 }

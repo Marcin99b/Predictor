@@ -3,10 +3,18 @@ using Predictor.Web.Models;
 
 namespace Predictor.Web.Validators;
 
-public class CalculateInputValidator : AbstractValidator<CalculateInput>
+public class PredictionRequestValidator : AbstractValidator<PredictionRequest>
 {
-    public CalculateInputValidator()
+    private const int MONTHS_IN_YEAR = 12;
+    private const int MAX_YEARS_PREDICTION = 10;
+
+    public PredictionRequestValidator()
     {
+        this.RuleFor(x => x.PredictionMonths)
+            .NotEmpty()
+            .GreaterThanOrEqualTo(1)
+            .LessThanOrEqualTo(MONTHS_IN_YEAR * MAX_YEARS_PREDICTION);
+
         this.RuleFor(x => x.InitialBudget)
             .NotEmpty()
             .GreaterThanOrEqualTo(0);
@@ -19,7 +27,7 @@ public class CalculateInputValidator : AbstractValidator<CalculateInput>
             .NotNull()
             .SetValidator(new PaymentItemValidator());
 
-        this.RuleForEach(x => x.Outcomes)
+        this.RuleForEach(x => x.Expenses)
             .NotNull()
             .SetValidator(new PaymentItemValidator());
     }

@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.OpenApi.Models;
 using Predictor.Web;
 using Predictor.Web.Models;
 
@@ -6,7 +7,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Predictor API",
+        Version = "v1",
+        Description = "API for predicting budget scenarios"
+    });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer"
+    });
+});
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true);
 
 var app = builder.Build();
@@ -24,20 +39,32 @@ app.MapControllers();
 var apiV1 = app.MapGroup("/api/v1");
 var predictions = apiV1.MapGroup("/predictions");
 
-predictions.MapPost("/", (CalculateInput input, IValidator<CalculateInput> validator) =>
+predictions.MapPost("/", (PredictionRequest request, IValidator<PredictionRequest> validator) =>
 {
-    validator.ValidateAndThrow(input);
+    validator.ValidateAndThrow(request);
 
     var months = new List<MonthOutput>();
-    var budget = input.InitialBudget;
-    foreach (var currentMonth in MonthDate.Range(input.StartCalculationMonth, 3))
+    var budget = request.InitialBudget;
+    foreach (var currentMonth in MonthDate.Range(request.StartCalculationMonth, request.PredictionMonths))
     {
-        var month = Calculator.CalculateMonth(input, currentMonth, budget);
+        var month = Calculator.CalculateMonth(request, currentMonth, budget);
         budget = month.BudgetAfter;
         months.Add(month);
     }
 
-    return new CalculationOutput([.. months]);
+    var monthsArray = months.ToArray();
+    var summary = new BudgetSummary(
+        StartingBalance: months.First().Balance,
+        EndingBalance: months.Last().Balance,
+        TotalIncome: months.Select(x => x.Income).Sum(),
+        TotalExpenses: months.Select(x => x.Expense).Sum(),
+        LowestBalance: months.OrderBy(x => x.Balance).First().Balance,
+        LowestBalanceDate: months.OrderBy(x => x.Balance).First().MonthDate,
+        HighestBalance: months.OrderByDescending(x => x.Balance).First().Balance,
+        HighestBalanceDate: months.OrderByDescending(x => x.Balance).First().MonthDate
+    );
+
+    return new PredictionResult(summary, monthsArray);
 });
 
 predictions.MapGet("/example", () => ExampleData.CalculateInputExample);

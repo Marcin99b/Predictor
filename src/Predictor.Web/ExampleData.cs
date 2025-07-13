@@ -4,7 +4,7 @@ namespace Predictor.Web;
 
 public static class ExampleData
 {
-    public static CalculateInput CalculateInputExample { get; } = new(
+    public static PredictionRequest CalculateInputExample { get; } = new(
     InitialBudget: 48_750,
     StartCalculationMonth: MonthDate.Now,
     Incomes: [
