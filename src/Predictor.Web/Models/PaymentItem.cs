@@ -21,14 +21,14 @@ public record PaymentItem(string Name, decimal Value, MonthDate StartDate, Frequ
 
         if (this.Frequency == Frequency.OneTime) 
         {
-            return true;
+            return false; // One-time payments only occur on StartDate
         }
 
         var calculatedMonth = this.StartDate;
         var monthInterval = this.Frequency switch
         {
             Frequency.Monthly => 1,
-            Frequency.Quarterly => 4,
+            Frequency.Quarterly => 3,
             Frequency.SemiAnnually => 6,
             Frequency.Annually => 12,
             _ => throw new NotImplementedException()
