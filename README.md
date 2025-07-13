@@ -71,40 +71,41 @@ This shows someone earning $5k/month, paying $2k rent, starting with $10k saved.
 # Get more complex example
 
 ```bash
-curl -X GET "<https://localhost:7176/predictions/example>"
+curl -X GET "<https://localhost:7176/api/v1/predictions/example>"
 ```
 
 # Run prediction
 
 ```bash
-curl -X POST "<https://localhost:7176/predictions>" -H "Content-Type: application/json" -d @example-data.json
+curl -X POST "<https://localhost:7176/api/v1/predictions>" -H "Content-Type: application/json" -d @example-data.json
 ```
 
 ## API
 
-### `POST /predictions`
+### `POST /api/v1/predictions`
 
 Send your financial data, get month-by-month predictions.
 
 **Input:**
 ```json
 {
-  "initialBudget": 48750,
+  "predictionMonths": 12,
+  "initialBudget": 10000,
   "startCalculationMonth": { "month": 7, "year": 2025 },
   "incomes": [
     {
       "name": "Salary",
-      "value": 5400,
+      "value": 5000,
       "startDate": { "month": 7, "year": 2025 },
-      "recurringConfig": { "monthInterval": 1 }
+      "frequency": 2
     }
   ],
-  "outcomes": [
+  "expenses": [
     {
       "name": "Rent",
-      "value": 2300,
+      "value": 2000,
       "startDate": { "month": 7, "year": 2025 },
-      "recurringConfig": { "monthInterval": 1 }
+      "frequency": 2
     }
   ]
 }
@@ -113,19 +114,29 @@ Send your financial data, get month-by-month predictions.
 **Output:**
 ```json
 {
+  "summary": {
+    "startingBalance": 3100,
+    "endingBalance": 74500,
+    "totalIncome": 129600,
+    "totalExpenses": 55200,
+    "lowestBalance": 3100,
+    "lowestBalanceDate": { "month": 7, "year": 2025 },
+    "highestBalance": 74500,
+    "highestBalanceDate": { "month": 6, "year": 2027 }
+  },
   "months": [
     {
       "monthDate": { "month": 7, "year": 2025 },
       "budgetAfter": 51850,
       "balance": 3100,
       "income": 5400,
-      "outcome": 2300
+      "expense": 2300
     }
   ]
 }
 ```
 
-### `GET /predictions/example`
+### `GET /api/v1/predictions/example`
 
 Returns sample data you can modify and use for testing.
 
