@@ -1,5 +1,7 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Predictor.Web;
 using Predictor.Web.Models;
@@ -27,6 +29,7 @@ builder.Services.AddSwaggerGen(c =>
 var assembly = typeof(Program).Assembly;
 builder.Services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -40,17 +43,15 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-var apiV1 = app.MapGroup("/api/v1");
-var predictions = apiV1.MapGroup("/predictions");
+app.MapGroup("/api/v1").MapPredictionsV1();
+app.MapHealthChecks("/hc/ready", new HealthCheckOptions
+{
+    Predicate = healthCheck => healthCheck.Tags.Contains("ready")
+});
 
-predictions.MapPost("/", (PredictionRequest request, IMediator mediator) => mediator.Send(request));
-
-predictions.MapGet("/example", () => ExampleData.CalculateInputExample);
-
-var healthChecks = apiV1.MapGroup("/hc");
-// live - Service is running.
-healthChecks.MapGet("/live", () => Results.Ok());
-// ready - Service can process requests correctly. Required dependencies are available etc.
-healthChecks.MapGet("/ready", () => Results.Ok());
+app.MapHealthChecks("/hc/live", new HealthCheckOptions
+{
+    Predicate = _ => false
+});
 
 app.Run();
