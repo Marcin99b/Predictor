@@ -214,8 +214,10 @@ Every contribution helps, from fixing typos to optimizing algorithms. Jump in!
 
 # Performance tests  
 
+```bash
 cd src/Predictor.Tests.Performance
 dotnet test
+```
 
 Performance tests validate that the API can handle high load scenarios. They're useful for ensuring calculations remain fast as complexity grows.
 
