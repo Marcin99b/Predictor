@@ -13,7 +13,6 @@ public class PaymentItemValidator : AbstractValidator<PaymentItem>
             .MaximumLength(100);
 
         this.RuleFor(x => x.Value)
-            .NotEmpty()
             .GreaterThan(0);
 
         this.RuleFor(x => x.StartDate)

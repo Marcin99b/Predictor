@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Predictor.Web", "Predictor.Web\Predictor.Web.csproj", "{75B21432-29BB-4DD9-BD58-652A84A7B202}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Predictor.Tests.Performance", "Predictor.Tests.Performance\Predictor.Tests.Performance.csproj", "{709B31D9-1AAB-470E-89A6-8639E7A1102E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Predictor.Tests.Performance", "Predictor.Tests.Performance\Predictor.Tests.Performance.csproj", "{709B31D9-1AAB-470E-89A6-8639E7A1102E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Predictor.Tests.Integration", "Predictor.Tests.Integration\Predictor.Tests.Integration.csproj", "{452BA77A-654E-4832-BDCA-A2391B01A6A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{709B31D9-1AAB-470E-89A6-8639E7A1102E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{709B31D9-1AAB-470E-89A6-8639E7A1102E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{709B31D9-1AAB-470E-89A6-8639E7A1102E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{452BA77A-654E-4832-BDCA-A2391B01A6A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{452BA77A-654E-4832-BDCA-A2391B01A6A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{452BA77A-654E-4832-BDCA-A2391B01A6A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{452BA77A-654E-4832-BDCA-A2391B01A6A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,61 +1,67 @@
 using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
-using Predictor.Web;
 using Predictor.Web.Integrations;
-using Predictor.Web.Models;
+using System.Diagnostics.CodeAnalysis;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace Predictor.Web;
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+[ExcludeFromCodeCoverage]
+public class Program
 {
-    c.SwaggerDoc("v1", new OpenApiInfo
+    private static void Main(string[] args)
     {
-        Title = "Predictor API",
-        Version = "v1",
-        Description = "API for predicting budget scenarios"
-    });
+        var builder = WebApplication.CreateBuilder(args);
 
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer"
-    });
-});
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Predictor API",
+                Version = "v1",
+                Description = "API for predicting budget scenarios"
+            });
 
-var assembly = typeof(Program).Assembly;
-builder.Services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
-builder.Services.AddHealthChecks();
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer"
+            });
+        });
 
-builder.Services.AddMemoryCache();
-builder.Services.AddSingleton<CacheRepository>();
+        var assembly = typeof(Program).Assembly;
+        builder.Services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
+        builder.Services.AddHealthChecks();
 
-var app = builder.Build();
+        builder.Services.AddMemoryCache();
+        builder.Services.AddSingleton<CacheRepository>();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+        var app = builder.Build();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseAuthorization();
+        app.MapControllers();
+
+        app.MapGroup("/api/v1").MapPredictionsV1().MapAnalyticsV1();
+        app.MapHealthChecks("/hc/ready", new HealthCheckOptions
+        {
+            Predicate = healthCheck => healthCheck.Tags.Contains("ready")
+        });
+
+        app.MapHealthChecks("/hc/live", new HealthCheckOptions
+        {
+            Predicate = _ => false
+        });
+
+        app.Run();
+    }
 }
-
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
-
-app.MapGroup("/api/v1").MapPredictionsV1().MapAnalyticsV1();
-app.MapHealthChecks("/hc/ready", new HealthCheckOptions
-{
-    Predicate = healthCheck => healthCheck.Tags.Contains("ready")
-});
-
-app.MapHealthChecks("/hc/live", new HealthCheckOptions
-{
-    Predicate = _ => false
-});
-
-app.Run();

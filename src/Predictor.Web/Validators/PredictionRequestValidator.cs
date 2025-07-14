@@ -11,12 +11,10 @@ public class PredictionRequestValidator : AbstractValidator<PredictionRequest>
     public PredictionRequestValidator()
     {
         this.RuleFor(x => x.PredictionMonths)
-            .NotEmpty()
             .GreaterThanOrEqualTo(1)
             .LessThanOrEqualTo(MONTHS_IN_YEAR * MAX_YEARS_PREDICTION);
 
         this.RuleFor(x => x.InitialBudget)
-            .NotEmpty()
             .GreaterThanOrEqualTo(0);
 
         this.RuleFor(x => x.StartPredictionMonth)
