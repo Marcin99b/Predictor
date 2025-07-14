@@ -47,7 +47,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MapGroup("/api/v1").MapPredictionsV1();
+app.MapGroup("/api/v1").MapPredictionsV1().MapAnalyticsV1();
 app.MapHealthChecks("/hc/ready", new HealthCheckOptions
 {
     Predicate = healthCheck => healthCheck.Tags.Contains("ready")

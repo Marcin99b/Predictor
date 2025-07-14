@@ -11,16 +11,16 @@ public static class EndpointsExtensions
     {
         var predictions = apiV1.MapGroup("/predictions");
 
-        predictions.MapPost("/", (PredictionRequest request, IMediator mediator) 
+        predictions.MapPost("/", (PredictionRequest request, IMediator mediator)
             => mediator.Send(request));
 
-        predictions.MapPut("/{id:guid}", ([FromRoute] Guid id, PredictionRequest request, IMediator mediator) 
+        predictions.MapPut("/{id:guid}", ([FromRoute] Guid id, PredictionRequest request, IMediator mediator)
             => mediator.Send(request with { PutId = id }));
 
-        predictions.MapGet("/example", () 
+        predictions.MapGet("/example", ()
             => ExampleData.CalculateInputExample);
 
-        predictions.MapGet("/{id:guid}", ([FromRoute] Guid id, CacheRepository cache) 
+        predictions.MapGet("/{id:guid}", ([FromRoute] Guid id, CacheRepository cache)
             => Task.FromResult(cache.Get_PredictionResult(id)));
 
         predictions.MapGet("/{id:guid}/summary", ([FromRoute] Guid id, CacheRepository cache)
@@ -28,6 +28,15 @@ public static class EndpointsExtensions
 
         predictions.MapGet("/{id:guid}/months", ([FromRoute] Guid id, CacheRepository cache)
             => Task.FromResult(cache.Get_PredictionResult(id)?.Months));
+
+        return apiV1;
+    }
+
+    public static RouteGroupBuilder MapAnalyticsV1(this RouteGroupBuilder apiV1)
+    {
+        var analytics = apiV1.MapGroup("/analytics");
+
+        analytics.MapPost("/check-goal", (CheckGoalRequest request, IMediator mediator) => mediator.Send(request));
 
         return apiV1;
     }
