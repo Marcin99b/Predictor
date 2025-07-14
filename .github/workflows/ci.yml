@@ -15,6 +15,10 @@ jobs:
   build-and-test:
     name: Build and Test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      checks: write # Required for test reporter
 
     steps:
       - name: Checkout code
@@ -44,32 +48,42 @@ jobs:
           dotnet test src/Predictor.Tests.Integration/Predictor.Tests.Integration.csproj \
             --no-build \
             --configuration Release \
-            --logger trx \
-            --results-directory TestResults \
+            --logger "trx;LogFileName=integration-tests.trx" \
+            --results-directory ./TestResults \
             --collect:"XPlat Code Coverage" \
             --settings src/coverlet.runsettings
+
+      - name: List test results (debug)
+        if: always()
+        run: |
+          echo "Contents of TestResults directory:"
+          ls -la ./TestResults/ || echo "TestResults directory not found"
+          find . -name "*.trx" -type f || echo "No .trx files found"
+          find . -name "*.xml" -type f | grep -i coverage || echo "No coverage files found"
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-results
-          path: TestResults/
+          path: ./TestResults/
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
+        if: always()
         with:
-          file: TestResults/**/coverage.cobertura.xml
+          directory: ./TestResults
           flags: integration-tests
           name: codecov-predictor
-          fail_ci_if_error: true
+          fail_ci_if_error: false
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Publish Test Results
         uses: dorny/test-reporter@v1
-        if: always()
+        if: always() && github.event_name == 'pull_request' # Only on PRs
         with:
           name: Integration Tests
-          path: TestResults/*.trx
+          path: ./TestResults/*.trx
           reporter: dotnet-trx
+          fail-on-error: false # Don't fail the build if test reporter fails
