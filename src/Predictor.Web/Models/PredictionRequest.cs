@@ -12,7 +12,7 @@ public record PredictionRequest(int PredictionMonths, decimal InitialBudget, Mon
         => this.Expenses.Where(x => this.Filter(month, x));
 
     private bool Filter(MonthDate month, PaymentItem item)
-        => item.StartDate == month || item.CheckRecurring(month);
+        => item.Check(month);
 
     internal Guid? PutId { get; set; }
 }

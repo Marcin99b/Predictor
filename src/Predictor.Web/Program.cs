@@ -39,7 +39,12 @@ public class Program
         _ = builder.Services.AddMemoryCache();
         _ = builder.Services.AddSingleton<CacheRepository>();
 
+        builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+        builder.Services.AddProblemDetails();
+
         var app = builder.Build();
+
+        app.UseExceptionHandler();
 
         if (app.Environment.IsDevelopment())
         {

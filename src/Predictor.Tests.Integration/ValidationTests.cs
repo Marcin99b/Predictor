@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
+﻿using System.Net;
+using FluentAssertions;
 using Predictor.Web.Models;
-using System.Net;
 
 namespace Predictor.Tests.Integration;
 

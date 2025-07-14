@@ -2,14 +2,19 @@
 
 public record PaymentItem(string Name, decimal Value, MonthDate StartDate, Frequency Frequency = Frequency.OneTime, MonthDate? EndDate = null)
 {
-    public bool CheckRecurring(MonthDate month)
+    public bool Check(MonthDate month)
     {
+        if (this.EndDate != null && this.EndDate < this.StartDate)
+        {
+            return false;
+        }
+
         if (this.StartDate > month)
         {
             return false;
         }
 
-        if (this.EndDate != null && this.EndDate < month)
+        if (this.EndDate != null && month > this.EndDate)
         {
             return false;
         }
@@ -21,7 +26,7 @@ public record PaymentItem(string Name, decimal Value, MonthDate StartDate, Frequ
 
         if (this.Frequency == Frequency.OneTime)
         {
-            return false; // One-time payments only occur on StartDate
+            return false;
         }
 
         var calculatedMonth = this.StartDate;

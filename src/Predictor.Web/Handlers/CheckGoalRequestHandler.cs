@@ -9,7 +9,11 @@ public class CheckGoalRequestHandler(CacheRepository cache, IValidator<CheckGoal
 {
     public Task<bool> Handle(CheckGoalRequest request, CancellationToken cancellationToken)
     {
-        _ = validator.Validate(request);
+        var validationResult = validator.Validate(request);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.Errors);
+        }
 
         var prediction = cache.Get_PredictionResult(request.PredictionId);
         var month = prediction?.Months?.FirstOrDefault(x => x.MonthDate == request.Month);

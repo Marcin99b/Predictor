@@ -110,7 +110,7 @@ public class SummaryStatisticsTests : BasePredictionTest
             ],
             Expenses = [
                 CreateExpense("Big Expense Month 2", 4000m, month: 2, frequency: Frequency.OneTime),
-                CreateExpense("Regular Expense", 0m, frequency: Frequency.Monthly) // No regular expenses
+                CreateExpense("Regular Expense", 100m, frequency: Frequency.Monthly) // Small but positive expense
             ]
         };
 
@@ -118,15 +118,15 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        // Month 1: Income 2000, Expense 0, Balance +2000
-        // Month 2: Income 1000, Expense 4000, Balance -3000 (LOWEST)
-        // Month 3: Income 4000, Expense 0, Balance +4000 (HIGHEST)
-        // Month 4: Income 1000, Expense 0, Balance +1000
+        // Month 1: Income 2000 (1000+1000), Expense 100, Balance +1900
+        // Month 2: Income 1000, Expense 4100 (4000+100), Balance -3100 (LOWEST)
+        // Month 3: Income 4000 (1000+3000), Expense 100, Balance +3900 (HIGHEST)
+        // Month 4: Income 1000, Expense 100, Balance +900
 
-        _ = result.Summary.LowestBalance.Should().Be(-3000m);
-        _ = result.Summary.HighestBalance.Should().Be(4000m);
-        _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(2, 2025));
-        _ = result.Summary.HighestBalanceDate.Should().Be(new MonthDate(3, 2025));
+        result.Summary.LowestBalance.Should().Be(-3100m);
+        result.Summary.HighestBalance.Should().Be(3900m);
+        result.Summary.LowestBalanceDate.Should().Be(new MonthDate(2, 2025));
+        result.Summary.HighestBalanceDate.Should().Be(new MonthDate(3, 2025));
     }
 
     [Test]

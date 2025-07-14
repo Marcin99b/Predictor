@@ -5,9 +5,15 @@ namespace Predictor.Tests.Integration;
 
 public class BudgetCalculationTests : BasePredictionTest
 {
-    [TestCase(1000, 3000, 2000, 3)]
-    [TestCase(5000, 1000, 1500, 2)]
-    [TestCase(0, 5000, 2000, 2)]
+    public static IEnumerable<object[]> BudgetAccumulationTestCases()
+    {
+        yield return new object[] { 1000m, 3000m, 2000m, 3 };
+        yield return new object[] { 5000m, 1000m, 1500m, 2 };
+        yield return new object[] { 0m, 5000m, 2000m, 2 };
+        yield return new object[] { 2500m, 4200m, 3100m, 4 };
+    }
+
+    [TestCaseSource(nameof(BudgetAccumulationTestCases))]
     public async Task Prediction_ShouldAccumulateBudgetCorrectly(
         decimal initialBudget, decimal income, decimal expense, int months)
     {

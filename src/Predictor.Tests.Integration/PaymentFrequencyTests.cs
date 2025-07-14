@@ -5,10 +5,15 @@ namespace Predictor.Tests.Integration;
 
 public class PaymentFrequencyTests : BasePredictionTest
 {
-    [TestCase(Frequency.Monthly, 4, new[] { 0, 1, 2, 3 })] // Every month
-    [TestCase(Frequency.Quarterly, 7, new[] { 0, 3, 6 })] // Months 1, 4, 7
-    [TestCase(Frequency.SemiAnnually, 13, new[] { 0, 6, 12 })] // Months 1, 7, 13
-    [TestCase(Frequency.Annually, 25, new[] { 0, 12, 24 })] // Months 1, 13, 25
+    public static IEnumerable<object[]> RecurringFrequencyTestCases()
+    {
+        yield return new object[] { Frequency.Monthly, 4, new[] { 0, 1, 2, 3 } };
+        yield return new object[] { Frequency.Quarterly, 7, new[] { 0, 3, 6 } };
+        yield return new object[] { Frequency.SemiAnnually, 13, new[] { 0, 6, 12 } };
+        yield return new object[] { Frequency.Annually, 25, new[] { 0, 12, 24 } };
+    }
+
+    [TestCaseSource(nameof(RecurringFrequencyTestCases))]
     public async Task Prediction_WithRecurringFrequency_ShouldOccurAtCorrectIntervals(
         Frequency frequency, int totalMonths, int[] expectedMonthIndexes)
     {
@@ -19,22 +24,27 @@ public class PaymentFrequencyTests : BasePredictionTest
         };
 
         // Act
-        var result = await GetPredictionResult(request);
+        var result = await this.GetPredictionResult(request);
 
         // Assert
-        for (int i = 0; i < totalMonths; i++)
+        for (var i = 0; i < totalMonths; i++)
         {
             var expectedIncome = expectedMonthIndexes.Contains(i) ? 1000m : 0m;
-            result.Months[i].Income.Should().Be(expectedIncome, $"Month {i + 1} should have income {expectedIncome}");
+            _ = result.Months[i].Income.Should().Be(expectedIncome, $"Month {i + 1} should have income {expectedIncome}");
         }
 
         var expectedTotal = expectedMonthIndexes.Length * 1000m;
-        result.Summary.TotalIncome.Should().Be(expectedTotal);
+        _ = result.Summary.TotalIncome.Should().Be(expectedTotal);
     }
 
-    [TestCase(1, 1)] // One-time in month 1
-    [TestCase(3, 3)] // One-time in month 3  
-    [TestCase(5, 5)] // One-time in month 5
+    public static IEnumerable<object[]> OneTimeFrequencyTestCases()
+    {
+        yield return new object[] { 1, 1 };
+        yield return new object[] { 3, 3 };
+        yield return new object[] { 5, 5 };
+    }
+
+    [TestCaseSource(nameof(OneTimeFrequencyTestCases))]
     public async Task Prediction_WithOneTimeFrequency_ShouldOccurOnlyOnce(
         int targetMonth, int totalMonths)
     {
@@ -45,17 +55,17 @@ public class PaymentFrequencyTests : BasePredictionTest
         };
 
         // Act
-        var result = await GetPredictionResult(request);
+        var result = await this.GetPredictionResult(request);
 
         // Assert
-        for (int i = 0; i < totalMonths; i++)
+        for (var i = 0; i < totalMonths; i++)
         {
-            var expectedIncome = (i + 1) == targetMonth ? 1000m : 0m;
-            result.Months[i].Income.Should().Be(expectedIncome,
+            var expectedIncome = i + 1 == targetMonth ? 1000m : 0m;
+            _ = result.Months[i].Income.Should().Be(expectedIncome,
                 $"Month {i + 1} should have income {expectedIncome}");
         }
 
-        result.Summary.TotalIncome.Should().Be(1000m);
+        _ = result.Summary.TotalIncome.Should().Be(1000m);
     }
 
     [Test]
@@ -69,30 +79,33 @@ public class PaymentFrequencyTests : BasePredictionTest
         };
 
         // Act
-        var result = await GetPredictionResult(request);
+        var result = await this.GetPredictionResult(request);
 
         // Assert
         var expectedIncomes = new decimal[] { 1000m, 1000m, 1000m, 0m, 0m, 0m };
-        result.Months.Select(m => m.Income).Should().Equal(expectedIncomes);
-        result.Summary.TotalIncome.Should().Be(3000m);
+        _ = result.Months.Select(m => m.Income).Should().Equal(expectedIncomes);
+        _ = result.Summary.TotalIncome.Should().Be(3000m);
     }
 
     [Test]
     public async Task Prediction_WithEndDateBeforeStart_ShouldNotOccur()
     {
         // Arrange
-        var endDate = new MonthDate(12, 2024); // Before start date
+        var startDate = new MonthDate(1, 2025); // January 2025
+        var endDate = new MonthDate(12, 2024);  // December 2024 - BEFORE start date
         var request = CreateBasicRequest(3) with
         {
-            Incomes = [CreateIncome("Expired Contract", 1000m, frequency: Frequency.Monthly, endDate: endDate)]
+            Incomes = [CreateIncome("Expired Contract", 1000m, startDate.Month, startDate.Year, Frequency.Monthly, endDate)]
         };
 
         // Act
-        var result = await GetPredictionResult(request);
+        var result = await this.GetPredictionResult(request);
 
         // Assert
-        result.Months.Should().AllSatisfy(m => m.Income.Should().Be(0m));
-        result.Summary.TotalIncome.Should().Be(0m);
+        // Since EndDate (Dec 2024) is before StartDate (Jan 2025), payment should never occur
+        _ = result.Months.Should().AllSatisfy(m => m.Income.Should().Be(0m),
+            "Payment with EndDate before StartDate should never occur");
+        _ = result.Summary.TotalIncome.Should().Be(0m);
     }
 
     [Test]
@@ -105,12 +118,12 @@ public class PaymentFrequencyTests : BasePredictionTest
         };
 
         // Act
-        var result = await GetPredictionResult(request);
+        var result = await this.GetPredictionResult(request);
 
         // Assert
         var expectedIncomes = new decimal[] { 0m, 0m, 1000m, 1000m, 1000m };
-        result.Months.Select(m => m.Income).Should().Equal(expectedIncomes);
-        result.Summary.TotalIncome.Should().Be(3000m);
+        _ = result.Months.Select(m => m.Income).Should().Equal(expectedIncomes);
+        _ = result.Summary.TotalIncome.Should().Be(3000m);
     }
 
     [Test]
@@ -123,20 +136,20 @@ public class PaymentFrequencyTests : BasePredictionTest
         };
 
         // Act
-        var result = await GetPredictionResult(request);
+        var result = await this.GetPredictionResult(request);
 
         // Assert
-        result.Months[0].Income.Should().Be(0m);    // Month 1
-        result.Months[1].Income.Should().Be(3000m); // Month 2
-        result.Months[2].Income.Should().Be(0m);    // Month 3
-        result.Months[3].Income.Should().Be(0m);    // Month 4
-        result.Months[4].Income.Should().Be(3000m); // Month 5
-        result.Months[5].Income.Should().Be(0m);    // Month 6
-        result.Months[6].Income.Should().Be(0m);    // Month 7
-        result.Months[7].Income.Should().Be(3000m); // Month 8
-        result.Months[8].Income.Should().Be(0m);    // Month 9
+        _ = result.Months[0].Income.Should().Be(0m);    // Month 1
+        _ = result.Months[1].Income.Should().Be(3000m); // Month 2
+        _ = result.Months[2].Income.Should().Be(0m);    // Month 3
+        _ = result.Months[3].Income.Should().Be(0m);    // Month 4
+        _ = result.Months[4].Income.Should().Be(3000m); // Month 5
+        _ = result.Months[5].Income.Should().Be(0m);    // Month 6
+        _ = result.Months[6].Income.Should().Be(0m);    // Month 7
+        _ = result.Months[7].Income.Should().Be(3000m); // Month 8
+        _ = result.Months[8].Income.Should().Be(0m);    // Month 9
 
-        result.Summary.TotalIncome.Should().Be(9000m);
+        _ = result.Summary.TotalIncome.Should().Be(9000m);
     }
 
     [Test]
@@ -154,7 +167,7 @@ public class PaymentFrequencyTests : BasePredictionTest
         };
 
         // Act
-        var result = await GetPredictionResult(request);
+        var result = await this.GetPredictionResult(request);
 
         // Assert
         // Monthly: 12 * 3000 = 36000
@@ -163,11 +176,11 @@ public class PaymentFrequencyTests : BasePredictionTest
         // One-time: 1 * 5000 = 5000 (month 6)
         // Total: 59000
 
-        result.Summary.TotalIncome.Should().Be(59000m);
+        _ = result.Summary.TotalIncome.Should().Be(59000m);
 
         // Check specific months
-        result.Months[0].Income.Should().Be(15000m); // Month 1: 3000 + 2000 + 10000
-        result.Months[5].Income.Should().Be(8000m);  // Month 6: 3000 + 5000
-        result.Months[11].Income.Should().Be(3000m); // Month 12: 3000 only
+        _ = result.Months[0].Income.Should().Be(15000m); // Month 1: 3000 + 2000 + 10000
+        _ = result.Months[5].Income.Should().Be(8000m);  // Month 6: 3000 + 5000
+        _ = result.Months[11].Income.Should().Be(3000m); // Month 12: 3000 only
     }
 }

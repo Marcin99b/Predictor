@@ -9,7 +9,11 @@ public class PredictionRequestHandler(IValidator<PredictionRequest> validator, C
 {
     public Task<PredictionResult> Handle(PredictionRequest request, CancellationToken cancellationToken)
     {
-        validator.ValidateAndThrow(request);
+        var validationResult = validator.Validate(request);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.Errors);
+        }
 
         var months = new List<MonthOutput>();
         var budget = request.InitialBudget;
