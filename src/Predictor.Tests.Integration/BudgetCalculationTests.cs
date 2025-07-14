@@ -1,0 +1,110 @@
+﻿using FluentAssertions;
+using Predictor.Web.Models;
+
+namespace Predictor.Tests.Integration;
+
+public class BudgetCalculationTests : BasePredictionTest
+{
+    [TestCase(1000, 3000, 2000, 3, ExpectedResult = new[] { 2000, 3000, 4000 })]
+    [TestCase(5000, 1000, 1500, 2, ExpectedResult = new[] { 4500, 4000 })]
+    [TestCase(0, 5000, 2000, 2, ExpectedResult = new[] { 3000, 6000 })]
+    public async Task<decimal[]> Prediction_ShouldAccumulateBudgetCorrectly(
+        decimal initialBudget, decimal income, decimal expense, int months)
+    {
+        // Arrange
+        var request = CreateBasicRequest(months, initialBudget) with
+        {
+            Incomes = [CreateIncome("Income", income, frequency: Frequency.Monthly)],
+            Expenses = [CreateExpense("Expense", expense, frequency: Frequency.Monthly)]
+        };
+
+        // Act
+        var result = await this.GetPredictionResult(request);
+
+        // Assert
+        return result.Months.Select(m => m.BudgetAfter).ToArray();
+    }
+
+    [Test]
+    public async Task Prediction_WithMultipleSources_ShouldSumCorrectly()
+    {
+        // Arrange
+        var request = CreateBasicRequest(1) with
+        {
+            Incomes = [
+                CreateIncome("Salary", 3000m),
+                CreateIncome("Bonus", 2000m)
+            ],
+            Expenses = [
+                CreateExpense("Rent", 1200m),
+                CreateExpense("Food", 800m)
+            ]
+        };
+
+        // Act
+        var result = await this.GetPredictionResult(request);
+
+        // Assert
+        _ = result.Months[0].Income.Should().Be(5000m);
+        _ = result.Months[0].Expense.Should().Be(2000m);
+        _ = result.Months[0].Balance.Should().Be(3000m);
+    }
+
+    [Test]
+    public async Task Prediction_WithOnlyIncomes_ShouldIncreaseBalance()
+    {
+        // Arrange
+        var request = CreateBasicRequest(2, 1000m) with
+        {
+            Incomes = [CreateIncome("Salary", 2000m, frequency: Frequency.Monthly)],
+            Expenses = []
+        };
+
+        // Act
+        var result = await this.GetPredictionResult(request);
+
+        // Assert
+        _ = result.Months[0].BudgetAfter.Should().Be(3000m); // 1000 + 2000
+        _ = result.Months[1].BudgetAfter.Should().Be(5000m); // 3000 + 2000
+        _ = result.Summary.TotalIncome.Should().Be(4000m);
+        _ = result.Summary.TotalExpenses.Should().Be(0m);
+    }
+
+    [Test]
+    public async Task Prediction_WithOnlyExpenses_ShouldDecreaseBalance()
+    {
+        // Arrange
+        var request = CreateBasicRequest(2, 5000m) with
+        {
+            Incomes = [],
+            Expenses = [CreateExpense("Rent", 1500m, frequency: Frequency.Monthly)]
+        };
+
+        // Act
+        var result = await this.GetPredictionResult(request);
+
+        // Assert
+        _ = result.Months[0].BudgetAfter.Should().Be(3500m); // 5000 - 1500
+        _ = result.Months[1].BudgetAfter.Should().Be(2000m); // 3500 - 1500
+        _ = result.Summary.TotalIncome.Should().Be(0m);
+        _ = result.Summary.TotalExpenses.Should().Be(3000m);
+    }
+
+    [Test]
+    public async Task Prediction_WithZeroInitialBudget_ShouldCalculateCorrectly()
+    {
+        // Arrange
+        var request = CreateBasicRequest(1, 0m) with
+        {
+            Incomes = [CreateIncome("Income", 1000m)],
+            Expenses = [CreateExpense("Expense", 300m)]
+        };
+
+        // Act
+        var result = await this.GetPredictionResult(request);
+
+        // Assert
+        _ = result.Months[0].Balance.Should().Be(700m);
+        _ = result.Months[0].BudgetAfter.Should().Be(700m);
+    }
+}
