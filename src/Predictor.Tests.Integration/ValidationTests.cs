@@ -1,6 +1,6 @@
-﻿using System.Net;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Predictor.Web.Models;
+using System.Net;
 
 namespace Predictor.Tests.Integration;
 
@@ -8,9 +8,9 @@ public class ValidationTests : BasePredictionTest
 {
     [TestCase(0, HttpStatusCode.BadRequest)]
     [TestCase(-1, HttpStatusCode.BadRequest)]
-    [TestCase(121, HttpStatusCode.BadRequest)] // More than 10 years
+    [TestCase(121, HttpStatusCode.BadRequest)]
     [TestCase(1, HttpStatusCode.OK)]
-    [TestCase(120, HttpStatusCode.OK)] // Exactly 10 years
+    [TestCase(120, HttpStatusCode.OK)]
     public async Task Prediction_WithPredictionMonths_ShouldValidateCorrectly(int months, HttpStatusCode expectedStatus)
     {
         // Arrange
@@ -35,9 +35,9 @@ public class ValidationTests : BasePredictionTest
         _ = status.Should().Be(expectedStatus);
     }
 
-    [TestCase(0, HttpStatusCode.BadRequest)] // Invalid month
-    [TestCase(13, HttpStatusCode.BadRequest)] // Invalid month
-    [TestCase(-1, HttpStatusCode.BadRequest)] // Invalid month
+    [TestCase(0, HttpStatusCode.BadRequest)]
+    [TestCase(13, HttpStatusCode.BadRequest)]
+    [TestCase(-1, HttpStatusCode.BadRequest)]
     [TestCase(1, HttpStatusCode.OK)]
     [TestCase(12, HttpStatusCode.OK)]
     public async Task Prediction_WithStartMonthDate_ShouldValidateCorrectly(int month, HttpStatusCode expectedStatus)
@@ -53,8 +53,8 @@ public class ValidationTests : BasePredictionTest
         _ = status.Should().Be(expectedStatus);
     }
 
-    [TestCase(1899, HttpStatusCode.BadRequest)] // Too early year
-    [TestCase(3000, HttpStatusCode.BadRequest)] // Too late year
+    [TestCase(1899, HttpStatusCode.BadRequest)]
+    [TestCase(3000, HttpStatusCode.BadRequest)]
     [TestCase(1900, HttpStatusCode.OK)]
     [TestCase(2999, HttpStatusCode.OK)]
     [TestCase(2025, HttpStatusCode.OK)]
@@ -71,9 +71,9 @@ public class ValidationTests : BasePredictionTest
         _ = status.Should().Be(expectedStatus);
     }
 
-    [TestCase("", HttpStatusCode.BadRequest)] // Empty name
-    [TestCase("ab", HttpStatusCode.BadRequest)] // Too short (less than 3)
-    [TestCase("abc", HttpStatusCode.OK)] // Minimum valid length
+    [TestCase("", HttpStatusCode.BadRequest)]
+    [TestCase("ab", HttpStatusCode.BadRequest)]
+    [TestCase("abc", HttpStatusCode.OK)]
     [TestCase("Valid Payment Name", HttpStatusCode.OK)]
     public async Task Prediction_WithIncomeItemName_ShouldValidateCorrectly(string name, HttpStatusCode expectedStatus)
     {
@@ -88,9 +88,9 @@ public class ValidationTests : BasePredictionTest
         _ = status.Should().Be(expectedStatus);
     }
 
-    [TestCase("", HttpStatusCode.BadRequest)] // Empty name
-    [TestCase("ab", HttpStatusCode.BadRequest)] // Too short
-    [TestCase("abc", HttpStatusCode.OK)] // Minimum valid length
+    [TestCase("", HttpStatusCode.BadRequest)]
+    [TestCase("ab", HttpStatusCode.BadRequest)]
+    [TestCase("abc", HttpStatusCode.OK)]
     public async Task Prediction_WithExpenseItemName_ShouldValidateCorrectly(string name, HttpStatusCode expectedStatus)
     {
         // Arrange
@@ -139,8 +139,8 @@ public class ValidationTests : BasePredictionTest
         _ = status.Should().Be(expectedStatus);
     }
 
-    [TestCase(0, HttpStatusCode.BadRequest)] // Invalid month in payment item
-    [TestCase(13, HttpStatusCode.BadRequest)] // Invalid month in payment item
+    [TestCase(0, HttpStatusCode.BadRequest)]
+    [TestCase(13, HttpStatusCode.BadRequest)]
     [TestCase(1, HttpStatusCode.OK)]
     [TestCase(12, HttpStatusCode.OK)]
     public async Task Prediction_WithPaymentItemStartDate_ShouldValidateCorrectly(int month, HttpStatusCode expectedStatus)
@@ -156,8 +156,8 @@ public class ValidationTests : BasePredictionTest
         _ = status.Should().Be(expectedStatus);
     }
 
-    [TestCase(1899, HttpStatusCode.BadRequest)] // Invalid year in payment item
-    [TestCase(3000, HttpStatusCode.BadRequest)] // Invalid year in payment item
+    [TestCase(1899, HttpStatusCode.BadRequest)]
+    [TestCase(3000, HttpStatusCode.BadRequest)]
     [TestCase(1900, HttpStatusCode.OK)]
     [TestCase(2999, HttpStatusCode.OK)]
     public async Task Prediction_WithPaymentItemStartYear_ShouldValidateCorrectly(int year, HttpStatusCode expectedStatus)
@@ -187,8 +187,8 @@ public class ValidationTests : BasePredictionTest
         _ = status.Should().Be(HttpStatusCode.OK);
     }
 
-    [TestCase(0, HttpStatusCode.BadRequest)] // Invalid month in end date
-    [TestCase(13, HttpStatusCode.BadRequest)] // Invalid month in end date
+    [TestCase(0, HttpStatusCode.BadRequest)]
+    [TestCase(13, HttpStatusCode.BadRequest)]
     public async Task Prediction_WithInvalidEndDate_ShouldReturnBadRequest(int month, HttpStatusCode expectedStatus)
     {
         // Arrange
@@ -217,7 +217,7 @@ public class ValidationTests : BasePredictionTest
     public async Task Prediction_WithVeryLongPaymentName_ShouldReturnBadRequest()
     {
         // Arrange
-        var longName = new string('a', 101); // More than 100 characters
+        var longName = new string('a', 101);
         var request = CreateBasicRequest() with
         {
             Incomes = [CreateIncome(longName, 1000m)]
@@ -232,7 +232,7 @@ public class ValidationTests : BasePredictionTest
     public async Task Prediction_WithMaxValidPaymentName_ShouldReturnOk()
     {
         // Arrange
-        var maxName = new string('a', 100); // Exactly 100 characters
+        var maxName = new string('a', 100);
         var request = CreateBasicRequest() with
         {
             Incomes = [CreateIncome(maxName, 1000m)]

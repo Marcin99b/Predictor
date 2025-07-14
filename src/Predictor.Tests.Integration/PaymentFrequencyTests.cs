@@ -91,8 +91,8 @@ public class PaymentFrequencyTests : BasePredictionTest
     public async Task Prediction_WithEndDateBeforeStart_ShouldNotOccur()
     {
         // Arrange
-        var startDate = new MonthDate(1, 2025); // January 2025
-        var endDate = new MonthDate(12, 2024);  // December 2024 - BEFORE start date
+        var startDate = new MonthDate(1, 2025);
+        var endDate = new MonthDate(12, 2024);
         var request = CreateBasicRequest(3) with
         {
             Incomes = [CreateIncome("Expired Contract", 1000m, startDate.Month, startDate.Year, Frequency.Monthly, endDate)]
@@ -102,9 +102,8 @@ public class PaymentFrequencyTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        // Since EndDate (Dec 2024) is before StartDate (Jan 2025), payment should never occur
         _ = result.Months.Should().AllSatisfy(m => m.Income.Should().Be(0m),
-            "Payment with EndDate before StartDate should never occur");
+    "Payment with EndDate before StartDate should never occur");
         _ = result.Summary.TotalIncome.Should().Be(0m);
     }
 
@@ -139,16 +138,15 @@ public class PaymentFrequencyTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        _ = result.Months[0].Income.Should().Be(0m);    // Month 1
-        _ = result.Months[1].Income.Should().Be(3000m); // Month 2
-        _ = result.Months[2].Income.Should().Be(0m);    // Month 3
-        _ = result.Months[3].Income.Should().Be(0m);    // Month 4
-        _ = result.Months[4].Income.Should().Be(3000m); // Month 5
-        _ = result.Months[5].Income.Should().Be(0m);    // Month 6
-        _ = result.Months[6].Income.Should().Be(0m);    // Month 7
-        _ = result.Months[7].Income.Should().Be(3000m); // Month 8
-        _ = result.Months[8].Income.Should().Be(0m);    // Month 9
-
+        _ = result.Months[0].Income.Should().Be(0m);
+        _ = result.Months[1].Income.Should().Be(3000m);
+        _ = result.Months[2].Income.Should().Be(0m);
+        _ = result.Months[3].Income.Should().Be(0m);
+        _ = result.Months[4].Income.Should().Be(3000m);
+        _ = result.Months[5].Income.Should().Be(0m);
+        _ = result.Months[6].Income.Should().Be(0m);
+        _ = result.Months[7].Income.Should().Be(3000m);
+        _ = result.Months[8].Income.Should().Be(0m);
         _ = result.Summary.TotalIncome.Should().Be(9000m);
     }
 
@@ -170,17 +168,11 @@ public class PaymentFrequencyTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        // Monthly: 12 * 3000 = 36000
-        // Quarterly: 4 * 2000 = 8000 (months 1, 4, 7, 10)
-        // Annual: 1 * 10000 = 10000 (month 1)
-        // One-time: 1 * 5000 = 5000 (month 6)
-        // Total: 59000
 
         _ = result.Summary.TotalIncome.Should().Be(59000m);
 
-        // Check specific months
-        _ = result.Months[0].Income.Should().Be(15000m); // Month 1: 3000 + 2000 + 10000
-        _ = result.Months[5].Income.Should().Be(8000m);  // Month 6: 3000 + 5000
-        _ = result.Months[11].Income.Should().Be(3000m); // Month 12: 3000 only
+        _ = result.Months[0].Income.Should().Be(15000m);
+        _ = result.Months[5].Income.Should().Be(8000m);
+        _ = result.Months[11].Income.Should().Be(3000m);
     }
 }

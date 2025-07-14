@@ -25,8 +25,8 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        _ = result.Summary.TotalIncome.Should().Be(14000m); // 3*3000 + 5000
-        _ = result.Summary.TotalExpenses.Should().Be(7000m); // 4000 + 3*1000
+        _ = result.Summary.TotalIncome.Should().Be(14000m);
+        _ = result.Summary.TotalExpenses.Should().Be(7000m);
         _ = result.Summary.LowestBalance.Should().Be(-2000m);
         _ = result.Summary.HighestBalance.Should().Be(7000m);
         _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025));
@@ -67,8 +67,8 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        _ = result.Summary.LowestBalance.Should().Be(1000m); // Always positive and growing
-        _ = result.Summary.HighestBalance.Should().Be(1000m); // Same balance each month
+        _ = result.Summary.LowestBalance.Should().Be(1000m);
+        _ = result.Summary.HighestBalance.Should().Be(1000m);
         _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025));
         _ = result.Summary.HighestBalanceDate.Should().Be(new MonthDate(1, 2025));
     }
@@ -87,9 +87,6 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        // Month 1: Balance -1500, Budget 3500
-        // Month 2: Balance -1500, Budget 2000
-        // Month 3: Balance -1500, Budget 500
 
         _ = result.Summary.LowestBalance.Should().Be(-1500m);
         _ = result.Summary.HighestBalance.Should().Be(-1500m);
@@ -110,23 +107,18 @@ public class SummaryStatisticsTests : BasePredictionTest
             ],
             Expenses = [
                 CreateExpense("Big Expense Month 2", 4000m, month: 2, frequency: Frequency.OneTime),
-                CreateExpense("Regular Expense", 100m, frequency: Frequency.Monthly) // Small but positive expense
-            ]
+                CreateExpense("Regular Expense", 100m, frequency: Frequency.Monthly)             ]
         };
 
         // Act
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        // Month 1: Income 2000 (1000+1000), Expense 100, Balance +1900
-        // Month 2: Income 1000, Expense 4100 (4000+100), Balance -3100 (LOWEST)
-        // Month 3: Income 4000 (1000+3000), Expense 100, Balance +3900 (HIGHEST)
-        // Month 4: Income 1000, Expense 100, Balance +900
 
-        result.Summary.LowestBalance.Should().Be(-3100m);
-        result.Summary.HighestBalance.Should().Be(3900m);
-        result.Summary.LowestBalanceDate.Should().Be(new MonthDate(2, 2025));
-        result.Summary.HighestBalanceDate.Should().Be(new MonthDate(3, 2025));
+        _ = result.Summary.LowestBalance.Should().Be(-3100m);
+        _ = result.Summary.HighestBalance.Should().Be(3900m);
+        _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(2, 2025));
+        _ = result.Summary.HighestBalanceDate.Should().Be(new MonthDate(3, 2025));
     }
 
     [Test]
@@ -143,7 +135,7 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        _ = result.Summary.StartingBalance.Should().Be(1200m); // 2000 - 800
+        _ = result.Summary.StartingBalance.Should().Be(1200m);
         _ = result.Summary.EndingBalance.Should().Be(1200m);
         _ = result.Summary.LowestBalance.Should().Be(1200m);
         _ = result.Summary.HighestBalance.Should().Be(1200m);
@@ -187,8 +179,8 @@ public class SummaryStatisticsTests : BasePredictionTest
         // Assert - When multiple months have the same balance, should return the first occurrence
         _ = result.Summary.LowestBalance.Should().Be(0m);
         _ = result.Summary.HighestBalance.Should().Be(0m);
-        _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025)); // First month
-        _ = result.Summary.HighestBalanceDate.Should().Be(new MonthDate(1, 2025)); // First month
+        _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025));
+        _ = result.Summary.HighestBalanceDate.Should().Be(new MonthDate(1, 2025));
     }
 
     [Test]
@@ -207,10 +199,10 @@ public class SummaryStatisticsTests : BasePredictionTest
         // Assert
         _ = result.Summary.TotalIncome.Should().Be(1_000_000m);
         _ = result.Summary.TotalExpenses.Should().Be(600_000m);
-        _ = result.Summary.StartingBalance.Should().Be(200_000m); // 500k - 300k
+        _ = result.Summary.StartingBalance.Should().Be(200_000m);
         _ = result.Summary.EndingBalance.Should().Be(200_000m);
-        _ = result.Months[0].BudgetAfter.Should().Be(1_200_000m); // 1M + 200k
-        _ = result.Months[1].BudgetAfter.Should().Be(1_400_000m); // 1.2M + 200k
+        _ = result.Months[0].BudgetAfter.Should().Be(1_200_000m);
+        _ = result.Months[1].BudgetAfter.Should().Be(1_400_000m);
     }
 
     [Test]
@@ -229,8 +221,8 @@ public class SummaryStatisticsTests : BasePredictionTest
         // Assert
         _ = result.Summary.TotalIncome.Should().Be(1234.67m);
         _ = result.Summary.TotalExpenses.Should().Be(567.89m);
-        _ = result.Summary.StartingBalance.Should().Be(666.78m); // 1234.67 - 567.89
+        _ = result.Summary.StartingBalance.Should().Be(666.78m);
         _ = result.Summary.EndingBalance.Should().Be(666.78m);
-        _ = result.Months[0].BudgetAfter.Should().Be(767.28m); // 100.50 + 666.78
+        _ = result.Months[0].BudgetAfter.Should().Be(767.28m);
     }
 }

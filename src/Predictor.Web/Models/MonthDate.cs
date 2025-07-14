@@ -5,15 +5,17 @@ public record MonthDate(int Month, int Year)
     public static MonthDate Now => new(DateTime.Now.Month, DateTime.Now.Year);
     public MonthDate AddMonths(int months)
     {
-        var month = this.Month + months;
-        var year = this.Year;
-        while (month > 12)
+        if (months <= 0)
         {
-            month -= 12;
-            year++;
+            throw new ArgumentOutOfRangeException(nameof(months), "Months to add must be greater than zero.");
         }
 
-        return new MonthDate(month, year);
+        var totalMonths = this.Year * 12 + this.Month - 1 + months;
+
+        var newYear = totalMonths / 12;
+        var newMonth = totalMonths % 12 + 1;
+
+        return new MonthDate(newMonth, newYear);
     }
 
     public static bool operator <(MonthDate a, MonthDate b) => a.Year < b.Year || a.Year <= b.Year && a.Month < b.Month;

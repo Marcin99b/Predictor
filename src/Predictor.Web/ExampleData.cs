@@ -9,16 +9,14 @@ public static class ExampleData
         InitialBudget: 48_750,
         StartPredictionMonth: MonthDate.Now,
         Incomes: [
-            // Infinite recurring income (no EndDate)
-            new("Primary Salary", 5_400, MonthDate.Now, Frequency.Monthly),
+                        new("Primary Salary", 5_400, MonthDate.Now, Frequency.Monthly),
             new("Spouse Salary", 4_100, MonthDate.Now, Frequency.Monthly),
             new("Rental Property A", 1_500, MonthDate.Now, Frequency.Monthly),
             new("Rental Property B", 1_100, MonthDate.Now.AddMonths(3), Frequency.Monthly),
             new("Investment Dividends", 320, MonthDate.Now.AddMonths(1), Frequency.Quarterly),
             new("Side Business", 850, MonthDate.Now.AddMonths(2), Frequency.Monthly),
 
-            // Finite recurring income (with EndDate)
-            new("Contract Work", 2_200, MonthDate.Now, Frequency.Monthly, MonthDate.Now.AddMonths(18)),
+                        new("Contract Work", 2_200, MonthDate.Now, Frequency.Monthly, MonthDate.Now.AddMonths(18)),
             new("Consulting Retainer", 1_800, MonthDate.Now.AddMonths(1), Frequency.Monthly, MonthDate.Now.AddMonths(24)),
             new("Freelance Project", 1_200, MonthDate.Now.AddMonths(2), Frequency.Quarterly, MonthDate.Now.AddMonths(14)),
             new("Teaching Position", 900, MonthDate.Now.AddMonths(1), Frequency.Monthly, MonthDate.Now.AddMonths(10)),
@@ -29,8 +27,7 @@ public static class ExampleData
             new("Royalty Income", 450, MonthDate.Now.AddMonths(1), Frequency.Quarterly, MonthDate.Now.AddMonths(25)),
             new("Rental Income C", 900, MonthDate.Now.AddMonths(12), Frequency.Monthly, MonthDate.Now.AddMonths(36)),
 
-            // One-time income
-            new("Tax Refund", 3_200, MonthDate.Now.AddMonths(4)),
+                        new("Tax Refund", 3_200, MonthDate.Now.AddMonths(4)),
             new("Insurance Settlement", 8_500, MonthDate.Now.AddMonths(7)),
             new("Inheritance", 22_000, MonthDate.Now.AddMonths(11)),
             new("Asset Sale", 15_000, MonthDate.Now.AddMonths(16)),
@@ -40,8 +37,7 @@ public static class ExampleData
             new("Stock Options", 18_000, MonthDate.Now.AddMonths(35)),
         ],
         Expenses: [
-            // Infinite recurring expenses (no EndDate)
-            new("Primary Mortgage", 2_300, MonthDate.Now, Frequency.Monthly),
+                        new("Primary Mortgage", 2_300, MonthDate.Now, Frequency.Monthly),
             new("Property Tax", 520, MonthDate.Now, Frequency.Monthly),
             new("Home Insurance", 280, MonthDate.Now, Frequency.Monthly),
             new("Car Insurance", 190, MonthDate.Now, Frequency.Monthly),
@@ -62,8 +58,7 @@ public static class ExampleData
             new("IRA", 650, MonthDate.Now, Frequency.Monthly),
             new("Investment Account", 1_200, MonthDate.Now, Frequency.Monthly),
 
-            // Finite recurring expenses (with EndDate)
-            new("Student Loan 1", 480, MonthDate.Now, Frequency.Monthly, MonthDate.Now.AddMonths(48)),
+                        new("Student Loan 1", 480, MonthDate.Now, Frequency.Monthly, MonthDate.Now.AddMonths(48)),
             new("Student Loan 2", 320, MonthDate.Now, Frequency.Monthly, MonthDate.Now.AddMonths(36)),
             new("Car Payment 1", 580, MonthDate.Now, Frequency.Monthly, MonthDate.Now.AddMonths(42)),
             new("Car Payment 2", 420, MonthDate.Now.AddMonths(6), Frequency.Monthly, MonthDate.Now.AddMonths(54)),
@@ -82,23 +77,20 @@ public static class ExampleData
             new("Software Subscription", 95, MonthDate.Now, Frequency.Monthly, MonthDate.Now.AddMonths(12)),
             new("Professional Membership", 75, MonthDate.Now, Frequency.Monthly, MonthDate.Now.AddMonths(24)),
 
-            // Quarterly expenses with EndDate
-            new("Property Management", 180, MonthDate.Now.AddMonths(1), Frequency.Quarterly, MonthDate.Now.AddMonths(36)),
+                        new("Property Management", 180, MonthDate.Now.AddMonths(1), Frequency.Quarterly, MonthDate.Now.AddMonths(36)),
             new("Lawn Service", 220, MonthDate.Now.AddMonths(2), Frequency.Quarterly, MonthDate.Now.AddMonths(30)),
             new("Pest Control", 140, MonthDate.Now, Frequency.Quarterly, MonthDate.Now.AddMonths(24)),
             new("HVAC Maintenance", 300, MonthDate.Now.AddMonths(3), Frequency.Quarterly, MonthDate.Now.AddMonths(48)),
             new("Pool Maintenance", 180, MonthDate.Now.AddMonths(1), Frequency.Quarterly, MonthDate.Now.AddMonths(21)),
 
-            // Semi-annual expenses with EndDate
-            new("Car Maintenance", 650, MonthDate.Now.AddMonths(3), Frequency.SemiAnnually, MonthDate.Now.AddMonths(42)),
+                        new("Car Maintenance", 650, MonthDate.Now.AddMonths(3), Frequency.SemiAnnually, MonthDate.Now.AddMonths(42)),
             new("Home Maintenance", 1_200, MonthDate.Now.AddMonths(2), Frequency.SemiAnnually, MonthDate.Now.AddMonths(60)),
             new("Medical Checkups", 800, MonthDate.Now.AddMonths(4), Frequency.SemiAnnually, MonthDate.Now.AddMonths(48)),
             new("Dental Work", 450, MonthDate.Now.AddMonths(1), Frequency.SemiAnnually, MonthDate.Now.AddMonths(36)),
             new("Eye Exams", 280, MonthDate.Now.AddMonths(5), Frequency.SemiAnnually, MonthDate.Now.AddMonths(30)),
             new("Veterinary Care", 350, MonthDate.Now.AddMonths(2), Frequency.SemiAnnually, MonthDate.Now.AddMonths(54)),
 
-            // Annual expenses with EndDate
-            new("Vacation Fund", 4_500, MonthDate.Now.AddMonths(6), Frequency.Annually, MonthDate.Now.AddMonths(60)),
+                        new("Vacation Fund", 4_500, MonthDate.Now.AddMonths(6), Frequency.Annually, MonthDate.Now.AddMonths(60)),
             new("Holiday Gifts", 1_500, MonthDate.Now.AddMonths(11), Frequency.Annually, MonthDate.Now.AddMonths(48)),
             new("Tax Preparation", 450, MonthDate.Now.AddMonths(3), Frequency.Annually, MonthDate.Now.AddMonths(36)),
             new("Insurance Premium", 950, MonthDate.Now.AddMonths(8), Frequency.Annually, MonthDate.Now.AddMonths(72)),
@@ -106,8 +98,7 @@ public static class ExampleData
             new("Charity Donation", 1_200, MonthDate.Now.AddMonths(10), Frequency.Annually, MonthDate.Now.AddMonths(84)),
             new("Home Warranty", 600, MonthDate.Now.AddMonths(7), Frequency.Annually, MonthDate.Now.AddMonths(36)),
 
-            // One-time expenses
-            new("Emergency Car Repair", 1_800, MonthDate.Now.AddMonths(2)),
+                        new("Emergency Car Repair", 1_800, MonthDate.Now.AddMonths(2)),
             new("Appliance Replacement", 2_400, MonthDate.Now.AddMonths(5)),
             new("Wedding Gift", 750, MonthDate.Now.AddMonths(8)),
             new("Computer Upgrade", 3_200, MonthDate.Now.AddMonths(10)),

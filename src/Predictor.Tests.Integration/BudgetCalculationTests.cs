@@ -79,8 +79,8 @@ public class BudgetCalculationTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        _ = result.Months[0].BudgetAfter.Should().Be(3000m); // 1000 + 2000
-        _ = result.Months[1].BudgetAfter.Should().Be(5000m); // 3000 + 2000
+        _ = result.Months[0].BudgetAfter.Should().Be(3000m);
+        _ = result.Months[1].BudgetAfter.Should().Be(5000m);
         _ = result.Summary.TotalIncome.Should().Be(4000m);
         _ = result.Summary.TotalExpenses.Should().Be(0m);
     }
@@ -99,8 +99,8 @@ public class BudgetCalculationTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        _ = result.Months[0].BudgetAfter.Should().Be(3500m); // 5000 - 1500
-        _ = result.Months[1].BudgetAfter.Should().Be(2000m); // 3500 - 1500
+        _ = result.Months[0].BudgetAfter.Should().Be(3500m);
+        _ = result.Months[1].BudgetAfter.Should().Be(2000m);
         _ = result.Summary.TotalIncome.Should().Be(0m);
         _ = result.Summary.TotalExpenses.Should().Be(3000m);
     }
