@@ -1,0 +1,75 @@
+name: CI - Build and Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  DOTNET_VERSION: "8.0.x"
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore src/Predictor.sln
+
+      - name: Build solution
+        run: dotnet build src/Predictor.sln --no-restore --configuration Release
+
+      - name: Run Integration Tests with Coverage
+        run: |
+          dotnet test src/Predictor.Tests.Integration/Predictor.Tests.Integration.csproj \
+            --no-build \
+            --configuration Release \
+            --logger trx \
+            --results-directory TestResults \
+            --collect:"XPlat Code Coverage" \
+            --settings src/coverlet.runsettings
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: TestResults/
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: TestResults/**/coverage.cobertura.xml
+          flags: integration-tests
+          name: codecov-predictor
+          fail_ci_if_error: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Publish Test Results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Integration Tests
+          path: TestResults/*.trx
+          reporter: dotnet-trx

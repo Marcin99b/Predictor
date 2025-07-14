@@ -1,0 +1,52 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1" # Weekly on Monday at 6 AM UTC
+
+env:
+  DOTNET_VERSION: "8.0.x"
+
+jobs:
+  security-scan:
+    name: Security Vulnerability Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore src/Predictor.sln
+
+      - name: Security audit
+        run: dotnet list src/Predictor.sln package --vulnerable --include-transitive
+
+      - name: Install security scan tools
+        run: |
+          dotnet tool install --global security-scan
+
+      - name: Run security scan
+        run: security-scan src/Predictor.sln --excl-proj=**/*Tests* --excl-proj=**/*Test*
+        continue-on-error: true
+
+      # CodeQL analysis
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+
+      - name: Build for CodeQL
+        run: dotnet build src/Predictor.sln --configuration Release
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3

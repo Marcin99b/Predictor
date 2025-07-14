@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>cobertura</Format>
+          <Exclude>[*]Predictor.Web.Program,[*]*.Migrations.*,[*]*.GlobalUsings,[*]*Startup*</Exclude>
+          <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+          <ExcludeByFile>**/Migrations/**/*.cs,**/Program.cs,**/Startup.cs</ExcludeByFile>
+          <IncludeDirectory>src/Predictor.Web</IncludeDirectory>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
