@@ -28,7 +28,7 @@ public class BusinessScenariosTests : BasePredictionTest
             .FirstOrDefault(x => x.BudgetAfter >= targetAmount);
 
         _ = monthsToReachGoal.Should().NotBeNull();
-        monthsToReachGoal!.Month.Should().BeLessThanOrEqualTo(24); // Should reach goal within 24 months
+        _ = monthsToReachGoal!.Month.Should().BeLessThanOrEqualTo(24); // Should reach goal within 24 months
 
         // Monthly net savings: 6000 - 4000 - 1500 = 500
         // With 10k initial: need 40k more = 80 months theoretically, but we save 1500 separately

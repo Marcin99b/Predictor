@@ -7,23 +7,17 @@ public class CheckGoalRequestValidator : AbstractValidator<CheckGoalRequest>
 {
     public CheckGoalRequestValidator()
     {
-        this.RuleFor(x => x.Month)
+        _ = this.RuleFor(x => x.Month)
             .NotNull()
             .SetValidator(new MonthDateValidator());
 
-        this.RuleFor(x => x.PredictionId)
+        _ = this.RuleFor(x => x.PredictionId)
             .NotEmpty();
 
-        this.When(x => x.IncomeHigherOrEqual.HasValue, () =>
-        {
-            this.RuleFor(x => x.IncomeHigherOrEqual!.Value)
-                .GreaterThanOrEqualTo(0);
-        });
+        _ = this.When(x => x.IncomeHigherOrEqual.HasValue, () => this.RuleFor(x => x.IncomeHigherOrEqual!.Value)
+                .GreaterThanOrEqualTo(0));
 
-        this.When(x => x.ExpenseLowerOrEqual.HasValue, () =>
-        {
-            this.RuleFor(x => x.ExpenseLowerOrEqual!.Value)
-                .GreaterThanOrEqualTo(0);
-        });
+        _ = this.When(x => x.ExpenseLowerOrEqual.HasValue, () => this.RuleFor(x => x.ExpenseLowerOrEqual!.Value)
+                .GreaterThanOrEqualTo(0));
     }
 }

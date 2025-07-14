@@ -13,9 +13,9 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(c =>
+        _ = builder.Services.AddControllers();
+        _ = builder.Services.AddEndpointsApiExplorer();
+        _ = builder.Services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo
             {
@@ -32,32 +32,32 @@ public class Program
         });
 
         var assembly = typeof(Program).Assembly;
-        builder.Services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
-        builder.Services.AddHealthChecks();
+        _ = builder.Services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
+        _ = builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
+        _ = builder.Services.AddHealthChecks();
 
-        builder.Services.AddMemoryCache();
-        builder.Services.AddSingleton<CacheRepository>();
+        _ = builder.Services.AddMemoryCache();
+        _ = builder.Services.AddSingleton<CacheRepository>();
 
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            _ = app.UseSwagger();
+            _ = app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
-        app.UseAuthorization();
-        app.MapControllers();
+        _ = app.UseHttpsRedirection();
+        _ = app.UseAuthorization();
+        _ = app.MapControllers();
 
-        app.MapGroup("/api/v1").MapPredictionsV1().MapAnalyticsV1();
-        app.MapHealthChecks("/hc/ready", new HealthCheckOptions
+        _ = app.MapGroup("/api/v1").MapPredictionsV1().MapAnalyticsV1();
+        _ = app.MapHealthChecks("/hc/ready", new HealthCheckOptions
         {
             Predicate = healthCheck => healthCheck.Tags.Contains("ready")
         });
 
-        app.MapHealthChecks("/hc/live", new HealthCheckOptions
+        _ = app.MapHealthChecks("/hc/live", new HealthCheckOptions
         {
             Predicate = _ => false
         });

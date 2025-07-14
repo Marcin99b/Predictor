@@ -5,10 +5,10 @@ namespace Predictor.Tests.Integration;
 
 public class BudgetCalculationTests : BasePredictionTest
 {
-    [TestCase(1000, 3000, 2000, 3, ExpectedResult = new[] { 2000, 3000, 4000 })]
-    [TestCase(5000, 1000, 1500, 2, ExpectedResult = new[] { 4500, 4000 })]
-    [TestCase(0, 5000, 2000, 2, ExpectedResult = new[] { 3000, 6000 })]
-    public async Task<decimal[]> Prediction_ShouldAccumulateBudgetCorrectly(
+    [TestCase(1000, 3000, 2000, 3)]
+    [TestCase(5000, 1000, 1500, 2)]
+    [TestCase(0, 5000, 2000, 2)]
+    public async Task Prediction_ShouldAccumulateBudgetCorrectly(
         decimal initialBudget, decimal income, decimal expense, int months)
     {
         // Arrange
@@ -22,7 +22,16 @@ public class BudgetCalculationTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        return result.Months.Select(m => m.BudgetAfter).ToArray();
+        var monthlyBalance = income - expense;
+        for (var i = 0; i < months; i++)
+        {
+            var expectedBudget = initialBudget + monthlyBalance * (i + 1);
+            _ = result.Months[i].BudgetAfter.Should().Be(expectedBudget,
+                $"Month {i + 1} should have budget {expectedBudget}");
+        }
+
+        _ = result.Summary.TotalIncome.Should().Be(income * months);
+        _ = result.Summary.TotalExpenses.Should().Be(expense * months);
     }
 
     [Test]

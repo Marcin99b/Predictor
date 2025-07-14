@@ -30,7 +30,7 @@ public abstract class BasePredictionTest
     protected async Task<PredictionResult> GetPredictionResult(PredictionRequest request)
     {
         var response = await this.client.PostAsJsonAsync(this.baseUrl, request);
-        response.EnsureSuccessStatusCode();
+        _ = response.EnsureSuccessStatusCode();
         return (await response.Content.ReadFromJsonAsync<PredictionResult>())!;
     }
 

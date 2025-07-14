@@ -16,35 +16,9 @@ public record MonthDate(int Month, int Year)
         return new MonthDate(month, year);
     }
 
-    public static bool operator <(MonthDate a, MonthDate b)
-    {
-        if (a.Year < b.Year)
-        {
-            return true;
-        }
+    public static bool operator <(MonthDate a, MonthDate b) => a.Year < b.Year || a.Year <= b.Year && a.Month < b.Month;
 
-        if (a.Year > b.Year)
-        {
-            return false;
-        }
-
-        return a.Month < b.Month;
-    }
-
-    public static bool operator >(MonthDate a, MonthDate b)
-    {
-        if (a.Year > b.Year)
-        {
-            return true;
-        }
-
-        if (a.Year < b.Year)
-        {
-            return false;
-        }
-
-        return a.Month > b.Month;
-    }
+    public static bool operator >(MonthDate a, MonthDate b) => a.Year > b.Year || a.Year >= b.Year && a.Month > b.Month;
 
     public static IEnumerable<MonthDate> Range(MonthDate from, int monthsCount)
     {

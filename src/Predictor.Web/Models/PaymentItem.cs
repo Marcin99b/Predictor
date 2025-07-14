@@ -19,7 +19,7 @@ public record PaymentItem(string Name, decimal Value, MonthDate StartDate, Frequ
             return true;
         }
 
-        if (this.Frequency == Frequency.OneTime) 
+        if (this.Frequency == Frequency.OneTime)
         {
             return false; // One-time payments only occur on StartDate
         }

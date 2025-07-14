@@ -25,12 +25,12 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        result.Summary.TotalIncome.Should().Be(14000m); // 3*3000 + 5000
-        result.Summary.TotalExpenses.Should().Be(7000m); // 4000 + 3*1000
-        result.Summary.LowestBalance.Should().Be(-2000m);
-        result.Summary.HighestBalance.Should().Be(7000m);
-        result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025));
-        result.Summary.HighestBalanceDate.Should().Be(new MonthDate(2, 2025));
+        _ = result.Summary.TotalIncome.Should().Be(14000m); // 3*3000 + 5000
+        _ = result.Summary.TotalExpenses.Should().Be(7000m); // 4000 + 3*1000
+        _ = result.Summary.LowestBalance.Should().Be(-2000m);
+        _ = result.Summary.HighestBalance.Should().Be(7000m);
+        _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025));
+        _ = result.Summary.HighestBalanceDate.Should().Be(new MonthDate(2, 2025));
     }
 
     [Test]
@@ -47,10 +47,10 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        result.Summary.LowestBalance.Should().Be(0m);
-        result.Summary.HighestBalance.Should().Be(0m);
-        result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025));
-        result.Summary.HighestBalanceDate.Should().Be(new MonthDate(1, 2025));
+        _ = result.Summary.LowestBalance.Should().Be(0m);
+        _ = result.Summary.HighestBalance.Should().Be(0m);
+        _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025));
+        _ = result.Summary.HighestBalanceDate.Should().Be(new MonthDate(1, 2025));
     }
 
     [Test]
@@ -67,10 +67,10 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        result.Summary.LowestBalance.Should().Be(1000m); // Always positive and growing
-        result.Summary.HighestBalance.Should().Be(1000m); // Same balance each month
-        result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025));
-        result.Summary.HighestBalanceDate.Should().Be(new MonthDate(1, 2025));
+        _ = result.Summary.LowestBalance.Should().Be(1000m); // Always positive and growing
+        _ = result.Summary.HighestBalance.Should().Be(1000m); // Same balance each month
+        _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025));
+        _ = result.Summary.HighestBalanceDate.Should().Be(new MonthDate(1, 2025));
     }
 
     [Test]
@@ -91,10 +91,10 @@ public class SummaryStatisticsTests : BasePredictionTest
         // Month 2: Balance -1500, Budget 2000
         // Month 3: Balance -1500, Budget 500
 
-        result.Summary.LowestBalance.Should().Be(-1500m);
-        result.Summary.HighestBalance.Should().Be(-1500m);
-        result.Summary.StartingBalance.Should().Be(-1500m);
-        result.Summary.EndingBalance.Should().Be(-1500m);
+        _ = result.Summary.LowestBalance.Should().Be(-1500m);
+        _ = result.Summary.HighestBalance.Should().Be(-1500m);
+        _ = result.Summary.StartingBalance.Should().Be(-1500m);
+        _ = result.Summary.EndingBalance.Should().Be(-1500m);
     }
 
     [Test]
@@ -123,10 +123,10 @@ public class SummaryStatisticsTests : BasePredictionTest
         // Month 3: Income 4000, Expense 0, Balance +4000 (HIGHEST)
         // Month 4: Income 1000, Expense 0, Balance +1000
 
-        result.Summary.LowestBalance.Should().Be(-3000m);
-        result.Summary.HighestBalance.Should().Be(4000m);
-        result.Summary.LowestBalanceDate.Should().Be(new MonthDate(2, 2025));
-        result.Summary.HighestBalanceDate.Should().Be(new MonthDate(3, 2025));
+        _ = result.Summary.LowestBalance.Should().Be(-3000m);
+        _ = result.Summary.HighestBalance.Should().Be(4000m);
+        _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(2, 2025));
+        _ = result.Summary.HighestBalanceDate.Should().Be(new MonthDate(3, 2025));
     }
 
     [Test]
@@ -143,14 +143,14 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        result.Summary.StartingBalance.Should().Be(1200m); // 2000 - 800
-        result.Summary.EndingBalance.Should().Be(1200m);
-        result.Summary.LowestBalance.Should().Be(1200m);
-        result.Summary.HighestBalance.Should().Be(1200m);
-        result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025));
-        result.Summary.HighestBalanceDate.Should().Be(new MonthDate(1, 2025));
-        result.Summary.TotalIncome.Should().Be(2000m);
-        result.Summary.TotalExpenses.Should().Be(800m);
+        _ = result.Summary.StartingBalance.Should().Be(1200m); // 2000 - 800
+        _ = result.Summary.EndingBalance.Should().Be(1200m);
+        _ = result.Summary.LowestBalance.Should().Be(1200m);
+        _ = result.Summary.HighestBalance.Should().Be(1200m);
+        _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025));
+        _ = result.Summary.HighestBalanceDate.Should().Be(new MonthDate(1, 2025));
+        _ = result.Summary.TotalIncome.Should().Be(2000m);
+        _ = result.Summary.TotalExpenses.Should().Be(800m);
     }
 
     [Test]
@@ -163,12 +163,12 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        result.Summary.TotalIncome.Should().Be(0m);
-        result.Summary.TotalExpenses.Should().Be(0m);
-        result.Summary.StartingBalance.Should().Be(0m);
-        result.Summary.EndingBalance.Should().Be(0m);
-        result.Summary.LowestBalance.Should().Be(0m);
-        result.Summary.HighestBalance.Should().Be(0m);
+        _ = result.Summary.TotalIncome.Should().Be(0m);
+        _ = result.Summary.TotalExpenses.Should().Be(0m);
+        _ = result.Summary.StartingBalance.Should().Be(0m);
+        _ = result.Summary.EndingBalance.Should().Be(0m);
+        _ = result.Summary.LowestBalance.Should().Be(0m);
+        _ = result.Summary.HighestBalance.Should().Be(0m);
     }
 
     [Test]
@@ -185,10 +185,10 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert - When multiple months have the same balance, should return the first occurrence
-        result.Summary.LowestBalance.Should().Be(0m);
-        result.Summary.HighestBalance.Should().Be(0m);
-        result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025)); // First month
-        result.Summary.HighestBalanceDate.Should().Be(new MonthDate(1, 2025)); // First month
+        _ = result.Summary.LowestBalance.Should().Be(0m);
+        _ = result.Summary.HighestBalance.Should().Be(0m);
+        _ = result.Summary.LowestBalanceDate.Should().Be(new MonthDate(1, 2025)); // First month
+        _ = result.Summary.HighestBalanceDate.Should().Be(new MonthDate(1, 2025)); // First month
     }
 
     [Test]
@@ -205,12 +205,12 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        result.Summary.TotalIncome.Should().Be(1_000_000m);
-        result.Summary.TotalExpenses.Should().Be(600_000m);
-        result.Summary.StartingBalance.Should().Be(200_000m); // 500k - 300k
-        result.Summary.EndingBalance.Should().Be(200_000m);
-        result.Months[0].BudgetAfter.Should().Be(1_200_000m); // 1M + 200k
-        result.Months[1].BudgetAfter.Should().Be(1_400_000m); // 1.2M + 200k
+        _ = result.Summary.TotalIncome.Should().Be(1_000_000m);
+        _ = result.Summary.TotalExpenses.Should().Be(600_000m);
+        _ = result.Summary.StartingBalance.Should().Be(200_000m); // 500k - 300k
+        _ = result.Summary.EndingBalance.Should().Be(200_000m);
+        _ = result.Months[0].BudgetAfter.Should().Be(1_200_000m); // 1M + 200k
+        _ = result.Months[1].BudgetAfter.Should().Be(1_400_000m); // 1.2M + 200k
     }
 
     [Test]
@@ -227,10 +227,10 @@ public class SummaryStatisticsTests : BasePredictionTest
         var result = await this.GetPredictionResult(request);
 
         // Assert
-        result.Summary.TotalIncome.Should().Be(1234.67m);
-        result.Summary.TotalExpenses.Should().Be(567.89m);
-        result.Summary.StartingBalance.Should().Be(666.78m); // 1234.67 - 567.89
-        result.Summary.EndingBalance.Should().Be(666.78m);
-        result.Months[0].BudgetAfter.Should().Be(767.28m); // 100.50 + 666.78
+        _ = result.Summary.TotalIncome.Should().Be(1234.67m);
+        _ = result.Summary.TotalExpenses.Should().Be(567.89m);
+        _ = result.Summary.StartingBalance.Should().Be(666.78m); // 1234.67 - 567.89
+        _ = result.Summary.EndingBalance.Should().Be(666.78m);
+        _ = result.Months[0].BudgetAfter.Should().Be(767.28m); // 100.50 + 666.78
     }
 }

@@ -8,7 +8,7 @@ public class CacheRepository(IMemoryCache memoryCache)
     public void Set_PredictionResult(PredictionResult data)
     {
         var key = this.BuildKey(nameof(PredictionResult), data.Id);
-        memoryCache.Set(key, data);
+        _ = memoryCache.Set(key, data);
     }
 
     public PredictionResult? Get_PredictionResult(Guid id)

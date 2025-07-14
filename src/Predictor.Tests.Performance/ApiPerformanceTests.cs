@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using NBomber.Contracts.Stats;
 using NBomber.CSharp;
 using NBomber.Http.CSharp;
 using NUnit.Framework.Internal;
@@ -12,10 +11,7 @@ namespace Predictor.Tests.Performance;
 public class ApiPerformanceTests
 {
     [SetUp]
-    public void Setup()
-    {
-        Trace.Listeners.Add(new ConsoleTraceListener());
-    }
+    public void Setup() => Trace.Listeners.Add(new ConsoleTraceListener());
 
     [Test]
     [Ignore("performance test")]
@@ -55,15 +51,15 @@ public class ApiPerformanceTests
 
         Trace.WriteLine($"AllRequestCount: {stats.AllRequestCount} AllFailCount: {stats.AllFailCount}");
 
-        stats.AllOkCount.Should().BeGreaterThan(durationSeconds * minimumPerSecond);
+        _ = stats.AllOkCount.Should().BeGreaterThan(durationSeconds * minimumPerSecond);
 
         var latencyStats = stats.ScenarioStats[0].Ok.Latency;
 
-        latencyStats.LatencyCount.LessOrEq800.Should().BeGreaterThanOrEqualTo(durationSeconds * minimumPerSecond);
-        latencyStats.Percent99.Should().BeLessThanOrEqualTo(maxLatency99);
-        latencyStats.Percent95.Should().BeLessThanOrEqualTo(maxLatency95);
-        latencyStats.Percent50.Should().BeLessThanOrEqualTo(maxLatency50);
+        _ = latencyStats.LatencyCount.LessOrEq800.Should().BeGreaterThanOrEqualTo(durationSeconds * minimumPerSecond);
+        _ = latencyStats.Percent99.Should().BeLessThanOrEqualTo(maxLatency99);
+        _ = latencyStats.Percent95.Should().BeLessThanOrEqualTo(maxLatency95);
+        _ = latencyStats.Percent50.Should().BeLessThanOrEqualTo(maxLatency50);
 
-        stats.AllFailCount.Should().Be(0);
+        _ = stats.AllFailCount.Should().Be(0);
     }
 }

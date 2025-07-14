@@ -9,7 +9,7 @@ public class CheckGoalRequestHandler(CacheRepository cache, IValidator<CheckGoal
 {
     public Task<bool> Handle(CheckGoalRequest request, CancellationToken cancellationToken)
     {
-        validator.Validate(request);
+        _ = validator.Validate(request);
 
         var prediction = cache.Get_PredictionResult(request.PredictionId);
         var month = prediction?.Months?.FirstOrDefault(x => x.MonthDate == request.Month);
@@ -19,21 +19,12 @@ public class CheckGoalRequestHandler(CacheRepository cache, IValidator<CheckGoal
             return Task.FromResult(false);
         }
 
-        if (request.BalanceHigherOrEqual.HasValue && month.Balance < request.BalanceHigherOrEqual.Value)
-        {
-            return Task.FromResult(false);
-        }
-
-        if (request.IncomeHigherOrEqual.HasValue && month.Income < request.IncomeHigherOrEqual) 
-        {
-            return Task.FromResult(false);
-        }
-
-        if (request.ExpenseLowerOrEqual.HasValue && month.Expense > request.ExpenseLowerOrEqual)
-        {
-            return Task.FromResult(false);
-        }
-
-        return Task.FromResult(true);
+        return request.BalanceHigherOrEqual.HasValue && month.Balance < request.BalanceHigherOrEqual.Value
+            ? Task.FromResult(false)
+            : request.IncomeHigherOrEqual.HasValue && month.Income < request.IncomeHigherOrEqual
+            ? Task.FromResult(false)
+            : request.ExpenseLowerOrEqual.HasValue && month.Expense > request.ExpenseLowerOrEqual
+            ? Task.FromResult(false)
+            : Task.FromResult(true);
     }
 }
