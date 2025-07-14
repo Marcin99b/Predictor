@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Predictor.Web;
+using Predictor.Web.Integrations;
 using Predictor.Web.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,9 @@ var assembly = typeof(Program).Assembly;
 builder.Services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
 builder.Services.AddHealthChecks();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddSingleton<CacheRepository>();
 
 var app = builder.Build();
 

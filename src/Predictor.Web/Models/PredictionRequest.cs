@@ -13,4 +13,6 @@ public record PredictionRequest(int PredictionMonths, decimal InitialBudget, Mon
 
     private bool Filter(MonthDate month, PaymentItem item) 
         => item.StartDate == month || item.CheckRecurring(month);
+
+    internal Guid? PutId { get; set; }
 }

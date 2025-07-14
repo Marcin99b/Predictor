@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
 using MediatR;
+using Predictor.Web.Integrations;
 using Predictor.Web.Models;
 
-namespace Predictor.Web.Requests;
+namespace Predictor.Web.Handlers;
 
-public class PredictionRequestHandler(IValidator<PredictionRequest> validator) : IRequestHandler<PredictionRequest, PredictionResult>
+public class PredictionRequestHandler(IValidator<PredictionRequest> validator, CacheRepository cache) : IRequestHandler<PredictionRequest, PredictionResult>
 {
     public Task<PredictionResult> Handle(PredictionRequest request, CancellationToken cancellationToken)
     {
@@ -31,7 +32,11 @@ public class PredictionRequestHandler(IValidator<PredictionRequest> validator) :
             HighestBalanceDate: months.OrderByDescending(x => x.Balance).First().MonthDate
         );
 
-        var result = new PredictionResult(summary, monthsArray);
+        //todo check if PutId already exists and is owned by user
+        //protect from editing someone else data
+        var result = new PredictionResult(request.PutId ?? Guid.NewGuid(), summary, monthsArray);
+        cache.Set_PredictionResult(result);
+
         return Task.FromResult(result);
     }
 }
