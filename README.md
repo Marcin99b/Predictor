@@ -1,6 +1,7 @@
 # Predictor
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
+[![codecov](https://codecov.io/gh/Marcin99b/Predictor/graph/badge.svg?token=iMzRpPQ5r9)](https://codecov.io/gh/Marcin99b/Predictor)
 
 **"When will I be able to afford that house?"**
 
