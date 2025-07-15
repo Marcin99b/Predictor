@@ -85,35 +85,56 @@ function SolutionSection() {
         <div className="row">
           <div className="col col--6">
             <h2>Input your real situation</h2>
+            <p style={{ marginBottom: "1rem", color: "var(--ifm-color-emphasis-700)" }}>
+              Handle complex financial scenarios that simple calculators can't manage:
+            </p>
             <div className={styles.inputExample}>
               <div className={styles.inputItem}>
-                <strong>Income:</strong> $5,200 salary + $800 freelance work
+                <strong>Regular income:</strong> $5,200 salary + $800 freelance work
               </div>
               <div className={styles.inputItem}>
-                <strong>Expenses:</strong> $2,100 rent + $400 car payment (ends Dec 2026)
+                <strong>Changing expenses:</strong> $2,100 rent + $400 car payment (ends Dec 2026)
               </div>
               <div className={styles.inputItem}>
-                <strong>One-time:</strong> $3,000 tax refund in April
+                <strong>Irregular events:</strong> $3,000 tax refund in April + $500 quarterly insurance
               </div>
               <div className={styles.inputItem}>
-                <strong>Starting with:</strong> $8,500 in savings
+                <strong>Current savings:</strong> $8,500 to start with
               </div>
             </div>
           </div>
           <div className="col col--6">
-            <h2>Get month-by-month predictions</h2>
+            <h2>Get detailed month-by-month predictions</h2>
+            <p style={{ marginBottom: "1rem", color: "var(--ifm-color-emphasis-700)" }}>
+              See exactly when you'll hit your goals and how your finances evolve:
+            </p>
             <div className={styles.outputExample}>
               <div className={styles.monthRow}>
-                <span>Jan 2025:</span> <span>$11,700</span>
+                <div className={styles.monthInfo}>
+                  <span className={styles.monthLabel}>Jan 2025:</span>
+                  <span className={styles.monthAmount}>$11,700</span>
+                </div>
+                <span className={styles.monthDetail}>+$3,200 saved</span>
               </div>
               <div className={styles.monthRow}>
-                <span>Apr 2025:</span> <span>$23,400</span> <span className={styles.highlight}>← Tax refund month</span>
+                <div className={styles.monthInfo}>
+                  <span className={styles.monthLabel}>Apr 2025:</span>
+                  <span className={styles.monthAmount}>$23,400</span>
+                </div>
+                <span className={styles.highlight}>← Tax refund boost</span>
               </div>
               <div className={styles.monthRow}>
-                <span>Dec 2026:</span> <span>$48,900</span> <span className={styles.highlight}>← Car paid off</span>
+                <div className={styles.monthInfo}>
+                  <span className={styles.monthLabel}>Dec 2026:</span>
+                  <span className={styles.monthAmount}>$48,900</span>
+                </div>
+                <span className={styles.highlight}>← Car payment ends</span>
               </div>
               <div className={styles.monthRow}>
-                <span>Jun 2027:</span> <span>$65,300</span>{" "}
+                <div className={styles.monthInfo}>
+                  <span className={styles.monthLabel}>Jun 2027:</span>
+                  <span className={styles.monthAmount}>$65,300</span>
+                </div>
                 <span className={styles.highlight}>← House down payment ready!</span>
               </div>
             </div>
@@ -128,24 +149,27 @@ function SocialProofSection() {
   return (
     <section className={styles.socialProofSection}>
       <div className="container">
-        <h2 className="text--center margin-bottom--lg">Early stage, but already useful</h2>
+        <h2 className="text--center margin-bottom--lg">Open source financial planning API</h2>
         <div className="row">
           <div className="col col--4">
             <div className={styles.statCard}>
-              <div className={styles.statNumber}>API</div>
-              <div className={styles.statLabel}>Ready to use prototype</div>
+              <div className={styles.statIcon}>🚀</div>
+              <div className={styles.statLabel}>Production ready prototype</div>
+              <p className={styles.statDescription}>Core features working, tested, and documented</p>
             </div>
           </div>
           <div className="col col--4">
             <div className={styles.statCard}>
-              <div className={styles.statNumber}>MIT</div>
-              <div className={styles.statLabel}>Open source license</div>
+              <div className={styles.statIcon}>⚖️</div>
+              <div className={styles.statLabel}>MIT License</div>
+              <p className={styles.statDescription}>Free to use, modify, and distribute</p>
             </div>
           </div>
           <div className="col col--4">
             <div className={styles.statCard}>
-              <div className={styles.statNumber}>Help</div>
-              <div className={styles.statLabel}>Contributors welcome</div>
+              <div className={styles.statIcon}>🤝</div>
+              <div className={styles.statLabel}>Looking for contributors</div>
+              <p className={styles.statDescription}>Help build the future of financial planning tools</p>
             </div>
           </div>
         </div>
@@ -158,38 +182,68 @@ function UseCaseSection() {
   return (
     <section className={styles.useCaseSection}>
       <div className="container">
-        <h2 className="text--center margin-bottom--lg">What you could build with this</h2>
+        <h2 className="text--center margin-bottom--lg">Who uses financial predictions?</h2>
         <div className="row">
-          <div className="col col--6">
+          <div className="col col--4">
             <div className={styles.useCaseCard}>
-              <h3>Personal Finance App</h3>
-              <p className={styles.useCaseQuote}>
-                Add financial projections to your budgeting app. Let users see when they'll reach their savings goals
-                instead of just tracking past expenses.
+              <h3>🏠 Home Buyers</h3>
+              <p className={styles.useCaseQuote}>"When will I have enough for a down payment?"</p>
+              <p>
+                Instead of guessing, get exact dates. Factor in your salary, current savings, monthly expenses, and even
+                irregular bonuses to see your real timeline.
               </p>
-              <div className={styles.useCaseDetails}>
-                <strong>Integration:</strong> REST API calls
-                <br />
-                <strong>Value:</strong> Goal-oriented planning
-                <br />
-                <strong>Users love:</strong> Concrete timelines
-              </div>
             </div>
           </div>
-          <div className="col col--6">
+          <div className="col col--4">
             <div className={styles.useCaseCard}>
-              <h3>Financial Advisory Tool</h3>
-              <p className={styles.useCaseQuote}>
-                Help clients model different scenarios. "What if I take this job?" "When can I retire?" Show the math
-                behind the advice.
+              <h3>💼 Career Changers</h3>
+              <p className={styles.useCaseQuote}>"Can I afford to take that lower-paying job I love?"</p>
+              <p>
+                Model your new salary against current expenses. See how much longer it takes to reach goals, or if you
+                need to adjust your lifestyle first.
               </p>
-              <div className={styles.useCaseDetails}>
-                <strong>Integration:</strong> Scenario comparison
-                <br />
-                <strong>Value:</strong> Data-driven decisions
-                <br />
-                <strong>Clients love:</strong> Clear visualizations
-              </div>
+            </div>
+          </div>
+          <div className="col col--4">
+            <div className={styles.useCaseCard}>
+              <h3>🎓 Students with Loans</h3>
+              <p className={styles.useCaseQuote}>"When will I finally be debt-free?"</p>
+              <p>
+                Track multiple loan payments with different end dates. Watch your cash flow improve as each debt
+                disappears and plan for life after loans.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="row" style={{ marginTop: "2rem" }}>
+          <div className="col col--4">
+            <div className={styles.useCaseCard}>
+              <h3>🚀 Entrepreneurs</h3>
+              <p className={styles.useCaseQuote}>"How long can my savings last while building this business?"</p>
+              <p>
+                Model irregular income and varying expenses. See if you can survive the first year, or if you need more
+                runway before quitting your day job.
+              </p>
+            </div>
+          </div>
+          <div className="col col--4">
+            <div className={styles.useCaseCard}>
+              <h3>👨‍👩‍👧‍👦 Growing Families</h3>
+              <p className={styles.useCaseQuote}>"How will childcare costs affect our house-buying plans?"</p>
+              <p>
+                Add new expenses like daycare and see the real impact on your timeline. Plan for when expenses end (kids
+                start school) and cash flow improves.
+              </p>
+            </div>
+          </div>
+          <div className="col col--4">
+            <div className={styles.useCaseCard}>
+              <h3>💰 Emergency Planners</h3>
+              <p className={styles.useCaseQuote}>"When will I have 6 months of expenses saved?"</p>
+              <p>
+                Set a concrete savings goal and see exactly when you'll reach it. Account for irregular income and
+                unexpected expenses along the way.
+              </p>
             </div>
           </div>
         </div>
@@ -255,46 +309,65 @@ function QuickStartSection() {
   return (
     <section className={styles.quickStartSection}>
       <div className="container">
-        <h2 className="text--center margin-bottom--lg">Ready to try it?</h2>
         <div className="row">
-          <div className="col col--4 text--center">
-            <div className={styles.stepCard}>
-              <div className={styles.stepNumber}>1</div>
-              <h3>Clone & Run</h3>
-              <code>
-                git clone https://github.com/Marcin99b/Predictor.git
-                <br />
-                cd Predictor/src
-                <br />
-                dotnet run --project Predictor.Web
-              </code>
+          <div className="col col--6">
+            <h2>Try it now</h2>
+            <p style={{ fontSize: "1.1rem", marginBottom: "2rem", color: "var(--ifm-color-emphasis-700)" }}>
+              Get Predictor running locally in under 2 minutes. Requires .NET 8 or Docker.
+            </p>
+
+            <div className={styles.quickStartTabs}>
+              <div className={styles.tabContent}>
+                <h3>With .NET 8</h3>
+                <div className={styles.commandLine}>
+                  <span className={styles.prompt}>$</span>
+                  <span className={styles.command}>git clone https://github.com/Marcin99b/Predictor.git</span>
+                </div>
+                <div className={styles.commandLine}>
+                  <span className={styles.prompt}>$</span>
+                  <span className={styles.command}>cd Predictor/src && dotnet run --project Predictor.Web</span>
+                </div>
+
+                <h3 style={{ marginTop: "2rem" }}>With Docker</h3>
+                <div className={styles.commandLine}>
+                  <span className={styles.prompt}>$</span>
+                  <span className={styles.command}>docker run -p 8080:8080 predictor:latest</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="col col--4 text--center">
-            <div className={styles.stepCard}>
-              <div className={styles.stepNumber}>2</div>
-              <h3>Open API Docs</h3>
-              <code>https://localhost:7176/swagger</code>
-              <p style={{ marginTop: "1rem", fontSize: "0.9rem", color: "var(--ifm-color-emphasis-600)" }}>
-                Interactive documentation with examples
+
+            <div className={styles.nextSteps}>
+              <p>
+                <strong>Then visit:</strong> <code>localhost:7176/swagger</code> for interactive API docs
               </p>
             </div>
           </div>
-          <div className="col col--4 text--center">
-            <div className={styles.stepCard}>
-              <div className={styles.stepNumber}>3</div>
-              <h3>Try It Out</h3>
-              <code>GET /api/v1/predictions/example</code>
-              <p style={{ marginTop: "1rem", fontSize: "0.9rem", color: "var(--ifm-color-emphasis-600)" }}>
-                Use the example data to make your first prediction
-              </p>
+
+          <div className="col col--6">
+            <div className={styles.featureHighlights}>
+              <h3>What you get</h3>
+              <ul className={styles.checkList}>
+                <li>REST API with comprehensive documentation</li>
+                <li>Interactive Swagger interface</li>
+                <li>Example data to test with immediately</li>
+                <li>Support for complex financial scenarios</li>
+                <li>JSON responses with detailed breakdowns</li>
+              </ul>
+
+              <div className={styles.ctaButtons}>
+                <Link className="button button--primary button--lg" to="/docs/">
+                  Read the Docs
+                </Link>
+                <Link
+                  className="button button--outline button--lg"
+                  href="https://github.com/Marcin99b/Predictor"
+                  style={{ marginTop: "0.5rem" }}
+                >
+                  View on GitHub
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="text--center" style={{ marginTop: "3rem" }}>
-          <Link className="button button--primary button--lg" to="/docs/api">
-            View Full Documentation
-          </Link>
         </div>
       </div>
     </section>

@@ -1,13 +1,30 @@
 /**
- * Landing page styles with proper contrast and modern design
+ * Landing page styles with calm, eye-friendly green colors
  */
+
+:root {
+  --predictor-primary: #22c55e;
+  --predictor-primary-dark: #16a34a;
+  --predictor-primary-light: #4ade80;
+  --predictor-secondary: #059669;
+  --predictor-accent: #10b981;
+  --predictor-success: #22c55e;
+  --predictor-gradient: linear-gradient(135deg, var(--predictor-primary) 0%, var(--predictor-secondary) 100%);
+}
+
+[data-theme='dark'] {
+  --predictor-primary: #4ade80;
+  --predictor-primary-dark: #22c55e;
+  --predictor-primary-light: #86efac;
+}
 
 .heroBanner {
   padding: 6rem 0 4rem;
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-dark) 100%);
+  background: var(--predictor-gradient);
+  color: white;
 }
 
 .heroBanner::before {
@@ -102,7 +119,7 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-secondary));
+  background: var(--predictor-gradient);
 }
 
 .painCard:hover {
@@ -111,14 +128,14 @@
 }
 
 .painCard h3 {
-  color: var(--ifm-color-primary);
+  color: var(--predictor-primary);
   margin-bottom: 1.5rem;
   font-size: 1.3rem;
 }
 
 .solutionSection {
   padding: 5rem 0;
-  background: var(--ifm-color-emphasis-100);
+  background: var(--ifm-color-emphasis-50);
 }
 
 .inputExample,
@@ -136,7 +153,7 @@
   padding: 1rem;
   background: var(--ifm-background-color);
   border-radius: 8px;
-  border-left: 4px solid var(--ifm-color-primary);
+  border-left: 4px solid var(--predictor-primary);
   transition: transform 0.2s ease;
 }
 
@@ -160,10 +177,35 @@
   transform: scale(1.02);
 }
 
+.monthInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
+}
+
+.monthLabel {
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.monthAmount {
+  font-weight: 700;
+  color: var(--predictor-primary);
+  font-size: 1.1rem;
+}
+
+.monthDetail {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
 .highlight {
-  color: var(--ifm-color-primary);
+  color: var(--predictor-success);
   font-weight: 600;
   font-size: 0.9rem;
+  margin-left: 1rem;
 }
 
 .socialProofSection {
@@ -179,28 +221,36 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--ifm-color-emphasis-200);
   transition: transform 0.3s ease;
+  height: 100%;
 }
 
 .statCard:hover {
   transform: translateY(-6px);
 }
 
-.statNumber {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--ifm-color-primary);
-  margin-bottom: 0.5rem;
+.statIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
 }
 
 .statLabel {
-  font-size: 1rem;
+  font-size: 1.2rem;
+  color: var(--predictor-primary);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.statDescription {
+  font-size: 0.95rem;
   color: var(--ifm-color-emphasis-700);
-  font-weight: 500;
+  line-height: 1.5;
+  margin: 0;
 }
 
 .useCaseSection {
   padding: 5rem 0;
-  background: var(--ifm-color-emphasis-100);
+  background: var(--ifm-color-emphasis-50);
 }
 
 .useCaseCard {
@@ -210,7 +260,7 @@
   height: 100%;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--ifm-color-emphasis-200);
-  border-left: 4px solid var(--ifm-color-primary);
+  border-left: 4px solid var(--predictor-primary);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -260,7 +310,7 @@
 
 .featureList li:before {
   content: "✓ ";
-  color: var(--ifm-color-primary);
+  color: var(--predictor-success);
   font-weight: bold;
   margin-right: 0.5rem;
 }
@@ -318,15 +368,119 @@
 
 .quickStartSection {
   padding: 5rem 0;
-  background: var(--ifm-color-emphasis-100);
+  background: var(--ifm-color-emphasis-50);
 }
 
 .quickStartSection h2 {
-  margin-bottom: 3rem;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--predictor-primary);
 }
 
+.quickStartTabs {
+  background: var(--ifm-card-background-color);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  margin-bottom: 1.5rem;
+}
+
+.tabContent h3 {
+  color: var(--ifm-color-emphasis-800);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.commandLine {
+  display: flex;
+  align-items: center;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.5rem;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.9rem;
+}
+
+.prompt {
+  color: var(--predictor-primary);
+  font-weight: bold;
+  margin-right: 0.8rem;
+  user-select: none;
+}
+
+.command {
+  color: var(--ifm-color-emphasis-800);
+  flex: 1;
+}
+
+.nextSteps {
+  background: var(--ifm-color-emphasis-100);
+  border-left: 4px solid var(--predictor-primary);
+  padding: 1rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+}
+
+.nextSteps code {
+  background: var(--ifm-color-emphasis-200);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.featureHighlights {
+  padding: 2rem;
+  background: var(--ifm-card-background-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  height: 100%;
+}
+
+.featureHighlights h3 {
+  color: var(--predictor-primary);
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.checkList {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.checkList li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.checkList li:before {
+  content: "✓";
+  color: var(--predictor-success);
+  font-weight: bold;
+  margin-right: 0.8rem;
+  margin-top: 0.1rem;
+}
+
+.ctaButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ctaButtons .button {
+  width: 100%;
+  text-align: center;
+}
+
+/* Old step card styles - keeping for compatibility but unused */
 .stepCard {
   padding: 2.5rem;
   height: 100%;
@@ -342,10 +496,10 @@
   transform: translateY(-6px);
 }
 
-.stepNumber {
+.stepCard .stepNumber {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, var(--ifm-color-primary), var(--ifm-color-primary-dark));
+  background: var(--predictor-gradient);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -359,17 +513,8 @@
 
 .stepCard h3 {
   margin-bottom: 1rem;
-  color: var(--ifm-color-primary);
+  color: var(--predictor-primary);
   font-size: 1.3rem;
-}
-
-.stepCard code {
-  background: var(--ifm-color-emphasis-100);
-  padding: 0.8rem 1rem;
-  border-radius: 6px;
-  display: block;
-  font-size: 0.9rem;
-  color: var(--ifm-color-emphasis-800);
 }
 
 /* Responsive design improvements */
@@ -392,11 +537,17 @@
   .monthRow {
     flex-direction: column;
     gap: 0.5rem;
-    text-align: center;
+    text-align: left;
+  }
+
+  .monthInfo {
+    width: 100%;
+    margin-bottom: 0.5rem;
   }
 
   .highlight {
     margin-left: 0;
+    text-align: center;
   }
 
   .callToAction {
@@ -408,7 +559,26 @@
   }
 
   .quickStartSection h2 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+
+  .quickStartTabs {
+    padding: 1.5rem;
+  }
+
+  .commandLine {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .prompt {
+    margin-bottom: 0.5rem;
+  }
+
+  .command {
+    word-break: break-all;
+    width: 100%;
   }
 }
 
@@ -462,6 +632,13 @@
 .painCard:focus-visible,
 .useCaseCard:focus-visible,
 .stepCard:focus-visible {
-  outline: 2px solid var(--ifm-color-primary);
+  outline: 2px solid var(--predictor-primary);
   outline-offset: 2px;
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] .stepCard .codeBlock {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-900);
+  border-color: var(--ifm-color-emphasis-300);
 }
