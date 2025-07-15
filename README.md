@@ -1,3 +1,4 @@
+
 # Predictor
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
@@ -5,47 +6,13 @@
 
 **"When will I be able to afford that house?"**
 
-Instead of guessing, get a real answer. Predictor simulates your budget months into the future, accounting for your salary, expenses, and life events.
+Predictor gives you a real answer. Simulate your budget months into the future, accounting for salary, expenses, and life events. See exactly when you'll reach your financial goals.
 
-## Table of Contents
-
-- [The Problem](#the-problem)
-- [What Predictor Does](#what-predictor-does)
-- [Quick Start](#quick-start)
-- [Example](#example)
-- [API](#api)
-  - [POST /api/v1/predictions](#post-apiv1predictions)
-  - [PUT /api/v1/predictions/{id}](#put-apiv1predictionsid)
-  - [GET /api/v1/predictions/example](#get-apiv1predictionsexample)
-  - [GET /api/v1/predictions/{id}](#get-apiv1predictionsid)
-  - [GET /api/v1/predictions/{id}/summary](#get-apiv1predictionsidsummary)
-  - [GET /api/v1/predictions/{id}/months](#get-apiv1predictionsidmonths)
-  - [POST /api/v1/analytics/check-goal](#post-apiv1analyticscheck-goal)
-- [Use Cases](#use-cases)
-- [Development Roadmap](#development-roadmap)
-- [Contributing](#contributing)
-- [Tech Stack](#tech-stack)
-- [Running Tests](#running-tests)
-- [License](#license)
-
-## The Problem
-
-You want to buy something expensive but don't know when you'll have enough money. Maybe it's a house down payment, a new car, or just building an emergency fund.
-
-Budget apps show you where your money *went*, but won't tell you when you'll hit your savings goals. Spreadsheets work but become a mess when you have irregular income, loans that end, or seasonal expenses.
-
-## What Predictor Does
-
-Stop guessing about your financial future. Predictor takes the uncertainty out of long-term planning by showing you exactly when you'll reach your goals.
-
-Whether you're saving for something specific or just want to see where your money will be in a year, Predictor handles the complexity:
-
-- Income that changes over time (raises, contract work ending)
-- Expenses that disappear (when you finish paying off that car loan)
-- Irregular costs (annual insurance, quarterly taxes)
-- Unexpected events (tax refunds, emergency repairs)
-
-You'll get a clear timeline instead of guesswork.
+## Features
+- Flexible budget prediction (income, expenses, life events)
+- Goal tracking and analytics
+- REST API with Swagger docs
+- Docker support
 
 ## Quick Start
 
@@ -55,9 +22,15 @@ cd predictor/src
 dotnet run --project Predictor.Web
 ```
 
-Open `https://localhost:7176/swagger` and try it with the built-in example data.
+Open [`https://localhost:7176/swagger`](https://localhost:7176/swagger) to try the API with example data.
 
-*Docker support is available but optional - see Dockerfile in the project.*
+## Documentation
+
+Full documentation: [Predictor Docs (GitHub Pages)](https://marcin99b.github.io/Predictor/)
+
+## License
+
+MIT - see [LICENSE](LICENSE)
 
 ## Example
 
