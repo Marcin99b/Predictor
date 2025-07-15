@@ -1,4 +1,3 @@
-
 # Predictor
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
@@ -8,13 +7,13 @@
 
 Predictor gives you a real answer. Simulate your budget months into the future, accounting for salary, expenses, and life events. See exactly when you'll reach your financial goals.
 
-## Features
-- Flexible budget prediction (income, expenses, life events)
-- Goal tracking and analytics
-- REST API with Swagger docs
-- Docker support
+## Why I built this
 
-## Quick Start
+Budget apps show you where your money went. Spreadsheets are a pain. You want to know *when* you'll have enough money for something important, not just track what you already spent.
+
+I got tired of guessing whether I could afford things, so I built this to get actual answers.
+
+## Quick start
 
 ```bash
 git clone https://github.com/Marcin99b/Predictor.git
@@ -22,17 +21,16 @@ cd predictor/src
 dotnet run --project Predictor.Web
 ```
 
-Open [`https://localhost:7176/swagger`](https://localhost:7176/swagger) to try the API with example data.
+Open [`https://localhost:7176/swagger`](https://localhost:7176/swagger) to try the API.
 
-## Documentation
+Or use Docker:
 
-Full documentation: [Predictor Docs (GitHub Pages)](https://marcin99b.github.io/Predictor/)
+```bash
+docker build -f src/Predictor.Web/Dockerfile -t predictor .
+docker run -p 8080:8080 predictor
+```
 
-## License
-
-MIT - see [LICENSE](LICENSE)
-
-## Example
+## What it does
 
 Start with a simple scenario:
 
@@ -71,6 +69,24 @@ curl -X GET "https://localhost:7176/api/v1/predictions/example"
 # Run prediction
 curl -X POST "https://localhost:7176/api/v1/predictions" -H "Content-Type: application/json" -d @example-data.json
 ```
+
+## Real examples
+
+**House buying:** "I want a $400k house. When will I have 20% down?"
+
+You earn $8k per month, spend $6k, and have $25k saved. Enter your numbers and Predictor shows you'll hit $80k (20% down) in exactly 27.5 months. Now you can plan accordingly instead of hoping it works out.
+
+**Emergency fund:** "How long until I have 6 months of expenses saved?"
+
+Your monthly expenses are $4,500, so you need $27k total. Currently saving $800/month with $5k already set aside. Predictor calculates you'll reach your goal in 27.5 months, accounting for any irregular income or expense changes you've planned.
+
+**Career transition:** "If I take this lower-paying job, how will it affect my car purchase timeline?"
+
+Compare scenarios: current job vs. new job with $1k less monthly income. See exactly how much longer you'll need to save for that $25k car.
+
+**Debt freedom:** "When will I be completely debt-free?"
+
+Enter all your loans with their payment schedules. See not just when each individual debt disappears, but how your cash flow improves month by month as payments end.
 
 ## API
 
@@ -131,141 +147,123 @@ Send your financial data, get month-by-month predictions.
 }
 ```
 
-### `PUT /api/v1/predictions/{id}`
+### Other endpoints
 
-Update an existing prediction with new data.
+- `PUT /api/v1/predictions/{id}` - Update an existing prediction
+- `GET /api/v1/predictions/example` - Get sample data to try
+- `GET /api/v1/predictions/{id}` - Get a prediction by ID
+- `GET /api/v1/predictions/{id}/summary` - Just the summary
+- `GET /api/v1/predictions/{id}/months` - Just the month breakdown
+- `POST /api/v1/analytics/check-goal` - Check if a goal is met
 
-### `GET /api/v1/predictions/example`
+Full docs at `/swagger` when running.
 
-Returns sample data you can modify and use for testing.
+## Payment frequencies
 
-### `GET /api/v1/predictions/{id}`
+- **OneTime (1)** - Happens once (bonus, tax refund)
+- **Monthly (2)** - Every month (salary, rent)
+- **Quarterly (3)** - Every 3 months (insurance)
+- **SemiAnnually (4)** - Every 6 months (car maintenance)
+- **Annually (5)** - Every year (vacation fund)
 
-Retrieve a complete prediction result by ID.
+You can set `endDate` to make payments stop (loan payoffs, contracts ending).
 
-### `GET /api/v1/predictions/{id}/summary`
+## Features
 
-Get only the summary data for a prediction.
+What's working now:
 
-### `GET /api/v1/predictions/{id}/months`
+- Basic budget calculation engine
+- Flexible recurring payments (monthly, quarterly, etc.)
+- Time-limited payments (loans that end, contracts)
+- One-time income and expenses
+- Input validation
+- Prediction caching and retrieval
+- Goal checking analytics
 
-Get only the month-by-month breakdown for a prediction.
+What's planned:
 
-### `POST /api/v1/analytics/check-goal`
+- Inflation adjustments
+- Scenario comparison ("what if I get a raise vs. move cities?")
+- Multi-currency support
+- Risk analysis
+- Export to CSV/PDF
+- Web UI (it's just an API right now)
 
-Check if a specific financial goal is met in a given month.
+## Development
 
-**Input:**
+Requirements:
 
-```json
-{
-  "predictionId": "123e4567-e89b-12d3-a456-426614174000",
-  "month": { "month": 12, "year": 2025 },
-  "balanceHigherOrEqual": 50000,
-  "incomeHigherOrEqual": 5000,
-  "expenseLowerOrEqual": 3000
-}
+- .NET 8 or Docker
+
+```bash
+git clone https://github.com/Marcin99b/Predictor.git
+cd predictor/src
+dotnet restore
+dotnet build
+dotnet test
+dotnet run --project Predictor.Web
 ```
 
-**Output:** `true` or `false`
+The API will be at `https://localhost:7176`. Swagger docs at `/swagger`.
 
-## Use Cases
+### Testing
 
-**House buying:** "I want a $400k house. When will I have 20% down?"
+```bash
+# All tests
+dotnet test
 
-You are earning $8k per month, spending $6k, and have $25k saved. Enter your numbers and Predictor shows you will hit $80k (20% down) in exactly 27.5 months. Now you can plan accordingly instead of hoping it works out.
+# Just integration tests
+dotnet test src/Predictor.Tests.Integration
 
-**Emergency fund planning:** "How long until I have 6 months of expenses saved?"
+# Performance tests (need API running)
+dotnet test src/Predictor.Tests.Performance
+```
 
-Your monthly expenses are $4,500, so you need $27k total. Currently saving $800/month with $5k already set aside. Predictor calculates you'll reach your goal in 27.5 months, accounting for any irregular income or expense changes you've planned.
-
-**Career transition:** "If I take this lower-paying job, how will it affect my car purchase timeline?"
-
-Compare scenarios: current job vs. new job with $1k less monthly income. See exactly how much longer you will need to save for that $25k car, helping you make an informed decision about the career move.
-
-**Debt freedom:** "When will I be completely debt-free?"
-
-Enter all your loans with their payment schedules. See not just when each individual debt disappears, but how your cash flow improves month by month as payments end, and when you'll have true financial freedom.
-
-## Development Roadmap
-
-Here's where I want to take this project:
-
-### Core Features
-
-- [x] Basic budget calculation engine
-- [x] Flexible recurring payments (monthly, quarterly, semi-annually, annually)
-- [x] Time-limited payments (loans that end, contracts)
-- [x] One-time income and expenses
-- [x] Input validation with FluentValidation
-- [x] Prediction caching and retrieval
-- [x] Goal checking analytics
-- [ ] Inflation adjustments
-- [ ] Financial goal tracking ("alert me when I can afford X")
-- [ ] Scenario comparison ("what if I get a raise vs. what if I move?")
-- [ ] Multi-currency support
-- [ ] Risk analysis and confidence intervals
-
-### Performance & Scale  
-
-- [x] Performance testing setup
-- [ ] Caching layer improvements
-- [ ] Background processing for complex calculations
-- [ ] Performance benchmarking
-- [ ] Rate limiting
-
-### Data & Intelligence
-
-- [ ] Historical trend analysis  
-- [ ] External data integration (exchange rates, inflation)
-- [ ] Smart spending optimization suggestions
-- [ ] Export to popular formats (CSV, PDF reports)
-
-### Developer Experience
-
-- [x] REST API with Swagger documentation
-- [x] Health check endpoints
-- [ ] Enhanced API documentation with more examples
-- [ ] SDK/client libraries
-- [ ] Integration guides
+Performance tests are marked `[Ignore]` by default. Remove the attribute to run them.
 
 ## Contributing
 
-Want to help make financial planning easier for everyone? Contributions are welcome whether you're new to programming or a seasoned developer.
+Want to help? Here's how:
 
-**Getting started is easy:**
+1. Fork it
+2. Make a branch: `git checkout -b feature/cool-thing`
+3. Make your changes
+4. Test it: `dotnet test`
+5. Submit a PR
 
-1. Browse [Issues](https://github.com/Marcin99b/Predictor/issues) - look for `good-first-issue`
-2. Fork the repo and create a branch: `git checkout -b feature/123-feature-name` (or `bug/123-bug-name` for bugs)
-3. Make your changes and test locally
-4. Submit a PR and link the issue by adding `Closes #123` in the description or using the GitHub UI
+Look for `good-first-issue` labels if you're new. Or just fix something that bugs you.
 
-Every contribution helps, from fixing typos to optimizing algorithms. Jump in!
+Things that would be helpful:
 
-## Tech Stack
+- Bug fixes
+- Better documentation
+- UI/frontend (currently just an API)
+- Performance improvements
+- New features from the roadmap
+
+## Tech stack
 
 - .NET 8 + ASP.NET Core
-- FluentValidation for input validation
+- FluentValidation for input checking
 - MediatR for request handling
-- Swagger/OpenAPI for documentation
+- Swagger for API docs
 - NBomber for performance testing
-- NUnit for unit testing
-- Docker (optional)
-- Memory caching for prediction storage
-- Planned: Rust for performance-critical calculations
+- NUnit for tests
+- Docker support
+- Memory caching (will add real database later)
 
-## Running Tests
+## Documentation
 
-```bash
-# Performance tests  
-cd src/Predictor.Tests.Performance
-dotnet test
-```
+- Full docs: [https://marcin99b.github.io/Predictor/](https://marcin99b.github.io/Predictor/)
+- This README
+- `/swagger` when running the API
 
-Performance tests validate that the API can handle high load scenarios. They're useful for ensuring calculations remain fast as complexity grows.
+## Help
 
-**Note:** Performance tests are marked with `[Ignore]` by default. Remove the ignore attribute to run them against a running instance of the API.
+- [GitHub Issues](https://github.com/Marcin99b/Predictor/issues) for bugs
+- [GitHub Discussions](https://github.com/Marcin99b/Predictor/discussions) for questions
+- Check `/swagger` for API details
 
 ## License
 
-MIT - see [LICENSE](LICENSE) file.
+MIT - use it however you want.
