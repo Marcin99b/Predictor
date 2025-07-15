@@ -13,6 +13,12 @@ Budget apps show you where your money went. Spreadsheets are a pain. You want to
 
 I got tired of guessing whether I could afford things, so I built this to get actual answers.
 
+## Documentation
+
+- Full docs: [https://marcin99b.github.io/Predictor/](https://marcin99b.github.io/Predictor/)
+- This README
+- `/swagger` when running the API
+
 ## Quick start
 
 ```bash
@@ -251,12 +257,6 @@ Things that would be helpful:
 - NUnit for tests
 - Docker support
 - Memory caching (will add real database later)
-
-## Documentation
-
-- Full docs: [https://marcin99b.github.io/Predictor/](https://marcin99b.github.io/Predictor/)
-- This README
-- `/swagger` when running the API
 
 ## Help
 
