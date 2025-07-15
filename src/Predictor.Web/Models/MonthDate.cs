@@ -24,6 +24,11 @@ public record MonthDate(int Month, int Year)
 
     public static IEnumerable<MonthDate> Range(MonthDate from, int monthsCount)
     {
+        if (monthsCount <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(monthsCount), "Months to add must be greater than zero.");
+        }
+
         var current = from;
         yield return current;
         for (var i = 0; i < monthsCount - 1; i++)
