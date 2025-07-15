@@ -30,7 +30,7 @@ function HomepageHeader() {
           <Link className="button button--secondary button--lg" to="/docs/">
             See how it works
           </Link>
-          <Link className="button button--outline button--lg" to="/docs/api" style={{ marginLeft: "10px" }}>
+          <Link className="button button--outline button--lg" to="/docs/api">
             Try the API
           </Link>
         </div>
@@ -271,7 +271,7 @@ function TechnicalSection() {
               <Link className="button button--primary" to="/docs/api">
                 Try the API
               </Link>
-              <Link className="button button--secondary" to="/docs/contributing" style={{ marginLeft: "10px" }}>
+              <Link className="button button--secondary" to="/docs/contributing">
                 Help improve it
               </Link>
             </div>
@@ -358,13 +358,14 @@ function QuickStartSection() {
                 <Link className="button button--primary button--lg" to="/docs/">
                   Read the Docs
                 </Link>
-                <Link
+                <a
                   className="button button--outline button--lg"
                   href="https://github.com/Marcin99b/Predictor"
-                  style={{ marginTop: "0.5rem" }}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   View on GitHub
-                </Link>
+                </a>
               </div>
             </div>
           </div>
