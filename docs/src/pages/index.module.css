@@ -1,39 +1,72 @@
 /**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
+ * Landing page styles with proper contrast and modern design
  */
 
 .heroBanner {
-  padding: 4rem 0;
+  padding: 6rem 0 4rem;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-dark) 100%);
+}
+
+.heroBanner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+  animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 4rem 1rem 2rem;
   }
 }
 
 .heroExample {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin: 2rem auto;
-  max-width: 600px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2.5rem auto;
+  max-width: 650px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.heroExample:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .questionExample {
   font-style: italic;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .answerExample {
-  font-size: 1.3rem;
-  color: #25c2a0;
+  font-size: 1.4rem;
+  color: #fff;
   margin-bottom: 0;
+  font-weight: 600;
 }
 
 .buttons {
@@ -42,165 +75,277 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
+  margin-top: 2rem;
 }
 
 .painSection {
-  padding: 4rem 0;
-  background-color: var(--ifm-color-emphasis-100);
+  padding: 5rem 0;
+  background: var(--ifm-background-color);
 }
 
 .painCard {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
+  background: var(--ifm-card-background-color);
+  padding: 2.5rem;
+  border-radius: 12px;
   height: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.painCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-secondary));
+}
+
+.painCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
 .painCard h3 {
   color: var(--ifm-color-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .solutionSection {
-  padding: 4rem 0;
+  padding: 5rem 0;
+  background: var(--ifm-color-emphasis-100);
 }
 
 .inputExample,
 .outputExample {
-  background: var(--ifm-color-emphasis-100);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-top: 1rem;
+  background: var(--ifm-card-background-color);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-top: 1.5rem;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .inputItem {
-  margin-bottom: 0.8rem;
-  padding: 0.5rem;
-  background: white;
-  border-radius: 4px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--ifm-background-color);
+  border-radius: 8px;
+  border-left: 4px solid var(--ifm-color-primary);
+  transition: transform 0.2s ease;
+}
+
+.inputItem:hover {
+  transform: translateX(4px);
 }
 
 .monthRow {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.8rem;
-  padding: 0.5rem;
-  background: white;
-  border-radius: 4px;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--ifm-background-color);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.monthRow:hover {
+  background: var(--ifm-color-emphasis-100);
+  transform: scale(1.02);
 }
 
 .highlight {
   color: var(--ifm-color-primary);
-  font-weight: bold;
+  font-weight: 600;
   font-size: 0.9rem;
 }
 
 .socialProofSection {
   padding: 4rem 0;
-  background-color: var(--ifm-color-emphasis-100);
+  background: var(--ifm-background-color);
 }
 
 .statCard {
   text-align: center;
-  padding: 2rem;
+  padding: 2.5rem;
+  background: var(--ifm-card-background-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  transition: transform 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-6px);
 }
 
 .statNumber {
-  font-size: 3rem;
-  font-weight: bold;
+  font-size: 2.5rem;
+  font-weight: 700;
   color: var(--ifm-color-primary);
+  margin-bottom: 0.5rem;
 }
 
 .statLabel {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--ifm-color-emphasis-700);
+  font-weight: 500;
 }
 
 .useCaseSection {
-  padding: 4rem 0;
+  padding: 5rem 0;
+  background: var(--ifm-color-emphasis-100);
 }
 
 .useCaseCard {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
+  background: var(--ifm-card-background-color);
+  padding: 2.5rem;
+  border-radius: 12px;
   height: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--ifm-color-emphasis-200);
   border-left: 4px solid var(--ifm-color-primary);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.useCaseCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
 .useCaseQuote {
   font-style: italic;
   font-size: 1.1rem;
-  margin: 1rem 0;
+  margin: 1.5rem 0;
+  color: var(--ifm-color-emphasis-800);
+  line-height: 1.6;
 }
 
 .useCaseDetails {
   background: var(--ifm-color-emphasis-100);
-  padding: 1rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--ifm-color-emphasis-700);
 }
 
 .technicalSection {
-  padding: 4rem 0;
-  background-color: var(--ifm-color-emphasis-100);
+  padding: 5rem 0;
+  background: var(--ifm-background-color);
 }
 
 .featureList {
   list-style: none;
   padding: 0;
+  margin-top: 1.5rem;
 }
 
 .featureList li {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-800);
+  font-size: 1rem;
+  transition: padding-left 0.2s ease;
+}
+
+.featureList li:hover {
+  padding-left: 1rem;
 }
 
 .featureList li:before {
   content: "✓ ";
   color: var(--ifm-color-primary);
   font-weight: bold;
+  margin-right: 0.5rem;
 }
 
 .callToAction {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .codeExample {
-  background: #2d3748;
-  border-radius: 8px;
+  background: var(--ifm-card-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] .codeExample {
+  background: #2d3748;
+  border-color: #4a5568;
 }
 
 .codeHeader {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-900);
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+[data-theme='dark'] .codeHeader {
   background: #4a5568;
-  color: white;
-  padding: 1rem;
-  font-weight: bold;
+  color: #e2e8f0;
+  border-bottom-color: #2d3748;
 }
 
 .codeBlock {
-  color: #e2e8f0;
+  color: var(--ifm-color-emphasis-800);
+  background: var(--ifm-background-color);
   padding: 1.5rem;
   margin: 0;
   overflow-x: auto;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+[data-theme='dark'] .codeBlock {
+  color: #e2e8f0;
+  background: #2d3748;
 }
 
 .quickStartSection {
-  padding: 4rem 0;
+  padding: 5rem 0;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.quickStartSection h2 {
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  font-weight: 700;
 }
 
 .stepCard {
-  padding: 2rem;
+  padding: 2.5rem;
   height: 100%;
+  background: var(--ifm-card-background-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.stepCard:hover {
+  transform: translateY(-6px);
 }
 
 .stepNumber {
-  width: 50px;
-  height: 50px;
-  background: var(--ifm-color-primary);
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--ifm-color-primary), var(--ifm-color-primary-dark));
   color: white;
   border-radius: 50%;
   display: flex;
@@ -208,25 +353,115 @@
   justify-content: center;
   font-size: 1.5rem;
   font-weight: bold;
-  margin: 0 auto 1rem;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+.stepCard h3 {
+  margin-bottom: 1rem;
+  color: var(--ifm-color-primary);
+  font-size: 1.3rem;
+}
+
+.stepCard code {
+  background: var(--ifm-color-emphasis-100);
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  display: block;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-800);
+}
+
+/* Responsive design improvements */
 @media screen and (max-width: 768px) {
   .buttons {
     flex-direction: column;
+    width: 100%;
+  }
+
+  .buttons .button {
+    width: 100%;
+    max-width: 300px;
   }
 
   .heroExample {
-    margin: 1rem auto;
-    padding: 1rem;
+    margin: 1.5rem auto;
+    padding: 1.5rem;
   }
 
   .monthRow {
     flex-direction: column;
     gap: 0.5rem;
+    text-align: center;
   }
 
   .highlight {
     margin-left: 0;
   }
+
+  .callToAction {
+    flex-direction: column;
+  }
+
+  .callToAction .button {
+    width: 100%;
+  }
+
+  .quickStartSection h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Animation for elements coming into view */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.painCard,
+.useCaseCard,
+.stepCard,
+.statCard {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Stagger animation delays */
+.painCard:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.painCard:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.painCard:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.stepCard:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.stepCard:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.stepCard:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Focus states for accessibility */
+.button:focus-visible,
+.painCard:focus-visible,
+.useCaseCard:focus-visible,
+.stepCard:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
 }

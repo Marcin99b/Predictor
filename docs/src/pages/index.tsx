@@ -255,33 +255,46 @@ function QuickStartSection() {
   return (
     <section className={styles.quickStartSection}>
       <div className="container">
-        <h2 className="text--center margin-bottom--lg">Get started in 5 minutes</h2>
+        <h2 className="text--center margin-bottom--lg">Ready to try it?</h2>
         <div className="row">
           <div className="col col--4 text--center">
             <div className={styles.stepCard}>
               <div className={styles.stepNumber}>1</div>
               <h3>Clone & Run</h3>
               <code>
-                git clone repo
+                git clone https://github.com/Marcin99b/Predictor.git
                 <br />
-                dotnet run
+                cd Predictor/src
+                <br />
+                dotnet run --project Predictor.Web
               </code>
             </div>
           </div>
           <div className="col col--4 text--center">
             <div className={styles.stepCard}>
               <div className={styles.stepNumber}>2</div>
-              <h3>Open Swagger</h3>
-              <code>localhost:7176/swagger</code>
+              <h3>Open API Docs</h3>
+              <code>https://localhost:7176/swagger</code>
+              <p style={{ marginTop: "1rem", fontSize: "0.9rem", color: "var(--ifm-color-emphasis-600)" }}>
+                Interactive documentation with examples
+              </p>
             </div>
           </div>
           <div className="col col--4 text--center">
             <div className={styles.stepCard}>
               <div className={styles.stepNumber}>3</div>
-              <h3>Try Examples</h3>
-              <code>GET /predictions/example</code>
+              <h3>Try It Out</h3>
+              <code>GET /api/v1/predictions/example</code>
+              <p style={{ marginTop: "1rem", fontSize: "0.9rem", color: "var(--ifm-color-emphasis-600)" }}>
+                Use the example data to make your first prediction
+              </p>
             </div>
           </div>
+        </div>
+        <div className="text--center" style={{ marginTop: "3rem" }}>
+          <Link className="button button--primary button--lg" to="/docs/api">
+            View Full Documentation
+          </Link>
         </div>
       </div>
     </section>
