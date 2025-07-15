@@ -64,7 +64,6 @@ const config: Config = {
           position: 'left',
           label: 'Documentation',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/Marcin99b/Predictor',
           label: 'GitHub',
@@ -79,16 +78,8 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Quick Start',
-              to: '/docs/quick-start',
-            },
-            {
-              label: 'API Reference',
-              to: '/docs/api/predictions',
-            },
-            {
-              label: 'Use Cases',
-              to: '/docs/use-cases/overview',
+              label: 'Documentation',
+              to: '/',
             },
           ],
         },
@@ -108,10 +99,6 @@ const config: Config = {
         {
           title: 'More',
           items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
             {
               label: 'GitHub',
               href: 'https://github.com/Marcin99b/Predictor',
