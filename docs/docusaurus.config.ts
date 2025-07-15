@@ -110,7 +110,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} <a href='https://github.com/Marcin99b' target='_blank' rel='noopener noreferrer'>GitHub</a>. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} <a href='https://github.com/Marcin99b/Predictor' target='_blank' rel='noopener noreferrer'>Predictor on GitHub</a> — Open source, contributions welcome! Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
