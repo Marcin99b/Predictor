@@ -16,8 +16,217 @@
   }
 }
 
+.heroExample {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+.questionExample {
+  font-style: italic;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.answerExample {
+  font-size: 1.3rem;
+  color: #25c2a0;
+  margin-bottom: 0;
+}
+
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.painSection {
+  padding: 4rem 0;
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+.painCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  height: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.painCard h3 {
+  color: var(--ifm-color-primary);
+  margin-bottom: 1rem;
+}
+
+.solutionSection {
+  padding: 4rem 0;
+}
+
+.inputExample,
+.outputExample {
+  background: var(--ifm-color-emphasis-100);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.inputItem {
+  margin-bottom: 0.8rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 4px;
+}
+
+.monthRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 4px;
+}
+
+.highlight {
+  color: var(--ifm-color-primary);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.socialProofSection {
+  padding: 4rem 0;
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+.statCard {
+  text-align: center;
+  padding: 2rem;
+}
+
+.statNumber {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--ifm-color-primary);
+}
+
+.statLabel {
+  font-size: 1.1rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.useCaseSection {
+  padding: 4rem 0;
+}
+
+.useCaseCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  height: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--ifm-color-primary);
+}
+
+.useCaseQuote {
+  font-style: italic;
+  font-size: 1.1rem;
+  margin: 1rem 0;
+}
+
+.useCaseDetails {
+  background: var(--ifm-color-emphasis-100);
+  padding: 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.technicalSection {
+  padding: 4rem 0;
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+}
+
+.featureList li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.featureList li:before {
+  content: "✓ ";
+  color: var(--ifm-color-primary);
+  font-weight: bold;
+}
+
+.callToAction {
+  margin-top: 2rem;
+}
+
+.codeExample {
+  background: #2d3748;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.codeHeader {
+  background: #4a5568;
+  color: white;
+  padding: 1rem;
+  font-weight: bold;
+}
+
+.codeBlock {
+  color: #e2e8f0;
+  padding: 1.5rem;
+  margin: 0;
+  overflow-x: auto;
+}
+
+.quickStartSection {
+  padding: 4rem 0;
+}
+
+.stepCard {
+  padding: 2rem;
+  height: 100%;
+}
+
+.stepNumber {
+  width: 50px;
+  height: 50px;
+  background: var(--ifm-color-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .buttons {
+    flex-direction: column;
+  }
+
+  .heroExample {
+    margin: 1rem auto;
+    padding: 1rem;
+  }
+
+  .monthRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .highlight {
+    margin-left: 0;
+  }
 }
