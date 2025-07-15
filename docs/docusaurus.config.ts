@@ -42,14 +42,11 @@ const config: Config = {
         theme: {
           customCss: './src/css/custom.css',
         },
-      } satisfies Preset.Options,
-      '@docusaurus/preset-classic',
-      {
-        googleAnalytics: {
+        gtag: {
           trackingID: 'G-1HD5Q68ETZ',
           anonymizeIP: true,
         },
-      },
+      } satisfies Preset.Options
     ],
   ],
 
