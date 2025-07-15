@@ -35,8 +35,6 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/Marcin99b/Predictor/tree/main/docs/',
         },
@@ -45,6 +43,13 @@ const config: Config = {
           customCss: './src/css/custom.css',
         },
       } satisfies Preset.Options,
+      '@docusaurus/preset-classic',
+      {
+        googleAnalytics: {
+          trackingID: 'G-1HD5Q68ETZ',
+          anonymizeIP: true,
+        },
+      },
     ],
   ],
 
