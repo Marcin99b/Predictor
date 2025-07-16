@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
+using Predictor.Web.Calculators;
 using Predictor.Web.Integrations;
 using System.Diagnostics.CodeAnalysis;
 
@@ -38,6 +39,7 @@ public class Program
 
         _ = builder.Services.AddMemoryCache();
         _ = builder.Services.AddSingleton<CacheRepository>();
+        _ = builder.Services.AddSingleton<MonthCalculator>();
 
         _ = builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
         _ = builder.Services.AddProblemDetails();

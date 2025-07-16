@@ -1,11 +1,10 @@
 ﻿using Predictor.Web.Models;
 
-namespace Predictor.Web;
+namespace Predictor.Web.Calculators;
 
-//static temporary. it should be registered
-public static class Calculator
+public class MonthCalculator
 {
-    public static MonthOutput CalculateMonth(PredictionRequest input, MonthDate month, decimal budgetBefore)
+    public MonthOutput CalculateMonth(PredictionRequest input, MonthDate month, decimal budgetBefore)
     {
         var income = input.GetMonthIncomes(month).Sum(x => x.Value);
         var expense = input.GetMonthExpenses(month).Sum(x => x.Value);
