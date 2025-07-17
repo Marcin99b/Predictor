@@ -34,7 +34,7 @@ public class ApiPerformanceTests
     [Ignore("performance test")]
     public void SimpleCalculation_ShouldHandle_HighThroughput()
     {
-                var simpleRequest = CreateSimpleRequest();
+        var simpleRequest = CreateSimpleRequest();
         var requestJson = JsonSerializer.Serialize(simpleRequest);
 
         var scenario = Scenario.Create("simple_calculation", async context =>
@@ -54,7 +54,7 @@ public class ApiPerformanceTests
             .RegisterScenarios(scenario)
             .Run();
 
-                VerifyPerformanceStats(stats,
+        VerifyPerformanceStats(stats,
             minRequestsPerSecond: 500,
             maxLatencyP99: 100,
             maxLatencyP95: 80,
@@ -65,7 +65,7 @@ public class ApiPerformanceTests
     [Ignore("performance test")]
     public void ComplexCalculation_ShouldHandle_ReasonableLoad()
     {
-                var complexRequest = CreateComplexRequest();
+        var complexRequest = CreateComplexRequest();
         var requestJson = JsonSerializer.Serialize(complexRequest);
 
         var scenario = Scenario.Create("complex_calculation", async context =>
@@ -85,7 +85,7 @@ public class ApiPerformanceTests
             .RegisterScenarios(scenario)
             .Run();
 
-                VerifyPerformanceStats(stats,
+        VerifyPerformanceStats(stats,
             minRequestsPerSecond: 100,
             maxLatencyP99: 500,
             maxLatencyP95: 400,
@@ -97,9 +97,9 @@ public class ApiPerformanceTests
 
     public void CacheRetrieval_ShouldBe_VeryFast()
     {
-                var request = CreateSimpleRequest();
+        var request = CreateSimpleRequest();
 
-                var predictionResult = this.client.PostAsJsonAsync("/api/v1/predictions", request)
+        var predictionResult = this.client.PostAsJsonAsync("/api/v1/predictions", request)
             .GetAwaiter().GetResult().Content.ReadFromJsonAsync<PredictionResult>()
             .GetAwaiter().GetResult()!;
 
@@ -117,17 +117,20 @@ public class ApiPerformanceTests
             .RegisterScenarios(scenario)
             .Run();
 
-                VerifyPerformanceStats(stats,
+        VerifyPerformanceStats(stats,
             minRequestsPerSecond: 2000,
-            maxLatencyP99: 50,              maxLatencyP95: 30,              maxLatencyP50: 10);     }
+            maxLatencyP99: 50,              
+            maxLatencyP95: 30,              
+            maxLatencyP50: 10);     
+    }
 
     [Test]
     [Ignore("performance test")]
     public void AnalyticsEndpoint_ShouldBe_Fast()
     {
-                var request = CreateSimpleRequest();
+        var request = CreateSimpleRequest();
 
-                var predictionResult = this.client.PostAsJsonAsync("/api/v1/predictions", request)
+        var predictionResult = this.client.PostAsJsonAsync("/api/v1/predictions", request)
             .GetAwaiter().GetResult().Content.ReadFromJsonAsync<PredictionResult>()
             .GetAwaiter().GetResult()!;
 
@@ -199,33 +202,6 @@ public class ApiPerformanceTests
         ]
     );
 
-    private static PredictionRequest CreateMediumRequest() => new(
-        PredictionMonths: 36,
-        InitialBudget: 15000m,
-        StartPredictionMonth: new MonthDate(1, 2025),
-        Incomes: [
-            new("Primary Salary", 5000m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Spouse Salary", 3500m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Freelance", 800m, new MonthDate(1, 2025), Frequency.Monthly, new MonthDate(12, 2026)),
-            new("Annual Bonus", 4000m, new MonthDate(3, 2025), Frequency.Annually),
-            new("Quarterly Dividend", 250m, new MonthDate(3, 2025), Frequency.Quarterly),
-            new("Tax Refund", 2500m, new MonthDate(4, 2025), Frequency.OneTime),
-            new("Side Business", 600m, new MonthDate(6, 2025), Frequency.Monthly)
-        ],
-        Expenses: [
-            new("Mortgage", 2200m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Car Payment", 450m, new MonthDate(1, 2025), Frequency.Monthly, new MonthDate(6, 2027)),
-            new("Insurance", 320m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Groceries", 700m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Utilities", 280m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Childcare", 1100m, new MonthDate(1, 2025), Frequency.Monthly, new MonthDate(8, 2027)),
-            new("Savings", 1000m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Vacation", 3000m, new MonthDate(7, 2025), Frequency.Annually),
-            new("Home Maintenance", 800m, new MonthDate(4, 2025), Frequency.SemiAnnually),
-            new("Medical", 150m, new MonthDate(1, 2025), Frequency.Quarterly)
-        ]
-    );
-
     private static PredictionRequest CreateComplexRequest() => new(
         PredictionMonths: 120,         InitialBudget: 50000m,
         StartPredictionMonth: new MonthDate(1, 2025),
@@ -237,14 +213,14 @@ public class ApiPerformanceTests
     {
         var incomes = new List<PaymentItem>();
 
-                incomes.AddRange([
+        incomes.AddRange([
             new("Primary Salary", 7000m, new MonthDate(1, 2025), Frequency.Monthly),
             new("Spouse Salary", 5500m, new MonthDate(1, 2025), Frequency.Monthly),
             new("Annual Raise Primary", 350m, new MonthDate(1, 2026), Frequency.Monthly),
             new("Annual Raise Spouse", 275m, new MonthDate(1, 2026), Frequency.Monthly),
         ]);
 
-                for (int year = 2025; year <= 2034; year++)
+        for (int year = 2025; year <= 2034; year++)
         {
             incomes.Add(new($"Dividend Income {year}", 400m + (year - 2025) * 50m,
                 new MonthDate(3, year), Frequency.Quarterly));
@@ -252,11 +228,11 @@ public class ApiPerformanceTests
                 new MonthDate(2, year), Frequency.OneTime));
         }
 
-                incomes.Add(new("Rental Property 1", 1800m, new MonthDate(6, 2025), Frequency.Monthly));
+        incomes.Add(new("Rental Property 1", 1800m, new MonthDate(6, 2025), Frequency.Monthly));
         incomes.Add(new("Rental Property 2", 2200m, new MonthDate(1, 2027), Frequency.Monthly));
         incomes.Add(new("Rental Property 3", 2500m, new MonthDate(6, 2029), Frequency.Monthly));
 
-                for (int month = 1; month <= 120; month += 3)
+        for (int month = 1; month <= 120; month += 3)
         {
             var baseDate = new MonthDate(1, 2025);
             var monthDate = month == 1 ? baseDate : baseDate.AddMonths(month - 1);
@@ -267,14 +243,14 @@ public class ApiPerformanceTests
             }
         }
 
-        return incomes.ToArray();
+        return [.. incomes];
     }
 
     private static PaymentItem[] GenerateComplexExpenses()
     {
         var expenses = new List<PaymentItem>();
 
-                expenses.AddRange([
+        expenses.AddRange([
             new("Mortgage", 3200m, new MonthDate(1, 2025), Frequency.Monthly),
             new("Property Tax", 650m, new MonthDate(1, 2025), Frequency.Monthly),
             new("Home Insurance", 280m, new MonthDate(1, 2025), Frequency.Monthly),
@@ -289,21 +265,21 @@ public class ApiPerformanceTests
             new("Personal Care", 200m, new MonthDate(1, 2025), Frequency.Monthly),
         ]);
 
-                expenses.AddRange([
+        expenses.AddRange([
             new("Car Loan 1", 520m, new MonthDate(1, 2025), Frequency.Monthly, new MonthDate(12, 2028)),
             new("Car Loan 2", 480m, new MonthDate(6, 2027), Frequency.Monthly, new MonthDate(5, 2031)),
             new("Student Loan", 380m, new MonthDate(1, 2025), Frequency.Monthly, new MonthDate(8, 2030)),
             new("Personal Loan", 250m, new MonthDate(1, 2025), Frequency.Monthly, new MonthDate(12, 2027)),
         ]);
 
-                expenses.AddRange([
+        expenses.AddRange([
             new("401k Contribution", 1200m, new MonthDate(1, 2025), Frequency.Monthly),
             new("IRA Contribution", 500m, new MonthDate(1, 2025), Frequency.Monthly),
             new("Emergency Fund", 800m, new MonthDate(1, 2025), Frequency.Monthly, new MonthDate(12, 2027)),
             new("Investment Account", 1500m, new MonthDate(1, 2025), Frequency.Monthly),
         ]);
 
-                for (int year = 2025; year <= 2034; year++)
+        for (int year = 2025; year <= 2034; year++)
         {
             expenses.Add(new($"Vacation {year}", 4500m, new MonthDate(7, year), Frequency.OneTime));
             expenses.Add(new($"Holiday Gifts {year}", 1200m, new MonthDate(12, year), Frequency.OneTime));
@@ -311,12 +287,12 @@ public class ApiPerformanceTests
             expenses.Add(new($"Home Maintenance {year}", 2500m, new MonthDate(5, year), Frequency.OneTime));
         }
 
-                expenses.AddRange([
+        expenses.AddRange([
             new("Property Maintenance", 800m, new MonthDate(3, 2025), Frequency.Quarterly),
             new("Medical Checkups", 600m, new MonthDate(6, 2025), Frequency.SemiAnnually),
             new("Car Maintenance", 450m, new MonthDate(4, 2025), Frequency.SemiAnnually),
         ]);
 
-        return expenses.ToArray();
+        return [.. expenses];
     }
 }
