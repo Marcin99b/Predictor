@@ -43,15 +43,14 @@ public abstract class BasePredictionTest
     protected static PredictionRequest CreateBasicRequest(int months = 3, decimal initialBudget = 0m) => new(
         PredictionMonths: months,
         InitialBudget: initialBudget,
+        OutputCurrency: "USD",
         StartPredictionMonth: new MonthDate(1, 2025),
         Incomes: [],
         Expenses: []);
 
     protected static PaymentItem CreateIncome(string name, decimal value, int month = 1, int year = 2025,
-        Frequency frequency = Frequency.OneTime, MonthDate? endDate = null) =>
-        new(name, value, new MonthDate(month, year), frequency, endDate);
+        Frequency frequency = Frequency.OneTime, MonthDate? endDate = null) => new(name, value, new MonthDate(month, year), "USD", frequency, endDate);
 
     protected static PaymentItem CreateExpense(string name, decimal value, int month = 1, int year = 2025,
-        Frequency frequency = Frequency.OneTime, MonthDate? endDate = null) =>
-        new(name, value, new MonthDate(month, year), frequency, endDate);
+        Frequency frequency = Frequency.OneTime, MonthDate? endDate = null) => new(name, value, new MonthDate(month, year), "USD", frequency, endDate);
 }
