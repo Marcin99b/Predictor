@@ -28,5 +28,11 @@ public class PredictionRequestValidator : AbstractValidator<PredictionRequest>
         _ = this.RuleForEach(x => x.Expenses)
             .NotNull()
             .SetValidator(new PaymentItemValidator());
+
+        _ = this.RuleFor(x => x.OutputCurrency)
+            .NotEmpty()
+            .Must(code => ISO._4217.CurrencyCodesResolver.Codes
+                .Any(c => c.Code.Trim().Equals(code, StringComparison.OrdinalIgnoreCase)))
+            .WithMessage("Invalid output currency code (must be ISO‑4217).");
     }
 }

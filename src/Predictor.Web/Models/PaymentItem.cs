@@ -1,6 +1,8 @@
-﻿namespace Predictor.Web.Models;
+﻿using ISO._4217.Models;
 
-public record PaymentItem(string Name, decimal Value, MonthDate StartDate, Frequency Frequency = Frequency.OneTime, MonthDate? EndDate = null)
+namespace Predictor.Web.Models;
+
+public record PaymentItem(string Name, decimal Value, MonthDate StartDate, string Currency, Frequency Frequency = Frequency.OneTime, MonthDate? EndDate = null)
 {
     public bool Check(MonthDate month)
     {
@@ -25,6 +27,11 @@ public record PaymentItem(string Name, decimal Value, MonthDate StartDate, Frequ
         }
 
         if (this.Frequency == Frequency.OneTime)
+        {
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(this.Currency))
         {
             return false;
         }

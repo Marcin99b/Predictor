@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Predictor.Web.Models;
+using System.Net;
 
 namespace Predictor.Tests.Integration;
 
@@ -20,8 +21,8 @@ public class BudgetCalculationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(months, initialBudget) with
         {
-            Incomes = [CreateIncome("Income", income, frequency: Frequency.Monthly)],
-            Expenses = [CreateExpense("Expense", expense, frequency: Frequency.Monthly)]
+            Incomes = [CreateIncome("Income", income, "USD", frequency: Frequency.Monthly)],
+            Expenses = [CreateExpense("Expense", expense, "USD", frequency: Frequency.Monthly)]
         };
 
         // Act
@@ -47,12 +48,12 @@ public class BudgetCalculationTests : BasePredictionTest
         var request = CreateBasicRequest(1) with
         {
             Incomes = [
-                CreateIncome("Salary", 3000m),
-                CreateIncome("Bonus", 2000m)
+                CreateIncome("Salary", 3000m, "USD"),
+                CreateIncome("Bonus", 2000m, "USD")
             ],
             Expenses = [
-                CreateExpense("Rent", 1200m),
-                CreateExpense("Food", 800m)
+                CreateExpense("Rent", 1200m, "USD"),
+                CreateExpense("Food", 800m, "USD")
             ]
         };
 
@@ -71,7 +72,7 @@ public class BudgetCalculationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(2, 1000m) with
         {
-            Incomes = [CreateIncome("Salary", 2000m, frequency: Frequency.Monthly)],
+            Incomes = [CreateIncome("Salary", 2000m, "USD", frequency: Frequency.Monthly)],
             Expenses = []
         };
 
@@ -92,7 +93,7 @@ public class BudgetCalculationTests : BasePredictionTest
         var request = CreateBasicRequest(2, 5000m) with
         {
             Incomes = [],
-            Expenses = [CreateExpense("Rent", 1500m, frequency: Frequency.Monthly)]
+            Expenses = [CreateExpense("Rent", 1500m, "USD", frequency: Frequency.Monthly)]
         };
 
         // Act
@@ -111,8 +112,8 @@ public class BudgetCalculationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(1, 0m) with
         {
-            Incomes = [CreateIncome("Income", 1000m)],
-            Expenses = [CreateExpense("Expense", 300m)]
+            Incomes = [CreateIncome("Income", 1000m, "USD")],
+            Expenses = [CreateExpense("Expense", 300m, "USD")]
         };
 
         // Act
@@ -121,5 +122,43 @@ public class BudgetCalculationTests : BasePredictionTest
         // Assert
         _ = result.Months[0].Balance.Should().Be(700m);
         _ = result.Months[0].BudgetAfter.Should().Be(700m);
+    }
+
+    [Test]
+    public async Task Prediction_WithDifferentInputAndOutputCurrencies_ShouldReturnOk()
+    {
+        // Arrange
+        var request = CreateBasicRequest() with
+        {
+            OutputCurrency = "USD",
+            Incomes = [CreateIncome("Salary", 1000m, "AUD")], // different from output
+            Expenses = [CreateExpense("Rent", 500m, "CAD")]
+        };
+
+        // Act
+        var status = await this.GetResponseStatusCode(request);
+
+        // Assert
+        _ = status.Should().Be(HttpStatusCode.OK);
+    }
+    [Test]
+    public async Task Prediction_WithCurrencyConversion_ShouldConvertCorrectly()
+    {
+        // Arrange
+        var request = CreateBasicRequest() with
+        {
+            OutputCurrency = "AUD",
+            Incomes = [CreateIncome("Salary", 1000m, "USD")]
+        };
+
+        // Act
+        var result = await this.GetPredictionResult(request);
+
+        // Assert
+        result.Months.Should().NotBeNullOrEmpty();
+
+        var incomeInUsd = result.Months[0].Income;
+
+        incomeInUsd.Should().BeGreaterThan(1000m); // Conversion from USD to AUD should increase value
     }
 }
