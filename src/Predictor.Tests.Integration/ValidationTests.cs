@@ -242,4 +242,26 @@ public class ValidationTests : BasePredictionTest
         var status = await this.GetResponseStatusCode(request);
         _ = status.Should().Be(HttpStatusCode.OK);
     }
+
+    [TestCase("", HttpStatusCode.BadRequest)]
+    [TestCase("  ", HttpStatusCode.BadRequest)]
+    [TestCase("XYZ", HttpStatusCode.BadRequest)] // Not a real ISO code
+    [TestCase("usd", HttpStatusCode.OK)]         // Lowercase, still valid
+    [TestCase("USD", HttpStatusCode.OK)]         // Valid
+    [TestCase("EUR", HttpStatusCode.OK)]         // Valid
+    [TestCase("GBP", HttpStatusCode.OK)]         // Valid
+    [TestCase("US D", HttpStatusCode.BadRequest)] // Invalid with space
+    public async Task Prediction_WithCurrencyCode_ShouldValidateCorrectly(string currency, HttpStatusCode expectedStatus)
+    {
+        // Arrange
+        var request = CreateBasicRequest() with
+        {
+            Incomes = [CreateIncome("Salary", 1000m, currency)]
+        };
+
+        // Act & Assert
+        var status = await this.GetResponseStatusCode(request);
+        _ = status.Should().Be(expectedStatus);
+    }
+
 }

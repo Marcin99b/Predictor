@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Predictor.Web.Models;
+using System.Net;
 
 namespace Predictor.Tests.Integration;
 
@@ -121,5 +122,43 @@ public class BudgetCalculationTests : BasePredictionTest
         // Assert
         _ = result.Months[0].Balance.Should().Be(700m);
         _ = result.Months[0].BudgetAfter.Should().Be(700m);
+    }
+
+    [Test]
+    public async Task Prediction_WithDifferentInputAndOutputCurrencies_ShouldReturnOk()
+    {
+        // Arrange
+        var request = CreateBasicRequest() with
+        {
+            OutputCurrency = "USD",
+            Incomes = [CreateIncome("Salary", 1000m, "AUD")], // different from output
+            Expenses = [CreateExpense("Rent", 500m, "CAD")]
+        };
+
+        // Act
+        var status = await this.GetResponseStatusCode(request);
+
+        // Assert
+        _ = status.Should().Be(HttpStatusCode.OK);
+    }
+    [Test]
+    public async Task Prediction_WithCurrencyConversion_ShouldConvertCorrectly()
+    {
+        // Arrange
+        var request = CreateBasicRequest() with
+        {
+            OutputCurrency = "AUD",
+            Incomes = [CreateIncome("Salary", 1000m, "USD")]
+        };
+
+        // Act
+        var result = await this.GetPredictionResult(request);
+
+        // Assert
+        result.Months.Should().NotBeNullOrEmpty();
+
+        var incomeInUsd = result.Months[0].Income;
+
+        incomeInUsd.Should().BeGreaterThan(1000m); // Conversion from USD to AUD should increase value
     }
 }
