@@ -48,9 +48,9 @@ public abstract class BasePredictionTest
         Incomes: [],
         Expenses: []);
 
-    protected static PaymentItem CreateIncome(string name, decimal value, int month = 1, int year = 2025,
-        Frequency frequency = Frequency.OneTime, MonthDate? endDate = null) => new(name, value, new MonthDate(month, year), "USD", frequency, endDate);
+    protected static PaymentItem CreateIncome(string name, decimal value, string currency, int month = 1, int year = 2025,
+        Frequency frequency = Frequency.OneTime, MonthDate? endDate = null) => new(name, value, new MonthDate(month, year), currency, frequency, endDate);
 
-    protected static PaymentItem CreateExpense(string name, decimal value, int month = 1, int year = 2025,
-        Frequency frequency = Frequency.OneTime, MonthDate? endDate = null) => new(name, value, new MonthDate(month, year), "USD", frequency, endDate);
+    protected static PaymentItem CreateExpense(string name, decimal value, string currency, int month = 1, int year = 2025,
+        Frequency frequency = Frequency.OneTime, MonthDate? endDate = null) => new(name, value, new MonthDate(month, year), currency, frequency, endDate);
 }

@@ -80,7 +80,7 @@ public class ValidationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest() with
         {
-            Incomes = [CreateIncome(name, 1000m)]
+            Incomes = [CreateIncome(name, 1000m, "USD")]
         };
 
         // Act & Assert
@@ -96,7 +96,7 @@ public class ValidationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest() with
         {
-            Expenses = [CreateExpense(name, 1000m)]
+            Expenses = [CreateExpense(name, 1000m, "USD")]
         };
 
         // Act & Assert
@@ -114,7 +114,7 @@ public class ValidationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest() with
         {
-            Incomes = [CreateIncome("Valid Name", value)]
+            Incomes = [CreateIncome("Valid Name", value, "USD")]
         };
 
         // Act & Assert
@@ -131,7 +131,7 @@ public class ValidationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest() with
         {
-            Expenses = [CreateExpense("Valid Name", value)]
+            Expenses = [CreateExpense("Valid Name", value, "USD")]
         };
 
         // Act & Assert
@@ -148,7 +148,7 @@ public class ValidationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest() with
         {
-            Incomes = [CreateIncome("Valid Name", 1000m, month)]
+            Incomes = [CreateIncome("Valid Name", 1000m, "USD", month)]
         };
 
         // Act & Assert
@@ -165,7 +165,7 @@ public class ValidationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest() with
         {
-            Incomes = [CreateIncome("Valid Name", 1000m, year: year)]
+            Incomes = [CreateIncome("Valid Name", 1000m, "USD", year: year)]
         };
 
         // Act & Assert
@@ -179,7 +179,7 @@ public class ValidationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest() with
         {
-            Incomes = [CreateIncome("Contract", 1000m, endDate: new MonthDate(12, 2025))]
+            Incomes = [CreateIncome("Contract", 1000m, "USD", endDate: new MonthDate(12, 2025))]
         };
 
         // Act & Assert
@@ -194,7 +194,7 @@ public class ValidationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest() with
         {
-            Incomes = [CreateIncome("Contract", 1000m, endDate: new MonthDate(month, 2025))]
+            Incomes = [CreateIncome("Contract", 1000m, "USD", endDate: new MonthDate(month, 2025))]
         };
 
         // Act & Assert
@@ -220,7 +220,7 @@ public class ValidationTests : BasePredictionTest
         var longName = new string('a', 101);
         var request = CreateBasicRequest() with
         {
-            Incomes = [CreateIncome(longName, 1000m)]
+            Incomes = [CreateIncome(longName, 1000m, "USD")]
         };
 
         // Act & Assert
@@ -235,7 +235,7 @@ public class ValidationTests : BasePredictionTest
         var maxName = new string('a', 100);
         var request = CreateBasicRequest() with
         {
-            Incomes = [CreateIncome(maxName, 1000m)]
+            Incomes = [CreateIncome(maxName, 1000m, "USD")]
         };
 
         // Act & Assert

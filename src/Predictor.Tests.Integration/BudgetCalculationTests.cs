@@ -20,8 +20,8 @@ public class BudgetCalculationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(months, initialBudget) with
         {
-            Incomes = [CreateIncome("Income", income, frequency: Frequency.Monthly)],
-            Expenses = [CreateExpense("Expense", expense, frequency: Frequency.Monthly)]
+            Incomes = [CreateIncome("Income", income, "USD", frequency: Frequency.Monthly)],
+            Expenses = [CreateExpense("Expense", expense, "USD", frequency: Frequency.Monthly)]
         };
 
         // Act
@@ -47,12 +47,12 @@ public class BudgetCalculationTests : BasePredictionTest
         var request = CreateBasicRequest(1) with
         {
             Incomes = [
-                CreateIncome("Salary", 3000m),
-                CreateIncome("Bonus", 2000m)
+                CreateIncome("Salary", 3000m, "USD"),
+                CreateIncome("Bonus", 2000m, "USD")
             ],
             Expenses = [
-                CreateExpense("Rent", 1200m),
-                CreateExpense("Food", 800m)
+                CreateExpense("Rent", 1200m, "USD"),
+                CreateExpense("Food", 800m, "USD")
             ]
         };
 
@@ -71,7 +71,7 @@ public class BudgetCalculationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(2, 1000m) with
         {
-            Incomes = [CreateIncome("Salary", 2000m, frequency: Frequency.Monthly)],
+            Incomes = [CreateIncome("Salary", 2000m, "USD", frequency: Frequency.Monthly)],
             Expenses = []
         };
 
@@ -92,7 +92,7 @@ public class BudgetCalculationTests : BasePredictionTest
         var request = CreateBasicRequest(2, 5000m) with
         {
             Incomes = [],
-            Expenses = [CreateExpense("Rent", 1500m, frequency: Frequency.Monthly)]
+            Expenses = [CreateExpense("Rent", 1500m, "USD", frequency: Frequency.Monthly)]
         };
 
         // Act
@@ -111,8 +111,8 @@ public class BudgetCalculationTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(1, 0m) with
         {
-            Incomes = [CreateIncome("Income", 1000m)],
-            Expenses = [CreateExpense("Expense", 300m)]
+            Incomes = [CreateIncome("Income", 1000m, "USD")],
+            Expenses = [CreateExpense("Expense", 300m, "USD")]
         };
 
         // Act
