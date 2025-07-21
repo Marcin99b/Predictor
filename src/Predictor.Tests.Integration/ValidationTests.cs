@@ -263,5 +263,4 @@ public class ValidationTests : BasePredictionTest
         var status = await this.GetResponseStatusCode(request);
         _ = status.Should().Be(expectedStatus);
     }
-
 }
