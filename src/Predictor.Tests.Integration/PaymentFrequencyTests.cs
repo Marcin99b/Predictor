@@ -20,7 +20,7 @@ public class PaymentFrequencyTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(totalMonths) with
         {
-            Incomes = [CreateIncome("Recurring Income", 1000m, frequency: frequency)]
+            Incomes = [CreateIncome("Recurring Income", 1000m, "USD", frequency: frequency)]
         };
 
         // Act
@@ -51,7 +51,7 @@ public class PaymentFrequencyTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(totalMonths) with
         {
-            Incomes = [CreateIncome("One-time Bonus", 1000m, targetMonth, frequency: Frequency.OneTime)]
+            Incomes = [CreateIncome("One-time Bonus", 1000m, "USD", targetMonth, frequency: Frequency.OneTime)]
         };
 
         // Act
@@ -75,7 +75,7 @@ public class PaymentFrequencyTests : BasePredictionTest
         var endDate = new MonthDate(3, 2025);
         var request = CreateBasicRequest(6) with
         {
-            Incomes = [CreateIncome("Contract", 1000m, frequency: Frequency.Monthly, endDate: endDate)]
+            Incomes = [CreateIncome("Contract", 1000m, "USD", frequency: Frequency.Monthly, endDate: endDate)]
         };
 
         // Act
@@ -95,7 +95,7 @@ public class PaymentFrequencyTests : BasePredictionTest
         var endDate = new MonthDate(12, 2024);
         var request = CreateBasicRequest(3) with
         {
-            Incomes = [CreateIncome("Expired Contract", 1000m, startDate.Month, startDate.Year, Frequency.Monthly, endDate)]
+            Incomes = [CreateIncome("Expired Contract", 1000m, "USD", startDate.Month, startDate.Year, Frequency.Monthly, endDate)]
         };
 
         // Act
@@ -113,7 +113,7 @@ public class PaymentFrequencyTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(5) with
         {
-            Incomes = [CreateIncome("Late Start", 1000m, month: 3, frequency: Frequency.Monthly)]
+            Incomes = [CreateIncome("Late Start", 1000m, "USD", month: 3, frequency: Frequency.Monthly)]
         };
 
         // Act
@@ -131,7 +131,7 @@ public class PaymentFrequencyTests : BasePredictionTest
         // Arrange - Start quarterly payment in month 2, should occur in months 2, 5, 8
         var request = CreateBasicRequest(9) with
         {
-            Incomes = [CreateIncome("Quarterly Mid-Start", 3000m, month: 2, frequency: Frequency.Quarterly)]
+            Incomes = [CreateIncome("Quarterly Mid-Start", 3000m, "USD", month: 2, frequency: Frequency.Quarterly)]
         };
 
         // Act
@@ -157,10 +157,10 @@ public class PaymentFrequencyTests : BasePredictionTest
         var request = CreateBasicRequest(12) with
         {
             Incomes = [
-                CreateIncome("Monthly Salary", 3000m, frequency: Frequency.Monthly),
-                CreateIncome("Quarterly Bonus", 2000m, frequency: Frequency.Quarterly),
-                CreateIncome("Annual Bonus", 10000m, frequency: Frequency.Annually),
-                CreateIncome("One-time Gift", 5000m, month: 6, frequency: Frequency.OneTime)
+                CreateIncome("Monthly Salary", 3000m, "USD", frequency: Frequency.Monthly),
+                CreateIncome("Quarterly Bonus", 2000m, "USD", frequency: Frequency.Quarterly),
+                CreateIncome("Annual Bonus", 10000m, "USD", frequency: Frequency.Annually),
+                CreateIncome("One-time Gift", 5000m, "USD", month: 6, frequency: Frequency.OneTime)
             ]
         };
 

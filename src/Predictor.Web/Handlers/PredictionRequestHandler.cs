@@ -12,7 +12,7 @@ public class PredictionRequestHandler(
     MonthCalculator calculator) 
     : IRequestHandler<PredictionRequest, PredictionResult>
 {
-    public Task<PredictionResult> Handle(PredictionRequest request, CancellationToken cancellationToken)
+    public async Task<PredictionResult> Handle(PredictionRequest request, CancellationToken cancellationToken)
     {
         validator.ValidateAndThrow(request);
 
@@ -20,7 +20,7 @@ public class PredictionRequestHandler(
         var budget = request.InitialBudget;
         foreach (var currentMonth in MonthDate.Range(request.StartPredictionMonth, request.PredictionMonths))
         {
-            var month = calculator.CalculateMonth(request, currentMonth, budget);
+            var month = await calculator.CalculateMonthAsync(request, currentMonth, budget);
             budget = month.BudgetAfter;
             months.Add(month);
         }
@@ -33,6 +33,6 @@ public class PredictionRequestHandler(
         var result = new PredictionResult(request.PutId ?? Guid.NewGuid(), summary, monthsArray);
         cache.Set_PredictionResult(result);
 
-        return Task.FromResult(result);
+        return await Task.FromResult(result);
     }
 }

@@ -12,9 +12,9 @@ public class BusinessScenariosTests : BasePredictionTest
         var targetAmount = 50_000m;
         var request = CreateBasicRequest(40, 15_000m) with
         {
-            Incomes = [CreateIncome("Monthly Salary", 7_000m, frequency: Frequency.Monthly)],
+            Incomes = [CreateIncome("Monthly Salary", 7_000m, "USD", frequency: Frequency.Monthly)],
             Expenses = [
-                CreateExpense("Living Expenses", 4_000m, frequency: Frequency.Monthly),                 CreateExpense("Savings Goal", 2_000m, frequency: Frequency.Monthly)             ]
+                CreateExpense("Living Expenses", 4_000m, "USD", frequency: Frequency.Monthly),                 CreateExpense("Savings Goal", 2_000m, "USD", frequency: Frequency.Monthly)             ]
         };
 
         // Act
@@ -40,10 +40,10 @@ public class BusinessScenariosTests : BasePredictionTest
         // Arrange - Student loan paid off in 18 months
         var request = CreateBasicRequest(24, 2_000m) with
         {
-            Incomes = [CreateIncome("Job Income", 4_500m, frequency: Frequency.Monthly)],
+            Incomes = [CreateIncome("Job Income", 4_500m, "USD", frequency: Frequency.Monthly)],
             Expenses = [
-                CreateExpense("Living Costs", 3_000m, frequency: Frequency.Monthly),
-                CreateExpense("Student Loan", 800m, frequency: Frequency.Monthly,
+                CreateExpense("Living Costs", 3_000m, "USD", frequency: Frequency.Monthly),
+                CreateExpense("Student Loan", 800m, "USD", frequency: Frequency.Monthly,
                             endDate: new MonthDate(6, 2026))             ]
         };
 
@@ -68,13 +68,13 @@ public class BusinessScenariosTests : BasePredictionTest
         var request = CreateBasicRequest(60, 50_000m) with
         {
             Incomes = [
-                CreateIncome("Salary", 8_000m, frequency: Frequency.Monthly),
-                CreateIncome("Annual Bonus", 10_000m, frequency: Frequency.Annually)
+                CreateIncome("Salary", 8_000m, "USD", frequency: Frequency.Monthly),
+                CreateIncome("Annual Bonus", 10_000m, "USD", frequency: Frequency.Annually)
             ],
             Expenses = [
-                CreateExpense("Living Expenses", 5_500m, frequency: Frequency.Monthly),
-                CreateExpense("401k Contribution", 1_200m, frequency: Frequency.Monthly),
-                CreateExpense("IRA Contribution", 500m, frequency: Frequency.Monthly)
+                CreateExpense("Living Expenses", 5_500m, "USD", frequency: Frequency.Monthly),
+                CreateExpense("401k Contribution", 1_200m,  "USD", frequency: Frequency.Monthly),
+                CreateExpense("IRA Contribution", 500m, "USD", frequency: Frequency.Monthly)
             ]
         };
 
@@ -101,10 +101,10 @@ public class BusinessScenariosTests : BasePredictionTest
         var request = CreateBasicRequest(12, 15_000m) with
         {
             Incomes = [
-                                CreateIncome("Summer Revenue", 20_000m, month: 6, frequency: Frequency.OneTime),                 CreateIncome("Summer Revenue", 25_000m, month: 7, frequency: Frequency.OneTime),                 CreateIncome("Summer Revenue", 18_000m, month: 8, frequency: Frequency.OneTime),                                 CreateIncome("Holiday Revenue", 12_000m, month: 11, frequency: Frequency.OneTime),                 CreateIncome("Holiday Revenue", 15_000m, month: 12, frequency: Frequency.OneTime),                                 CreateIncome("Base Income", 3_000m, frequency: Frequency.Monthly)             ],
+                                CreateIncome("Summer Revenue", 20_000m, "USD", month: 6, frequency: Frequency.OneTime),                 CreateIncome("Summer Revenue", 25_000m, "USD", month: 7, frequency: Frequency.OneTime),                 CreateIncome("Summer Revenue", 18_000m, "USD", month: 8, frequency: Frequency.OneTime),                                 CreateIncome("Holiday Revenue", 12_000m, "USD", month: 11, frequency: Frequency.OneTime),                 CreateIncome("Holiday Revenue", 15_000m, "USD", month: 12, frequency: Frequency.OneTime),                                 CreateIncome("Base Income", 3_000m, "USD", frequency: Frequency.Monthly)             ],
             Expenses = [
-                CreateExpense("Fixed Costs", 4_000m, frequency: Frequency.Monthly),
-                CreateExpense("Summer Marketing", 2_000m, month: 5, frequency: Frequency.OneTime),                 CreateExpense("Holiday Inventory", 3_000m, month: 10, frequency: Frequency.OneTime)             ]
+                CreateExpense("Fixed Costs", 4_000m, "USD", frequency: Frequency.Monthly),
+                CreateExpense("Summer Marketing", 2_000m, "USD", month: 5, frequency: Frequency.OneTime),                 CreateExpense("Holiday Inventory", 3_000m, "USD", month: 10, frequency: Frequency.OneTime)             ]
         };
 
         // Act
@@ -126,13 +126,13 @@ public class BusinessScenariosTests : BasePredictionTest
         var request = CreateBasicRequest(12, 8_000m) with
         {
             Incomes = [
-                                CreateIncome("Project A Payment", 8_000m, month: 2, frequency: Frequency.OneTime),
-                CreateIncome("Project B Payment", 12_000m, month: 5, frequency: Frequency.OneTime),
-                CreateIncome("Project C Payment", 6_000m, month: 8, frequency: Frequency.OneTime),
-                CreateIncome("Project D Payment", 15_000m, month: 11, frequency: Frequency.OneTime),
-                                CreateIncome("Retainer Client", 2_500m, frequency: Frequency.Monthly)             ],
+                                CreateIncome("Project A Payment", 8_000m, "USD", month: 2, frequency: Frequency.OneTime),
+                CreateIncome("Project B Payment", 12_000m, "USD", month: 5, frequency: Frequency.OneTime),
+                CreateIncome("Project C Payment", 6_000m, "USD", month: 8, frequency: Frequency.OneTime),
+                CreateIncome("Project D Payment", 15_000m, "USD", month: 11, frequency: Frequency.OneTime),
+                                CreateIncome("Retainer Client", 2_500m, "USD", frequency: Frequency.Monthly)             ],
             Expenses = [
-                CreateExpense("Living Expenses", 3_000m, frequency: Frequency.Monthly),                 CreateExpense("Business Expenses", 500m, frequency: Frequency.Monthly),                 CreateExpense("Quarterly Taxes", 2_000m, frequency: Frequency.Quarterly)             ]
+                CreateExpense("Living Expenses", 3_000m, "USD", frequency: Frequency.Monthly),                 CreateExpense("Business Expenses", 500m, "USD", frequency: Frequency.Monthly),                 CreateExpense("Quarterly Taxes", 2_000m, "USD", frequency: Frequency.Quarterly)             ]
         };
 
         // Act
@@ -156,18 +156,18 @@ public class BusinessScenariosTests : BasePredictionTest
         var request = CreateBasicRequest(36, 15_000m) with
         {
             Incomes = [
-                CreateIncome("Parent 1 Salary", 6_500m, frequency: Frequency.Monthly),
-                CreateIncome("Parent 2 Salary", 4_800m, frequency: Frequency.Monthly),
-                CreateIncome("Tax Refund", 3_500m, month: 4, frequency: Frequency.Annually)             ],
+                CreateIncome("Parent 1 Salary", 6_500m, "USD", frequency: Frequency.Monthly),
+                CreateIncome("Parent 2 Salary", 4_800m, "USD", frequency: Frequency.Monthly),
+                CreateIncome("Tax Refund", 3_500m, "USD", month: 4, frequency: Frequency.Annually)             ],
             Expenses = [
-                CreateExpense("Mortgage", 2_800m, frequency: Frequency.Monthly),
-                CreateExpense("Utilities & Home", 600m, frequency: Frequency.Monthly),
-                CreateExpense("Food & Groceries", 1_200m, frequency: Frequency.Monthly),
-                CreateExpense("Childcare", 1_800m, frequency: Frequency.Monthly,
-                            endDate: new MonthDate(6, 2027)),                 CreateExpense("School Supplies", 800m, month: 8, frequency: Frequency.Annually),
-                CreateExpense("Medical/Dental", 400m, frequency: Frequency.Quarterly),
-                CreateExpense("College Savings", 1_000m, frequency: Frequency.Monthly),
-                                CreateExpense("Activities/Sports", 300m, month: 12, frequency: Frequency.Monthly)             ]
+                CreateExpense("Mortgage", 2_800m,  "USD",frequency: Frequency.Monthly),
+                CreateExpense("Utilities & Home", 600m, "USD", frequency: Frequency.Monthly),
+                CreateExpense("Food & Groceries", 1_200m, "USD", frequency: Frequency.Monthly),
+                CreateExpense("Childcare", 1_800m, "USD",frequency: Frequency.Monthly,
+                            endDate: new MonthDate(6, 2027)),                 CreateExpense("School Supplies", 800m, "USD", month: 8, frequency: Frequency.Annually),
+                CreateExpense("Medical/Dental", 400m, "USD", frequency: Frequency.Quarterly),
+                CreateExpense("College Savings", 1_000m, "USD", frequency: Frequency.Monthly),
+                                CreateExpense("Activities/Sports", 300m, "USD", month: 12, frequency: Frequency.Monthly)             ]
         };
 
         // Act
@@ -198,17 +198,17 @@ public class BusinessScenariosTests : BasePredictionTest
         var request = CreateBasicRequest(18, 50_000m) with
         {
             Incomes = [
-                CreateIncome("First Revenue", 3_000m, month: 7, frequency: Frequency.Monthly,
+                CreateIncome("First Revenue", 3_000m, "USD", month: 7, frequency: Frequency.Monthly,
                           endDate: new MonthDate(12, 2025)),
-                CreateIncome("Growing Revenue", 10_000m, month: 1, year: 2026, frequency: Frequency.Monthly)
+                CreateIncome("Growing Revenue", 10_000m, "USD", month: 1, year: 2026, frequency: Frequency.Monthly)
             ],
             Expenses = [
-                CreateExpense("Development Costs", 3_000m, frequency: Frequency.Monthly,
+                CreateExpense("Development Costs", 3_000m, "USD", frequency: Frequency.Monthly,
                             endDate: new MonthDate(6, 2025)),
-                CreateExpense("Office Setup", 8_000m, month: 1, frequency: Frequency.OneTime),
-                CreateExpense("Legal/Registration", 3_000m, month: 2, frequency: Frequency.OneTime),
-                CreateExpense("Minimal Living", 2_000m, frequency: Frequency.Monthly),
-                CreateExpense("Business Operations", 1_000m, month: 7, frequency: Frequency.Monthly) 
+                CreateExpense("Office Setup", 8_000m, "USD", month: 1, frequency: Frequency.OneTime),
+                CreateExpense("Legal/Registration", 3_000m, "USD", month: 2, frequency: Frequency.OneTime),
+                CreateExpense("Minimal Living", 2_000m, "USD", frequency: Frequency.Monthly),
+                CreateExpense("Business Operations", 1_000m, "USD", month: 7, frequency: Frequency.Monthly) 
             ]
         };
 

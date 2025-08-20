@@ -2,7 +2,7 @@
 
 namespace Predictor.Web.Models;
 
-public record PredictionRequest(int PredictionMonths, decimal InitialBudget, MonthDate StartPredictionMonth, PaymentItem[] Incomes, PaymentItem[] Expenses)
+public record PredictionRequest(int PredictionMonths, decimal InitialBudget, string OutputCurrency, MonthDate StartPredictionMonth, PaymentItem[] Incomes, PaymentItem[] Expenses)
     : IRequest<PredictionResult>
 {
     public IEnumerable<PaymentItem> GetMonthIncomes(MonthDate month)

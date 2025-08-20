@@ -12,12 +12,12 @@ public class SummaryStatisticsTests : BasePredictionTest
         var request = CreateBasicRequest(3, 2000m) with
         {
             Incomes = [
-                CreateIncome("Regular Salary", 3000m, frequency: Frequency.Monthly),
-                CreateIncome("Big Bonus", 5000m, month: 2, frequency: Frequency.OneTime)
+                CreateIncome("Regular Salary", 3000m, "USD", frequency: Frequency.Monthly),
+                CreateIncome("Big Bonus", 5000m, "USD", month: 2, frequency: Frequency.OneTime)
             ],
             Expenses = [
-                CreateExpense("Big Purchase", 4000m, frequency: Frequency.OneTime),
-                CreateExpense("Regular Expense", 1000m, frequency: Frequency.Monthly)
+                CreateExpense("Big Purchase", 4000m, "USD", frequency: Frequency.OneTime),
+                CreateExpense("Regular Expense", 1000m, "USD", frequency: Frequency.Monthly)
             ]
         };
 
@@ -39,8 +39,8 @@ public class SummaryStatisticsTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(3) with
         {
-            Incomes = [CreateIncome("Income", 1000m, frequency: Frequency.Monthly)],
-            Expenses = [CreateExpense("Expense", 1000m, frequency: Frequency.Monthly)]
+            Incomes = [CreateIncome("Income", 1000m, "USD", frequency: Frequency.Monthly)],
+            Expenses = [CreateExpense("Expense", 1000m, "USD", frequency: Frequency.Monthly)]
         };
 
         // Act
@@ -59,8 +59,8 @@ public class SummaryStatisticsTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(4, 1000m) with
         {
-            Incomes = [CreateIncome("Growing Income", 2000m, frequency: Frequency.Monthly)],
-            Expenses = [CreateExpense("Fixed Expense", 1000m, frequency: Frequency.Monthly)]
+            Incomes = [CreateIncome("Growing Income", 2000m, "USD", frequency: Frequency.Monthly)],
+            Expenses = [CreateExpense("Fixed Expense", 1000m, "USD", frequency: Frequency.Monthly)]
         };
 
         // Act
@@ -80,7 +80,7 @@ public class SummaryStatisticsTests : BasePredictionTest
         var request = CreateBasicRequest(3, 5000m) with
         {
             Incomes = [],
-            Expenses = [CreateExpense("Heavy Expense", 1500m, frequency: Frequency.Monthly)]
+            Expenses = [CreateExpense("Heavy Expense", 1500m, "USD", frequency: Frequency.Monthly)]
         };
 
         // Act
@@ -101,13 +101,13 @@ public class SummaryStatisticsTests : BasePredictionTest
         var request = CreateBasicRequest(4) with
         {
             Incomes = [
-                CreateIncome("Regular Income", 1000m, frequency: Frequency.Monthly),
-                CreateIncome("Bonus Month 1", 1000m, month: 1, frequency: Frequency.OneTime),
-                CreateIncome("Big Bonus Month 3", 3000m, month: 3, frequency: Frequency.OneTime)
+                CreateIncome("Regular Income", 1000m, "USD", frequency: Frequency.Monthly),
+                CreateIncome("Bonus Month 1", 1000m, "USD", month: 1, frequency: Frequency.OneTime),
+                CreateIncome("Big Bonus Month 3", 3000m, "USD", month: 3, frequency: Frequency.OneTime)
             ],
             Expenses = [
-                CreateExpense("Big Expense Month 2", 4000m, month: 2, frequency: Frequency.OneTime),
-                CreateExpense("Regular Expense", 100m, frequency: Frequency.Monthly)             ]
+                CreateExpense("Big Expense Month 2", 4000m, "USD", month: 2, frequency: Frequency.OneTime),
+                CreateExpense("Regular Expense", 100m, "USD", frequency: Frequency.Monthly)             ]
         };
 
         // Act
@@ -127,8 +127,8 @@ public class SummaryStatisticsTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(1, 5000m) with
         {
-            Incomes = [CreateIncome("Single Income", 2000m)],
-            Expenses = [CreateExpense("Single Expense", 800m)]
+            Incomes = [CreateIncome("Single Income", 2000m, "USD")],
+            Expenses = [CreateExpense("Single Expense", 800m, "USD")]
         };
 
         // Act
@@ -169,8 +169,8 @@ public class SummaryStatisticsTests : BasePredictionTest
         // Arrange - All months will have the same balance
         var request = CreateBasicRequest(5) with
         {
-            Incomes = [CreateIncome("Steady Income", 1500m, frequency: Frequency.Monthly)],
-            Expenses = [CreateExpense("Steady Expense", 1500m, frequency: Frequency.Monthly)]
+            Incomes = [CreateIncome("Steady Income", 1500m, "USD", frequency: Frequency.Monthly)],
+            Expenses = [CreateExpense("Steady Expense", 1500m, "USD", frequency: Frequency.Monthly)]
         };
 
         // Act
@@ -189,8 +189,8 @@ public class SummaryStatisticsTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(2, 1_000_000m) with
         {
-            Incomes = [CreateIncome("High Income", 500_000m, frequency: Frequency.Monthly)],
-            Expenses = [CreateExpense("High Expense", 300_000m, frequency: Frequency.Monthly)]
+            Incomes = [CreateIncome("High Income", 500_000m, "USD", frequency: Frequency.Monthly)],
+            Expenses = [CreateExpense("High Expense", 300_000m, "USD", frequency: Frequency.Monthly)]
         };
 
         // Act
@@ -211,8 +211,8 @@ public class SummaryStatisticsTests : BasePredictionTest
         // Arrange
         var request = CreateBasicRequest(1, 100.50m) with
         {
-            Incomes = [CreateIncome("Precise Income", 1234.67m)],
-            Expenses = [CreateExpense("Precise Expense", 567.89m)]
+            Incomes = [CreateIncome("Precise Income", 1234.67m, "USD")],
+            Expenses = [CreateExpense("Precise Expense", 567.89m, "USD")]
         };
 
         // Act

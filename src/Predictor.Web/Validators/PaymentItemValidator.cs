@@ -22,5 +22,11 @@ public class PaymentItemValidator : AbstractValidator<PaymentItem>
         _ = this.When(x => x.EndDate != null, () => this.RuleFor(x => x.EndDate!)
                 .NotNull()
                 .SetValidator(new MonthDateValidator()));
+
+        _ = this.RuleFor(x => x.Currency)
+            .NotEmpty()
+            .Must(code => ISO._4217.CurrencyCodesResolver.Codes
+                .Any(c => c.Code.Trim().Equals(code, StringComparison.OrdinalIgnoreCase)))
+            .WithMessage("Invalid currency code (must be ISO‑4217).");
     }
 }

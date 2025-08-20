@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Predictor.Web.Calculators;
 using Predictor.Web.Integrations;
+using Predictor.Web.Services;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Predictor.Web;
@@ -36,6 +37,8 @@ public class Program
         _ = builder.Services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
         _ = builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         _ = builder.Services.AddHealthChecks();
+
+        _ = builder.Services.AddHttpClient<ICurrencyService, CurrencyService>();
 
         _ = builder.Services.AddMemoryCache();
         _ = builder.Services.AddSingleton<CacheRepository>();

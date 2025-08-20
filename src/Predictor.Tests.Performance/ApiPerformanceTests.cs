@@ -190,20 +190,23 @@ public class ApiPerformanceTests
     private static PredictionRequest CreateSimpleRequest() => new(
         PredictionMonths: 12,
         InitialBudget: 5000m,
+        "USD",
         StartPredictionMonth: new MonthDate(1, 2025),
         Incomes: [
-            new("Salary", 4000m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Bonus", 2000m, new MonthDate(6, 2025), Frequency.OneTime)
+            new("Salary", 4000m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Bonus", 2000m, new MonthDate(6, 2025), "USD", Frequency.OneTime)
         ],
         Expenses: [
-            new("Rent", 1200m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Food", 500m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Utilities", 200m, new MonthDate(1, 2025), Frequency.Monthly)
+            new("Rent", 1200m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Food", 500m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Utilities", 200m, new MonthDate(1, 2025), "USD", Frequency.Monthly)
         ]
     );
 
     private static PredictionRequest CreateComplexRequest() => new(
-        PredictionMonths: 120,         InitialBudget: 50000m,
+        PredictionMonths: 120,   
+        InitialBudget: 50000m,
+        OutputCurrency: "USD",
         StartPredictionMonth: new MonthDate(1, 2025),
         Incomes: GenerateComplexIncomes(),
         Expenses: GenerateComplexExpenses()
@@ -214,23 +217,23 @@ public class ApiPerformanceTests
         var incomes = new List<PaymentItem>();
 
         incomes.AddRange([
-            new("Primary Salary", 7000m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Spouse Salary", 5500m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Annual Raise Primary", 350m, new MonthDate(1, 2026), Frequency.Monthly),
-            new("Annual Raise Spouse", 275m, new MonthDate(1, 2026), Frequency.Monthly),
+            new("Primary Salary", 7000m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Spouse Salary", 5500m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Annual Raise Primary", 350m, new MonthDate(1, 2026), "USD", Frequency.Monthly),
+            new("Annual Raise Spouse", 275m, new MonthDate(1, 2026), "USD", Frequency.Monthly),
         ]);
 
         for (int year = 2025; year <= 2034; year++)
         {
             incomes.Add(new($"Dividend Income {year}", 400m + (year - 2025) * 50m,
-                new MonthDate(3, year), Frequency.Quarterly));
+                new MonthDate(3, year), "USD", Frequency.Quarterly));
             incomes.Add(new($"Annual Bonus {year}", 5000m + (year - 2025) * 200m,
-                new MonthDate(2, year), Frequency.OneTime));
+                new MonthDate(2, year), "USD", Frequency.OneTime));
         }
 
-        incomes.Add(new("Rental Property 1", 1800m, new MonthDate(6, 2025), Frequency.Monthly));
-        incomes.Add(new("Rental Property 2", 2200m, new MonthDate(1, 2027), Frequency.Monthly));
-        incomes.Add(new("Rental Property 3", 2500m, new MonthDate(6, 2029), Frequency.Monthly));
+        incomes.Add(new("Rental Property 1", 1800m, new MonthDate(6, 2025), "USD", Frequency.Monthly));
+        incomes.Add(new("Rental Property 2", 2200m, new MonthDate(1, 2027), "USD", Frequency.Monthly));
+        incomes.Add(new("Rental Property 3", 2500m, new MonthDate(6, 2029), "USD", Frequency.Monthly));
 
         for (int month = 1; month <= 120; month += 3)
         {
@@ -239,7 +242,7 @@ public class ApiPerformanceTests
             if (monthDate.Year <= 2034)
             {
                 incomes.Add(new($"Consulting Q{(month - 1) / 3 + 1}-{monthDate.Year}",
-                    1200m + month * 10m, monthDate, Frequency.OneTime));
+                    1200m + month * 10m, monthDate, "USD", Frequency.OneTime));
             }
         }
 
@@ -251,46 +254,46 @@ public class ApiPerformanceTests
         var expenses = new List<PaymentItem>();
 
         expenses.AddRange([
-            new("Mortgage", 3200m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Property Tax", 650m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Home Insurance", 280m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Car Insurance", 220m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Health Insurance", 950m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Life Insurance", 180m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Utilities", 320m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Internet/Phone", 180m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Groceries", 900m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Transportation", 400m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Entertainment", 350m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Personal Care", 200m, new MonthDate(1, 2025), Frequency.Monthly),
+            new("Mortgage", 3200m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Property Tax", 650m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Home Insurance", 280m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Car Insurance", 220m, new MonthDate(1, 2025),  "USD", Frequency.Monthly),
+            new("Health Insurance", 950m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Life Insurance", 180m, new MonthDate(1, 2025), "USD",  Frequency.Monthly),
+            new("Utilities", 320m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Internet/Phone", 180m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Groceries", 900m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Transportation", 400m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Entertainment", 350m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Personal Care", 200m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
         ]);
 
         expenses.AddRange([
-            new("Car Loan 1", 520m, new MonthDate(1, 2025), Frequency.Monthly, new MonthDate(12, 2028)),
-            new("Car Loan 2", 480m, new MonthDate(6, 2027), Frequency.Monthly, new MonthDate(5, 2031)),
-            new("Student Loan", 380m, new MonthDate(1, 2025), Frequency.Monthly, new MonthDate(8, 2030)),
-            new("Personal Loan", 250m, new MonthDate(1, 2025), Frequency.Monthly, new MonthDate(12, 2027)),
+            new("Car Loan 1", 520m, new MonthDate(1, 2025), "USD", Frequency.Monthly, new MonthDate(12, 2028)),
+            new("Car Loan 2", 480m, new MonthDate(6, 2027), "USD", Frequency.Monthly, new MonthDate(5, 2031)),
+            new("Student Loan", 380m, new MonthDate(1, 2025), "USD", Frequency.Monthly, new MonthDate(8, 2030)),
+            new("Personal Loan", 250m, new MonthDate(1, 2025), "USD", Frequency.Monthly, new MonthDate(12, 2027)),
         ]);
 
         expenses.AddRange([
-            new("401k Contribution", 1200m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("IRA Contribution", 500m, new MonthDate(1, 2025), Frequency.Monthly),
-            new("Emergency Fund", 800m, new MonthDate(1, 2025), Frequency.Monthly, new MonthDate(12, 2027)),
-            new("Investment Account", 1500m, new MonthDate(1, 2025), Frequency.Monthly),
+            new("401k Contribution", 1200m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("IRA Contribution", 500m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
+            new("Emergency Fund", 800m, new MonthDate(1, 2025), "USD", Frequency.Monthly, new MonthDate(12, 2027)),
+            new("Investment Account", 1500m, new MonthDate(1, 2025), "USD", Frequency.Monthly),
         ]);
 
         for (int year = 2025; year <= 2034; year++)
         {
-            expenses.Add(new($"Vacation {year}", 4500m, new MonthDate(7, year), Frequency.OneTime));
-            expenses.Add(new($"Holiday Gifts {year}", 1200m, new MonthDate(12, year), Frequency.OneTime));
-            expenses.Add(new($"Tax Preparation {year}", 400m, new MonthDate(3, year), Frequency.OneTime));
-            expenses.Add(new($"Home Maintenance {year}", 2500m, new MonthDate(5, year), Frequency.OneTime));
+            expenses.Add(new($"Vacation {year}", 4500m, new MonthDate(7, year), "USD", Frequency.OneTime));
+            expenses.Add(new($"Holiday Gifts {year}", 1200m, new MonthDate(12, year), "USD", Frequency.OneTime));
+            expenses.Add(new($"Tax Preparation {year}", 400m, new MonthDate(3, year), "USD", Frequency.OneTime));
+            expenses.Add(new($"Home Maintenance {year}", 2500m, new MonthDate(5, year), "USD", Frequency.OneTime));
         }
 
         expenses.AddRange([
-            new("Property Maintenance", 800m, new MonthDate(3, 2025), Frequency.Quarterly),
-            new("Medical Checkups", 600m, new MonthDate(6, 2025), Frequency.SemiAnnually),
-            new("Car Maintenance", 450m, new MonthDate(4, 2025), Frequency.SemiAnnually),
+            new("Property Maintenance", 800m, new MonthDate(3, 2025), "USD", Frequency.Quarterly),
+            new("Medical Checkups", 600m, new MonthDate(6, 2025), "USD", Frequency.SemiAnnually),
+            new("Car Maintenance", 450m, new MonthDate(4, 2025), "USD", Frequency.SemiAnnually),
         ]);
 
         return [.. expenses];

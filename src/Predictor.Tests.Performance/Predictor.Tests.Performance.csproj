@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="8.5.0" />
+    <PackageReference Include="ISO.4217.CurrencyCodes" Version="1.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.14" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="NBomber" Version="6.0.2" />
